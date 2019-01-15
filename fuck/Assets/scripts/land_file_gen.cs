@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
-public class land_file_gen : MonoBehaviour
+public class Land_file_gen : MonoBehaviour
 {
     
     private InputField input;
