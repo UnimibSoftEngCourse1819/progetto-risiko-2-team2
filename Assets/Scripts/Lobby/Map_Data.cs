@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Map_Data : MonoBehaviour
 {
-    private string name;
+    private new string  name;
     private int maxEasy, maxNormal, maxHard, minEasy, minNormal, minHard;
     private Sprite image;
 
