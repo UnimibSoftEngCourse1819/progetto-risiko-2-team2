@@ -35,6 +35,7 @@ public class Land_loader : MonoBehaviour
         {
             using(reader= new StreamReader("Mappa_0.txt"))
             {
+                Debug.Log("file trovato");
                 while (count < 8)
                 {
                     count=Dispatcher(count,reader.ReadLine());
@@ -131,8 +132,11 @@ public class Land_loader : MonoBehaviour
     {
         string x = codice_continente + "_" + conta_stati;
         s_script = GameObject.Find(x).GetComponent<State_script>();
-        s_script.Inizializza(nome_stato, nome_continente, x);
-        Debug.Log("stato " + nome_stato + " istanziato");
+       
+              s_script.Inizializza(nome_stato, nome_continente, x);
+            Debug.Log("stato " + nome_stato + " istanziato");
+       
+          //  Debug.Log("sprite dello stato non trovato");
     }
 
 
