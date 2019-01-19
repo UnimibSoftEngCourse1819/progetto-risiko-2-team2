@@ -6,7 +6,7 @@ public class Land
     MODIFICHE DA EFFETTUARE:
         -Adattare la classe quando viene implementato il game vero e proprio
 
-        Note: NON METTETE VARIABILI CALCOLABILI come numero totale di ect. se vi serve e non 
+        Note: NON METTETE VARIABILI CALCOLABILI come numero totale di ect; se vi serve e non 
         si può usare List.Count createvi un metodo 
     */
     private const int MAXNEIGHBOR = 10; 

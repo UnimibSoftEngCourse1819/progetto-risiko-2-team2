@@ -14,7 +14,7 @@ public class ControllCreateMap : MonoBehaviour
 		 dopo di chè aggiornare i file che la usano 
 	*/
 
-	private InputField name_continent, name_land;
+	private InputField name_continent, name_land, name_map;
 	private Dropdown continent, neighbor_right, neighbor_left, choose_land;
 
 	//da cancellare/modificare quando viene applicato i singleton delle classi
@@ -25,6 +25,7 @@ public class ControllCreateMap : MonoBehaviour
 	    //InputField
     	name_continent = GameObject.Find("InputField_Name_Continent").GetComponent<InputField>();
     	name_land = GameObject.Find("InputField_Name_Land").GetComponent<InputField>();
+        name_map = GameObject.Find("InputField_Name_Map").GetComponent<InputField>();
 
   		//Dropdown
     	continent = GameObject.Find("Dropdown_Continent").GetComponent<Dropdown>(); 
@@ -48,6 +49,10 @@ public class ControllCreateMap : MonoBehaviour
     public void onClickCreateRelationship()
     {
     	model.createRelation(neighbor_left.options[neighbor_left.value].text, neighbor_right.options[neighbor_right.value].text);
+    }
+
+    public void onClickCreateFile(){
+        model.createFile(name_map.text);
     }
 
     // metodi dropdown

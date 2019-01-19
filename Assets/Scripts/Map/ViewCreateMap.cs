@@ -18,7 +18,7 @@ public class ViewCreateMap : MonoBehaviour
 	private Text continent_title, continent_list, continent_name, continent_propriety,
     	land_title, land_name, land_description, land_choose,
     	neighbor_title;
-    private InputField name_continent, name_land;
+    private InputField name_continent, name_land, name_map;
     private Button create_continent, create_relation, create_land, create_file;
     private Dropdown continent, neighbor_right, neighbor_left, choose_land;
 
@@ -51,12 +51,13 @@ public class ViewCreateMap : MonoBehaviour
 	    //InputField
     	name_continent = GameObject.Find("InputField_Name_Continent").GetComponent<InputField>();
     	name_land = GameObject.Find("InputField_Name_Land").GetComponent<InputField>();
+        name_map = GameObject.Find("InputField_Name_Map").GetComponent<InputField>();
 
     	name_continent.text = "";
     	name_land.text = "";
+        name_map.text = "Nome mappa";
 
   		//Button
-
     	create_continent = GameObject.Find("Button_Create_Continent").GetComponent<Button>();
     	create_relation = GameObject.Find("Button_Create_Relation").GetComponent<Button>();
     	create_land = GameObject.Find("Button_Create_Land").GetComponent<Button>();
@@ -92,6 +93,11 @@ public class ViewCreateMap : MonoBehaviour
     	addOptionDroppdown(neighbor_left, land.getName());
     	addOptionDroppdown(neighbor_right, land.getName());
     	addOptionDroppdown(choose_land, land.getName());
+    }
+
+    public void popupSuccefull(){
+        Debug.Log("File creato");
+        //sarebbe meglio se creasse un pop-up con scritto "Il file è stato creato !!!"
     }
 
     private void addOptionDroppdown(Dropdown dropdownObject, string optionString){

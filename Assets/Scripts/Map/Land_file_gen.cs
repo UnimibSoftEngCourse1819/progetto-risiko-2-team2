@@ -143,6 +143,7 @@ public class Land_file_gen : MonoBehaviour
         StreamWriter file = new StreamWriter(fileName + ".txt"); //creao il nuovo file
         file.Close();
     }
+    
     public void NumeroContinenti() // salvo il numero di continenti
     {
         using (StreamWriter file = File.AppendText(fileName + ".txt"))  // apro il file

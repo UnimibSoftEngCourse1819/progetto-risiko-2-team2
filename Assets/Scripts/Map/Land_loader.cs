@@ -5,6 +5,17 @@ using UnityEngine;
 
 public class Land_loader : MonoBehaviour
 {
+
+    /*
+        dividere il codice in 2 classi:
+        1)File_Loader_Controller simile a File_Creator_Controller
+            ma fa l'operazione inversa ovvero ha un metodo che prende 
+            il nome del file e da passa in output 
+        2) Land_loader può darsi che non rimanga nulla però
+            se ho capito bene ora con i dati della mappa dovrebbe
+            "disegnare" la mappa usando appunto di dati ottenuti
+
+    */
     public Canvas canvas;
     private GameObject Continente;
     private Continent_Script c_script;
