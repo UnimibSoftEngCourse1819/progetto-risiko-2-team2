@@ -10,7 +10,7 @@ public class Land_loader : MonoBehaviour
     private Continent_Script c_script;
     private State_script s_script;
     private StreamReader reader;
-    private int count = 1;
+    private State_load state = new State_load1();
     private int N_continenti;
     private string nome_continente;
     private string codice_continente;
@@ -21,6 +21,92 @@ public class Land_loader : MonoBehaviour
     private int conta_stati = 0;
     private int conta_vicini = 0;
 
+
+    public void setState(State_load nextState)
+    {
+        state = nextState;
+    }
+
+    public void setNumContinent(int value)
+    {
+        N_continenti = value;
+    }
+
+    public void setNumState(int value)
+    {
+        N_stati = value;
+    } 
+
+    public void setNameContinent(string name)
+    {
+        nome_continente = name;
+    }
+
+    public void setNameState(string name)
+    {
+        nome_stato = name;
+    }
+
+    public void setCountState(int value)
+    {
+        conta_stati = value;
+    }
+
+    public void setCountNeighbor(int value)
+    {
+        conta_vicini = value;
+    }
+
+     public void setValueContinent(int value)
+    {
+        value_continente = value;
+    }
+
+    public void setCodeContinent(string code)
+    {
+        codice_continente = code;
+    }
+
+
+    public State_script getStateScript()
+    {
+        return s_script;
+    }
+
+    public int getCountNeighbor()
+    {
+        return conta_vicini;
+    }
+
+    public int getCountContinent()
+    {
+        return conta_continenti;
+    }
+
+    public int getNumState()
+    {
+        return N_stati;
+    }
+
+    public int getNumContinent()
+    {
+        return N_continenti;
+    } 
+
+    public void incrementCountContinent()
+    {
+        conta_continenti++;
+    }
+
+    public void incrementCountState()
+    {
+        conta_stati++;
+    }
+
+    public void incrementCountNeighbor()
+    {
+        conta_vicini++;
+    }
 
     private void Awake()
     {
@@ -36,9 +122,9 @@ public class Land_loader : MonoBehaviour
             using(reader= new StreamReader("Mappa_0.txt"))
             {
                 Debug.Log("file trovato");
-                while (count < 8)
+                while (state != null)
                 {
-                    count=Dispatcher(count,reader.ReadLine());
+                    state.Handle(this, reader.ReadLine());
                 }
             }
             reader.Close(); // chiudo il file
@@ -50,7 +136,9 @@ public class Land_loader : MonoBehaviour
 
     }
 
-    private int Dispatcher(int c, string a) // dato count e una stringa sceglie cosa fare
+
+
+    /*private int Dispatcher(int c, string a) // dato count e una stringa sceglie cosa fare
     {
         switch (c)
         {
@@ -119,8 +207,10 @@ public class Land_loader : MonoBehaviour
         }
 
         return c;
-    }
-    private void Istanza_continente()
+    }*/
+
+
+    public void Istanza_continente()
     {
         Instantiate(Continente);
         Continente.name = nome_continente;
@@ -128,7 +218,7 @@ public class Land_loader : MonoBehaviour
         Debug.Log("continente " + nome_continente + " istanziato");
     }
 
-    private void Istanzia_stato() // controllo se esiste lo stato
+    public void Istanzia_stato() // controllo se esiste lo stato
     {
         string x = codice_continente + "_" + conta_stati;
         s_script = GameObject.Find(x).GetComponent<State_script>();

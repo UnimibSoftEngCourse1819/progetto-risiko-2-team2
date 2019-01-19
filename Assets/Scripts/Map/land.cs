@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 public class Land 
 {
@@ -34,7 +34,7 @@ public class Land
         return neighbors;
     }
 
-    public bool hasMaxLands()
+    public bool hasMaxNeighbor()
     {
         return neighbors.Count == 10;
     }
@@ -42,7 +42,7 @@ public class Land
     public bool addNeighbor(Land newLand)
     {
         bool result = false;
-        if (! hasMaxLands())
+        if (! hasMaxNeighbor())
         {
             neighbors.Add(newLand);
             result = true;
@@ -57,11 +57,3 @@ public class Land
     }
 
 }
-
-
-
-
-
-
-
-

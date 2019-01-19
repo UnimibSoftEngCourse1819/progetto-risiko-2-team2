@@ -1,10 +1,4 @@
-﻿using System.Collections;
-using UnityEngine.UI;
-using System.Collections.Generic;
-using UnityEngine;
-using System.IO;
-
-public class State_gen1 : State_gen
+﻿public class State_gen1 : State_gen
 {
     // creo il nuovo file;
     private const string MESSAGE_ON_FIELD = "Inserisci il numero di continenti";
