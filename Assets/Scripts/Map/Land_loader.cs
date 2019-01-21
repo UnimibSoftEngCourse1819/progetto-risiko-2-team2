@@ -88,6 +88,10 @@ public class Land_loader : MonoBehaviour
     {
         return conta_vicini;
     }
+    public int GetCountState()
+    {
+        return conta_stati;
+    }
 
     public int getCountContinent()
     {
