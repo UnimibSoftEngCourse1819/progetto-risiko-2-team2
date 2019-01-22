@@ -17,15 +17,17 @@ public class State_script : MonoBehaviour
     private int Player_ID;
     private int N_tank;
     private Attack_script attacco;
+    private Spostamento_script spostamento;
     private int N_vicini=0;
 
     private void Awake()
     {
         attacco =  GameObject.Find("Attacca").GetComponent<Attack_script>();
+        spostamento = GameObject.Find("Spostamento").GetComponent<Spostamento_script>();
     }
 
-    private void OnMouseDown() // passo allo script attack_script i codici degli stati
-    {         
+    private void OnMouseDown() // passo allo script attack_script o allo script spostamento i codici degli stati
+    {
         if (attacco.GetAtt() == 1)
         {
             attacco.GetAttaccante(land_code);
@@ -36,6 +38,11 @@ public class State_script : MonoBehaviour
             attacco.GetAttaccato(land_code);
             Debug.Log("secondo");
         }
+        else if (spostamento.GetState() == 1)
+            spostamento.GetPartenza(land_code);
+        else if (spostamento.GetState() == 2)
+            spostamento.GetArrivo(land_code);
+
     }
 
     public int IslandNear(string codice)  // controlla se un dato territorio è un vicino
@@ -74,6 +81,25 @@ public class State_script : MonoBehaviour
     public string GetCodice()
     {
         return land_code;
+    }
+
+    public int DimTanks(int c)  // controlla se posso diminuire il numero di carri e ritorna il risultato
+    {
+        if (c > N_tank)
+            return -1;
+        else
+            N_tank -= c;
+        return 1;
+    }
+
+    public void IncTanks(int c) // aumenta il numero di carri
+    {
+        N_tank += c;
+    }
+   
+    public int GetTanks() // ritorna il numero di carri
+    {
+        return N_tank;
     }
 
 
