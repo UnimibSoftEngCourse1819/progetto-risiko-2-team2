@@ -20,7 +20,7 @@ public class Player
     public Player(string nickname, List<Land> territory, string color)//need to add Goal
     {
         this.nickname = nickname;
-        this.territory = territory;
+        territoryOwned = territory;
         this.color = color;
         //this.goal = goal;
     }
@@ -45,7 +45,19 @@ public class Player
 
     public int getTotalLand()
     {
-        return territory.Count;
+        return territoryOwned.Count;
     }
 
+    public bool hasLost()
+    {
+        if (territoryOwned.Count == 0)
+            return true;
+
+        return false;
+    }
+
+    public List<Land> getTerritoryOwned()
+    {
+        return territoryOwned;
+    }
 }
