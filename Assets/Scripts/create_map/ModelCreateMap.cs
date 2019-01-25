@@ -9,7 +9,7 @@ public class ModelCreateMap : MonoBehaviour
 	/*
 	MODIFICHE DA EFFETTUARE:
 		->APPLICARE IL SINGLETON :
-		 http://csharpindepth.com/articles/general/singleton.aspx (implementate la quarta versione che è il più semplice)
+		 https://unity3d.com/learn/tutorials/projects/2d-roguelike-tutorial/writing-game-manager
 		 dopo di chè aggiornare i file che la usano 
 	*/
 
@@ -20,7 +20,7 @@ public class ModelCreateMap : MonoBehaviour
 	private List<Continent> continents = new List<Continent>();
 
 	//da cancellare/modificare quando viene applicato i singleton delle classi
-	public ControllCreateMap controll;
+	
 	public ViewCreateMap view;
 	public File_Creator_Controller file_controll;
 
@@ -33,11 +33,11 @@ public class ModelCreateMap : MonoBehaviour
 		return result;
 	}
 
-	public bool createLand(string name, string continentOwner)
+	public bool createLand(string name, string continentOwner, string nameSprite)
 	{
 		bool result = true;
 		//manca il controllo
-		Land newLand = new Land(name);
+		Land newLand = new Land(name, nameSprite);
 		lands.Add(newLand);
 		FindContinentByName(continentOwner).addLand(newLand);
 		view.addLandView(newLand);
@@ -73,7 +73,7 @@ public class ModelCreateMap : MonoBehaviour
 	{
 		if(file_controll.CreateFileMap(name, continents))
 		{
-			view.popupSuccefull();
+			//view.popupSuccefull();
 		}
 	}
 

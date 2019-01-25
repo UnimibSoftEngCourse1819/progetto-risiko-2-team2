@@ -1,4 +1,8 @@
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
+
+[RequireComponent (typeof(PolygonCollider2D))]
 
 public class Land 
 {
@@ -13,17 +17,25 @@ public class Land
 
     private string name;
     private List<Land> neighbors;
+    private string nameSprite;
+    private int tanksOnLand = 0;
 
-    public Land(string name, List<Land> neighbor)
+    public Land(string name, List<Land> neighbor, string nameSprite)
     {
         this.name = name;
         this.neighbors = neighbor;
+        this.nameSprite = nameSprite;
     }
 
-    public Land(string name): this(name, new List<Land>())
+    public Land(string name, string nameSprite): this(name,  new List<Land>(), nameSprite)
     {
     }
-    
+
+    public Land(string name): this(name, null)
+    {
+    }
+
+
     public string getName()
     {
         return name;
@@ -37,6 +49,26 @@ public class Land
     public bool hasMaxNeighbor()
     {
         return neighbors.Count == 10;
+    }
+
+    public bool isNeighbor(string name)
+    {
+        bool result = false;
+        foreach(Land neighbor in neighbors)
+        {
+            if(name.Equals(neighbor.getName()))
+                result = true;
+        }
+        return result;
+    }
+
+    public bool isNeighbor(Land land)
+    {
+        return isNeighbor(land.getName());
+    }
+
+    public string getNameSprite(){
+        return nameSprite;
     }
 
     public bool addNeighbor(Land newLand)

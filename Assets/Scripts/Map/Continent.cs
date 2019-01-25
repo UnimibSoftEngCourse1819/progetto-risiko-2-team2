@@ -12,6 +12,7 @@ public class Continent
 	
     private string name;
     private List<Land> lands;
+    private string nameSprite;
 
     public Continent(string name, List<Land> lands)
     {
@@ -31,6 +32,10 @@ public class Continent
     public string getName()
     {
     	return name;
+    }
+
+    public List<Land> getLands(){
+        return lands;
     }
 
     public override bool Equals(object obj)  

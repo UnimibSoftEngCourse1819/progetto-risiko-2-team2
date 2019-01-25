@@ -10,11 +10,10 @@ public class ControllCreateMap : MonoBehaviour
 	/*
 	MODIFICHE DA EFFETTUARE:
 		->APPLICARE IL SINGLETON :
-		 http://csharpindepth.com/articles/general/singleton.aspx (implementate la quarta versione che è il più semplice)
-		 dopo di chè aggiornare i file che la usano 
+		https://unity3d.com/learn/tutorials/projects/2d-roguelike-tutorial/writing-game-manager
 	*/
 
-	private InputField name_continent, name_land, name_map;
+	private InputField name_continent, name_land, name_map, sprite_land;
 	private Dropdown continent, neighbor_right, neighbor_left, choose_land;
 
 	//da cancellare/modificare quando viene applicato i singleton delle classi
@@ -25,7 +24,9 @@ public class ControllCreateMap : MonoBehaviour
 	    //InputField
     	name_continent = GameObject.Find("InputField_Name_Continent").GetComponent<InputField>();
     	name_land = GameObject.Find("InputField_Name_Land").GetComponent<InputField>();
+        sprite_land = GameObject.Find("InputField_Sprite_Land").GetComponent<InputField>();
         name_map = GameObject.Find("InputField_Name_Map").GetComponent<InputField>();
+
 
   		//Dropdown
     	continent = GameObject.Find("Dropdown_Continent").GetComponent<Dropdown>(); 
@@ -43,7 +44,7 @@ public class ControllCreateMap : MonoBehaviour
 
     public void onClickCreateLand()
     {
-    	model.createLand(name_land.text, continent.options[continent.value].text);
+    	model.createLand(name_land.text, continent.options[continent.value].text, sprite_land.text);
     }
 
     public void onClickCreateRelationship()
