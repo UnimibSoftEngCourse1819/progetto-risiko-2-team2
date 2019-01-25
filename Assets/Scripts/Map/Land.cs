@@ -88,4 +88,24 @@ public class Land
         return neighbors.Count;
     }
 
+    public void setTanksOnLand(int tanks)
+    {
+        if (tanks >= 0)
+            tanksOnLand = tanks;
+    }
+
+    public int getTanksOnLand()
+    {
+        return tanksOnLand;
+    }
+
+    public void addTanksOnLand(int tanks)
+    {
+        tanksOnLand += tanks;
+    }
+
+    public void removeTanksOnLand(int tanks)
+    {
+        tanksOnLand -= tanks;
+    }
 }
