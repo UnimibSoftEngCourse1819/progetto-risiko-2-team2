@@ -44,6 +44,19 @@ public class GameManager
             rollDices(defenderDices, nTankDefender);
 
             checkResults(attackerDices, defenderDices, attacker, defender);
+
+            if(defender.getTanksOnLand() == 0)
+            {
+                foreach(Player player in players)
+                {
+                    if(player.hasLand(defender.getName()))
+                    {
+                        passLand(defender, player, currentPlayer, nTankAttacker);
+
+                        return;
+                    }
+                }
+            }
         }
     }
 
@@ -57,7 +70,12 @@ public class GameManager
             currentPlayer = players[index + 1];
     }
 
-    
+    private void passLand(Land land, Player oldOwner, Player newOwner, int tanks)
+    {
+        oldOwner.removeLand(land);
+        newOwner.addLand(land);
+        land.addTanksOnLand(tanks);
+    }
 
 	public void move(string startLand, string endLand, int nTank)
 	{
@@ -133,12 +151,12 @@ public class GameManager
             -rimangano almeno certo numero di tank dallo stato attacante
             -ci sia almeno 1 tank che difenda
             -il numero dei tank difensori non sia superiore a quello permesso
-            -rimangano almeno certo numero di tank dallo stato difensore
+            -controlla che il difensore non usi più tank di quelli che ha
         */
         return ((nTankAttacker >= 1 && nTankAttacker <= MAX_TANK_ATTACK_PER_TIME && 
                 (currentAttackerTanks - MINIMUM_TANK_ON_LAND) >= nTankAttacker) && 
                 ((nTankDefender >= 1 && nTankDefender <= MAX_TANK_ATTACK_PER_TIME && 
-                (currentDefenderTanks - MINIMUM_TANK_ON_LAND) >= nTankDefender)));
+                currentDefenderTanks >= nTankDefender)));
     }
 
     private void checkResults(List<int> attackerDices, List<int> defenderDices, Land attacker , Land defender)
@@ -158,9 +176,9 @@ public class GameManager
                         attacker.removeTanksOnLand(1);
                     }
                 }
-                else //altrimenti perde 1 tank
+                else 
                 {
-                    defender.removeTanksOnLand(1);
+                    return;
                 }
             }
     }
