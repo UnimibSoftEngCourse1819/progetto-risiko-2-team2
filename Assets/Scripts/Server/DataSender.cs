@@ -26,6 +26,7 @@ namespace Assets.Scripts.Server
             ByteBuffer buffer = new ByteBuffer();
             buffer.WriteInteger((int)ClientPackets.cHelloServer);
             buffer.WriteString("quanti player sono connessi ?");
+            NetworkManager.state = 1;
             ClientTcp.SendData(buffer.ToArray());
             buffer.Dispose();
         }
@@ -34,6 +35,22 @@ namespace Assets.Scripts.Server
             ByteBuffer buffer = new ByteBuffer();
             buffer.WriteInteger((int)ClientPackets.cHelloServer);
             buffer.WriteString("start game");
+            ClientTcp.SendData(buffer.ToArray());
+            buffer.Dispose();
+        }
+        public static void SendName()
+        {
+            ByteBuffer buffer = new ByteBuffer();
+            buffer.WriteInteger((int)ClientPackets.cHelloServer);
+            buffer.WriteString(NetworkManager.messaggio); // invio il nome
+            ClientTcp.SendData(buffer.ToArray());
+            buffer.Dispose();
+        }
+        public static void SendGoodBye() // quando si chiude l'applicazione
+        {
+            ByteBuffer buffer = new ByteBuffer();
+            buffer.WriteInteger((int)ClientPackets.cHelloServer);
+            buffer.WriteString("addio"); // 
             ClientTcp.SendData(buffer.ToArray());
             buffer.Dispose();
         }

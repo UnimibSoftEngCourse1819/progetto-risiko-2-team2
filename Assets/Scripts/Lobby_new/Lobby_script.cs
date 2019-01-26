@@ -8,9 +8,9 @@ using UnityEngine.UI;
 public class Lobby_script : MonoBehaviour
 {
 
-    private string nomeUtente;
     private InputField input;
     private NetworkManager net;
+    private Player_script player;
   
 
     private void Awake()
@@ -18,27 +18,29 @@ public class Lobby_script : MonoBehaviour
         input = GameObject.Find("InputField").GetComponent<InputField>();
         input.ActivateInputField();
         net = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
+        player = GameObject.Find("Player").GetComponent<Player_script>();
     }
     public void GetNome(string nome)
     {
-     
-        nomeUtente = nome;
-        Debug.Log("nome cambiato "+nomeUtente);
+
+        player.IstanziaPlayer(nome); // salvo  il nome del player
+        Debug.Log("nome cambiato "+player.Getname());
     }
     public void OnMouseDown()
     {
-        if(!string.IsNullOrEmpty(nomeUtente)) // chiamo la network manager
+        if(!string.IsNullOrEmpty(player.Getname())) // chiamo la network manager
         {
             net.Partenza();
             // Debug.Log("il mio nome è "+nomeUtente);
             SceneManager.LoadScene("Waiting_Room");
-
+            NetworkManager.messaggio = player.Getname(); // mando il nome utente
 
         }
         else
         {
             Debug.Log("non hai inserito il nome");
         }
+
     }
 
 

@@ -31,5 +31,9 @@ namespace RiskServer1
             client[COnnectionID].stream.BeginWrite(buffer.ToArray(), 0, buffer.Length(), null, null);
             buffer.Dispose();
         }
+        public static void DeleteRecord(int player) // elimino un record quando si disconnette
+        {
+            client.Remove(player);
+        }
     }
 }

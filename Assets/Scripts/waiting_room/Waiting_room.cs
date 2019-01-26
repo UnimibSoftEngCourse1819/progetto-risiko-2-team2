@@ -10,6 +10,7 @@ public class Waiting_room : MonoBehaviour
     private Text text1;
     private Text text2;
     private int aggiorna=0;
+    private int count=0;
 
     private void Awake()
     {
@@ -21,30 +22,49 @@ public class Waiting_room : MonoBehaviour
     }
     public void OnMouseDown()
     {
-        if (aggiorna == 0) // controllo numero di player
+        count++;
+        if (NetworkManager.state == 0)
         {
-            aggiorna = 1;
-            DataSender.AskNPlayer(); 
-        }    
-        else if(aggiorna ==1) // faccio partire la partita
+            if (aggiorna == 0 && NetworkManager.messaggio == "ok") // controllo numero di player
+            {
+                aggiorna = 1;
+                DataSender.AskNPlayer();
+            }          
+            else if (aggiorna == 2) // faccio partire la partita
+            {
+                DataSender.StarGame();
+            }
+        }
+        else
         {
-            DataSender.StarGame();
+            text2.text = "non sei ancora stato caricato aspetta un secondo";
         }
     }
     private void Update()
     {
-        if(aggiorna == 1 && NetworkManager.messaggio == "no")
+      if(aggiorna == 1 )
         {
-            text2.text = "non ci sono abbastanza giocatori";
-        }
-        else if(aggiorna == 1 && NetworkManager.messaggio == "si")
-        {
-            text2.text = "ci sono giocatori a sufficienza";
+            text2.text = "ci sono, al momento sono connessi " + NetworkManager.N_player+" player";
             text1.text = "premi il bottone per far partire la partita";
+            if (NetworkManager.N_player == "1" || NetworkManager.N_player == "2" || NetworkManager.N_player == "3" || NetworkManager.N_player == "4" || NetworkManager.N_player == "5" || NetworkManager.N_player == "6")
+                aggiorna = 2; // solo se il numero di player è accettabile
+            else
+            {
+                text2.text = "il numero di player non è accettabile";
+                aggiorna = 0; // così posso ripremere il tasto button 
+            }
         }
-        if(NetworkManager.messaggio == "start") // entra in game
+       else if(NetworkManager.messaggio == "start") // entra in game
         {
             SceneManager.LoadScene("mappa_0");
+        }
+       else if(NetworkManager.messaggio=="NewPlayer")
+        {
+            text2.text = "ci sono, al momento sono connessi " + NetworkManager.N_player + " player";
+       }
+        else if (NetworkManager.messaggio == "PlayerQuit")
+        {
+            text2.text = "ci sono, al momento sono connessi " + NetworkManager.N_player + " player";
         }
     }
 

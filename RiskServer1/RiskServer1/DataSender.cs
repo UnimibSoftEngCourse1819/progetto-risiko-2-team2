@@ -20,23 +20,38 @@ namespace RiskServer1
             ClientManager.SendDataTo(COnnectionID, buffer.ToArray());
             buffer.Dispose();
         }
-        public static void SendWaitingMessage(int ConnectionID)
+        /*     public static void SendWaitingMessage(int ConnectionID)
+             {
+                 ByteBuffer buffer = new ByteBuffer();
+                 buffer.WriteInteger((int)ServerPackets.swelcomeMessage);
+                 buffer.WriteString("sei nella Wating room ora devi aspettare altri utenti");
+                 ClientManager.SendDataTo(ConnectionID, buffer.ToArray());
+                 buffer.Dispose();
+             }
+       */
+        public static void SendAskName(int ConnectionID)
         {
             ByteBuffer buffer = new ByteBuffer();
             buffer.WriteInteger((int)ServerPackets.swelcomeMessage);
-            buffer.WriteString("sei nella Wating room ora devi aspettare altri utenti");
+            buffer.WriteString("Come ti chiami ?");
             ClientManager.SendDataTo(ConnectionID, buffer.ToArray());
             buffer.Dispose();
         }
-        public static void SendNumPlayer(int ConnectionID) // fa partire il gioco se ci sono i player 
+        public static void SendOk(int ConnectionID)
+        {
+            ByteBuffer buffer = new ByteBuffer();
+            buffer.WriteInteger((int)ServerPackets.swelcomeMessage);
+            buffer.WriteString("ok");
+            ClientManager.SendDataTo(ConnectionID, buffer.ToArray());
+            buffer.Dispose();
+        }
+        public static void SendNumPlayer(int ConnectionID) //  
         {
             ByteBuffer buffer = new ByteBuffer();
             buffer.WriteInteger((int)ServerPackets.swelcomeMessage);
             int N_player = ClientManager.client.Count;
-            if(N_player<1 && N_player>6) // da cambiare in <=
-                buffer.WriteString("non si puo giocare"); // si aspetta
-            else
-                buffer.WriteString("si puo giocare"); // si gioca
+            //Console.WriteLine(N_player);
+            buffer.WriteString(N_player.ToString()); //           
             ClientManager.SendDataTo(ConnectionID, buffer.ToArray());
             buffer.Dispose();
         }
@@ -46,6 +61,22 @@ namespace RiskServer1
             ByteBuffer buffer = new ByteBuffer();
             buffer.WriteInteger((int)ServerPackets.swelcomeMessage);
             buffer.WriteString("startgame");
+            ClientManager.SendDataTo(ConnectionID, buffer.ToArray());
+            buffer.Dispose();
+        }
+        public static void SendNewPlayer(int ConnectionID)
+        {
+            ByteBuffer buffer = new ByteBuffer();
+            buffer.WriteInteger((int)ServerPackets.swelcomeMessage);
+            buffer.WriteString("NewPlayer");
+            ClientManager.SendDataTo(ConnectionID, buffer.ToArray());
+            buffer.Dispose();
+        }
+        public static void SendPlayerQuit(int ConnectionID)
+        {
+            ByteBuffer buffer = new ByteBuffer();
+            buffer.WriteInteger((int)ServerPackets.swelcomeMessage);
+            buffer.WriteString("PlayerQuit");
             ClientManager.SendDataTo(ConnectionID, buffer.ToArray());
             buffer.Dispose();
         }
