@@ -60,4 +60,9 @@ public class Player
     {
         return territoryOwned;
     }
+
+    public string getColor()
+    {
+        return color;
+    }
 }
