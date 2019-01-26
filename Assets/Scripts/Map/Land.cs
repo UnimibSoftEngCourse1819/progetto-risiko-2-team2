@@ -20,18 +20,19 @@ public class Land
     private string nameSprite;
     private int tanksOnLand = 0;
 
-    public Land(string name, List<Land> neighbor, string nameSprite)
+    public Land(string name, List<Land> neighbor, string nameSprite, int tanksOnLand)
     {
         this.name = name;
         this.neighbors = neighbor;
         this.nameSprite = nameSprite;
+        this.tanksOnLand = tanksOnLand;
     }
 
-    public Land(string name, string nameSprite): this(name,  new List<Land>(), nameSprite)
+    public Land(string name, string nameSprite): this(name,  new List<Land>(), nameSprite, 0)
     {
     }
 
-    public Land(string name): this(name, null)
+    public Land(string name,int tanks): this(name, null, null, tanks)
     {
     }
 

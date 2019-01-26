@@ -76,15 +76,16 @@ public class File_Loader_Controller : MonoBehaviour
 
     private Land getLand(string name)
     {
+        Land result = null;
         foreach(Continent continent in data)
         {
             List<Land> lands = continent.getLands();
             foreach(Land land in lands)
             {
-                if(name.Equals(land.getName()));
-                    return land;
+                if(name.Equals(land.getName()))
+                    result = land;
             }
         }
-        return null;
+        return result;
     }
 }
