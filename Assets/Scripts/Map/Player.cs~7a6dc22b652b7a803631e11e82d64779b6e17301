@@ -17,24 +17,12 @@ public class Player
     private string color;
     //private Goal goal;
    
-    public Player()
-    {
-        nickname = null;
-        territoryOwned = null;
-        color = null;
-    }
-
     public Player(string nickname, List<Land> territory, string color)//need to add Goal
     {
         this.nickname = nickname;
         territoryOwned = territory;
         this.color = color;
         //this.goal = goal;
-    }
-
-    public void addLand(Land conquered)
-    {
-        territoryOwned.Add(conquered);
     }
 
     public Player(string nickname): this(nickname, new List<Land>() , null)//need to add Goal
@@ -71,10 +59,5 @@ public class Player
     public List<Land> getTerritoryOwned()
     {
         return territoryOwned;
-    }
-
-    public string getColor()
-    {
-        return color;
     }
 }

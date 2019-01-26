@@ -4,12 +4,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
-public class GameManager : MonoBehaviour
+public class GameManager
 {
 
     private List<Player> players;
     private List<Continent> World;
     private Player currentPlayer;
+
+    private const int MINIMUM_TANK_ON_LAND = 1;
+    private const int MINIMUM_TANK_ATTACK_PER_TIME = 1, MAX_TANK_ATTACK_PER_TIME = 3;
+
+    public GameManager(List<Player> players, List<Continent> World)
+    {
+        this.players = players;
+        this.World = World;
+        currentPlayer = this.players[0];
+    }
+
+    public void attack(string attacker, string defender, int nTankAttacker, int nTankDefender)
+    {
+    	attack(FindLandByName(attacker), FindLandByName(defender), nTankAttacker, nTankDefender);
+    }
 
     public void attack(Land attacker, Land defender, int nTankAttacker, int nTankDefender)
     {
@@ -20,41 +35,65 @@ public class GameManager : MonoBehaviour
         int currentAttackerTanks = attacker.getTanksOnLand();
         int currentDefenderTanks = defender.getTanksOnLand();
 
-        if(currentPlayer.hasLand(attacker.getName()) && !currentPlayer.hasLand(defender.getName())) {
-            if((nTankAttacker >= 1 && nTankAttacker <= 3 && (currentAttackerTanks - 1) >= nTankAttacker)
-                && ((nTankDefender >= 1 && nTankDefender <= 3 && (currentDefenderTanks - 1) >= nTankDefender)))
-            {
-                List<int> attackerDices = new List<int>();
-                List<int> defenderDices = new List<int>();
+        if(checkedRispectiveOwners(attacker, defender) && checkedTankNumbers(currentAttackerTanks, currentDefenderTanks, nTankAttacker, nTankDefender))
+        {
+            List<int> attackerDices = new List<int>();
+            List<int> defenderDices = new List<int>();
 
-                rollDices(attackerDices, nTankAttacker);
-                rollDices(defenderDices, nTankDefender);
+            rollDices(attackerDices, nTankAttacker);
+            rollDices(defenderDices, nTankDefender);
 
-                for (int i = 0; i < attackerDices.Count; i++)
-                {
-                    // Se il difensore ha tank con cui difendersi
-                    if (i <= defenderDices.Count - 1)
-                    {
-                        // Se attaccante vince il difensore perde 1 tank
-                        if (attackerDices[i] > defenderDices[i])
-                        {
-                            defender.removeTanksOnLand(1);
-                        }
-                        else // altrimenti attaccante perde 1 tank
-                        {
-                            attacker.removeTanksOnLand(1);
-                        }
-                    }
-                    else //altrimenti perde 1 tank
-                    {
-                        defender.removeTanksOnLand(1);
-                    }
-                }
-            }
+            checkResults(attackerDices, defenderDices, attacker, defender);
         }
     }
 
-    public void rollDices(List<int> dices, int n)
+    private bool checkedRispectiveOwners(Land attacker, Land defender)//controlla che lo stato attacante è di sua proprietà e quello difensivo non sia suo
+    {
+        return (currentPlayer.hasLand(attacker.getName()) && !currentPlayer.hasLand(defender.getName()));
+    }
+
+    private bool checkedTankNumbers(int currentAttackerTanks, int currentDefenderTanks, int nTankAttacker, int nTankDefender)
+    {
+        /*
+            In ordine della condizione controlla :
+            -ci sia almeno 1 tank che attacchi
+            -il numero dei tank attaccanti non sia superiore a quello permesso
+            -rimangano almeno certo numero di tank dallo stato attacante
+            -ci sia almeno 1 tank che difenda
+            -il numero dei tank difensori non sia superiore a quello permesso
+            -rimangano almeno certo numero di tank dallo stato difensore
+        */
+        return ((nTankAttacker >= 1 && nTankAttacker <= MAX_TANK_ATTACK_PER_TIME && 
+                (currentAttackerTanks - MINIMUM_TANK_ON_LAND) >= nTankAttacker) && 
+                ((nTankDefender >= 1 && nTankDefender <= MAX_TANK_ATTACK_PER_TIME && 
+                (currentDefenderTanks - MINIMUM_TANK_ON_LAND) >= nTankDefender)));
+    }
+
+    private void checkResults(List<int> attackerDices, List<int> defenderDices, Land attacker , Land defender)
+    {
+    	for (int i = 0; i < attackerDices.Count; i++)
+            {
+                // Se il difensore ha tank con cui difendersi
+                if (i <= defenderDices.Count - 1)
+                {
+                    // Se attaccante vince il difensore perde 1 tank
+                    if (attackerDices[i] > defenderDices[i])
+                    {
+                        defender.removeTanksOnLand(1);
+                    }
+                    else // altrimenti attaccante perde 1 tank
+                    {
+                        attacker.removeTanksOnLand(1);
+                    }
+                }
+                else //altrimenti perde 1 tank
+                {
+                    defender.removeTanksOnLand(1);
+                }
+            }
+    }
+
+    private void rollDices(List<int> dices, int n)
     {
         for(int i = 0; i < n; i++)
         {
@@ -64,6 +103,11 @@ public class GameManager : MonoBehaviour
         dices.Sort();
         dices.Reverse();
     }
+
+	public void move(string startLand, string endLand, int nTank)
+	{
+		move(FindLandByName(startLand), FindLandByName(endLand), nTank);
+	} 
 
     public void move(Land startLand, Land endLand, int nTank)
     {
@@ -82,6 +126,11 @@ public class GameManager : MonoBehaviour
             else
                 Debug.Log("Numero truppe insufficienti");
         }
+    }
+
+    public void addTroup(string land, int nTank)
+    {
+    	addTroup(FindLandByName(land), nTank);
     }
 
     public void addTroup(Land land, int nTank)
@@ -104,4 +153,22 @@ public class GameManager : MonoBehaviour
         else
             currentPlayer = players[index + 1];
     }
+
+    private Land FindLandByName(string name)
+	{
+		Land result = null;
+		foreach (Continent continent in World)
+		{
+			List<Land> lands = continent.getLands();
+			foreach(Land land in lands)
+			{
+				if(land.getName() == name)
+				{
+					result = land;
+				}
+			}
+			
+		}
+		return result;
+	}
 }
