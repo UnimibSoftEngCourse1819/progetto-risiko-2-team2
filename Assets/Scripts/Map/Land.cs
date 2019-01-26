@@ -32,7 +32,7 @@ public class Land
     {
     }
 
-    public Land(string name,int tanks): this(name, null, null, tanks)
+    public Land(string name,int tanks): this(name, new List<Land>(), null, tanks)
     {
     }
 

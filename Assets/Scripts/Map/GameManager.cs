@@ -47,62 +47,17 @@ public class GameManager
         }
     }
 
-    private bool checkedRispectiveOwners(Land attacker, Land defender)//controlla che lo stato attacante è di sua proprietà e quello difensivo non sia suo
+    public void passTurn()
     {
-        return (currentPlayer.hasLand(attacker.getName()) && !currentPlayer.hasLand(defender.getName()));
+        //cambia currentPlayer
+        int index = players.IndexOf(currentPlayer);
+        if (index == players.Count - 1)
+            currentPlayer = players[0];
+        else
+            currentPlayer = players[index + 1];
     }
 
-    private bool checkedTankNumbers(int currentAttackerTanks, int currentDefenderTanks, int nTankAttacker, int nTankDefender)
-    {
-        /*
-            In ordine della condizione controlla :
-            -ci sia almeno 1 tank che attacchi
-            -il numero dei tank attaccanti non sia superiore a quello permesso
-            -rimangano almeno certo numero di tank dallo stato attacante
-            -ci sia almeno 1 tank che difenda
-            -il numero dei tank difensori non sia superiore a quello permesso
-            -rimangano almeno certo numero di tank dallo stato difensore
-        */
-        return ((nTankAttacker >= 1 && nTankAttacker <= MAX_TANK_ATTACK_PER_TIME && 
-                (currentAttackerTanks - MINIMUM_TANK_ON_LAND) >= nTankAttacker) && 
-                ((nTankDefender >= 1 && nTankDefender <= MAX_TANK_ATTACK_PER_TIME && 
-                (currentDefenderTanks - MINIMUM_TANK_ON_LAND) >= nTankDefender)));
-    }
-
-    private void checkResults(List<int> attackerDices, List<int> defenderDices, Land attacker , Land defender)
-    {
-    	for (int i = 0; i < attackerDices.Count; i++)
-            {
-                // Se il difensore ha tank con cui difendersi
-                if (i <= defenderDices.Count - 1)
-                {
-                    // Se attaccante vince il difensore perde 1 tank
-                    if (attackerDices[i] > defenderDices[i])
-                    {
-                        defender.removeTanksOnLand(1);
-                    }
-                    else // altrimenti attaccante perde 1 tank
-                    {
-                        attacker.removeTanksOnLand(1);
-                    }
-                }
-                else //altrimenti perde 1 tank
-                {
-                    defender.removeTanksOnLand(1);
-                }
-            }
-    }
-
-    private void rollDices(List<int> dices, int n)
-    {
-        for(int i = 0; i < n; i++)
-        {
-            dices.Add(Random.Range(1, 6));
-        }
-
-        dices.Sort();
-        dices.Reverse();
-    }
+    
 
 	public void move(string startLand, string endLand, int nTank)
 	{
@@ -144,14 +99,81 @@ public class GameManager
         }
     }
 
-    public void passTurn()
+    public List<string> getDataForView()
     {
-        //cambia currentPlayer
-        int index = players.IndexOf(currentPlayer);
-        if (index == players.Count - 1)
-            currentPlayer = players[0];
-        else
-            currentPlayer = players[index + 1];
+        List<string> data = new List<string>();
+        data.Add(currentPlayer.getName());
+        data.Add(getPlayerData());
+        return data;
+    }
+
+    private string getPlayerData()
+    {
+        string data = "";
+        List<Land> landsOwned = currentPlayer.getTerritoryOwned();
+        foreach(Land land in landsOwned)
+        {
+            data += land.getName() + " tank: " + land.getTanksOnLand() + " ";
+        }
+
+        return data;
+    }
+
+    private bool checkedRispectiveOwners(Land attacker, Land defender)//controlla che lo stato attacante è di sua proprietà e quello difensivo non sia suo
+    {
+        return (currentPlayer.hasLand(attacker.getName()) && !currentPlayer.hasLand(defender.getName()));
+    }
+
+    private bool checkedTankNumbers(int currentAttackerTanks, int currentDefenderTanks, int nTankAttacker, int nTankDefender)
+    {
+        /*
+            In ordine della condizione controlla :
+            -ci sia almeno 1 tank che attacchi
+            -il numero dei tank attaccanti non sia superiore a quello permesso
+            -rimangano almeno certo numero di tank dallo stato attacante
+            -ci sia almeno 1 tank che difenda
+            -il numero dei tank difensori non sia superiore a quello permesso
+            -rimangano almeno certo numero di tank dallo stato difensore
+        */
+        return ((nTankAttacker >= 1 && nTankAttacker <= MAX_TANK_ATTACK_PER_TIME && 
+                (currentAttackerTanks - MINIMUM_TANK_ON_LAND) >= nTankAttacker) && 
+                ((nTankDefender >= 1 && nTankDefender <= MAX_TANK_ATTACK_PER_TIME && 
+                (currentDefenderTanks - MINIMUM_TANK_ON_LAND) >= nTankDefender)));
+    }
+
+    private void checkResults(List<int> attackerDices, List<int> defenderDices, Land attacker , Land defender)
+    {
+        for (int i = 0; i < attackerDices.Count; i++)
+            {
+                // Se il difensore ha tank con cui difendersi
+                if (i <= defenderDices.Count - 1)
+                {
+                    // Se attaccante vince il difensore perde 1 tank
+                    if (attackerDices[i] > defenderDices[i])
+                    {
+                        defender.removeTanksOnLand(1);
+                    }
+                    else // altrimenti attaccante perde 1 tank
+                    {
+                        attacker.removeTanksOnLand(1);
+                    }
+                }
+                else //altrimenti perde 1 tank
+                {
+                    defender.removeTanksOnLand(1);
+                }
+            }
+    }
+
+    private void rollDices(List<int> dices, int n)
+    {
+        for(int i = 0; i < n; i++)
+        {
+            dices.Add(Random.Range(1, 6));
+        }
+
+        dices.Sort();
+        dices.Reverse();
     }
 
     private Land FindLandByName(string name)

@@ -75,15 +75,22 @@ public class ViewGameMap : MonoBehaviour
         }
     }
 
-    public void changeDataPlayer(string data){
+    public void updateText(List<string> data)
+    {
+        changePlayer(data[0]);
+        changeDataPlayer(data[1]);
+        changeLog(data[2]);
+    }
+
+    private void changeDataPlayer(string data){
     	data_player.text = data;
     }
 
-    public void changeLog(string message){
+    private void changeLog(string message){
     	error.text = message;
     }
 
-    public void changePlayer(string name){
+    private void changePlayer(string name){
     	player.text = "E' il turno di "+ name;
     }
 

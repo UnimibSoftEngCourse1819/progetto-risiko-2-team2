@@ -77,4 +77,9 @@ public class Player
     {
         return color;
     }
+
+    public string getName()
+    {
+        return nickname;
+    }
 }
