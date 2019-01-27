@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System;
 
 public class GameManager
 {
@@ -14,13 +15,15 @@ public class GameManager
 
     private List<Player> players;
     private List<Continent> World;
+    private List<LandCard> landCards;
     private Player currentPlayer;
     private string currentPhase;
 
-    public GameManager(List<Player> players, List<Continent> World)
+    public GameManager(List<Player> players, List<Continent> World, List<LandCard> landCards)
     {
         this.players = players;
         this.World = World;
+        this.landCards = landCards;
         currentPlayer = this.players[0];
     }
 
@@ -229,6 +232,38 @@ public class GameManager
     {
         int nTanks = currentPlayer.getTotalLand() / 3;
 
+        foreach(Continent continent in World)
+        {
+            if (currentPlayer.hasContinent(continent))
+                nTanks += continent.getBonusTank();
+        }
+
         currentPlayer.addTanks(nTanks);
+    }
+
+    public void distributeTanksToPlayers()
+    {
+        int nTanks;
+        int nPlayers = players.Count;
+
+        if (nPlayers == 3)
+            nTanks = 35;
+        else if (nPlayers == 4)
+            nTanks = 30;
+        else if (nPlayers == 5)
+            nTanks = 25;
+        else
+            nTanks = 20;
+
+        foreach (Player player in players)
+            player.setNTanks(nTanks);
+    }
+
+    public void useCards(List<LandCard> cards)
+    {
+        if(cards.Count == 3)
+        {
+            
+        }
     }
 }

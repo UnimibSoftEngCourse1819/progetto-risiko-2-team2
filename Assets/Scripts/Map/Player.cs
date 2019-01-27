@@ -14,6 +14,7 @@ public class Player
     
     private string nickname;
     private List<Land> territoryOwned;
+    private List<LandCard> landCards;
     private string color;
     private int nTanks;
     //private Goal goal;
@@ -99,5 +100,43 @@ public class Player
     public void removeTanks(int nTanks)
     {
         this.nTanks -= nTanks;
+    }
+
+    public void setNTanks(int nTanks)
+    {
+        this.nTanks = nTanks;
+    }
+
+    public int getNTanks()
+    {
+        return nTanks;
+    }
+
+    public bool hasContinent(Continent continent)
+    {
+        List<Land> lands = continent.getLands();
+
+        foreach(Land land in lands)
+        {
+            if (!hasLand(land.getName()))
+                return false;
+        }
+
+        return true;
+    }
+
+    public List<LandCard> getLandCards()
+    {
+        return landCards;
+    }
+
+    public void addLandCard(LandCard card)
+    {
+        landCards.Add(card);
+    }
+
+    public void removeLandCard(LandCard card)
+    {
+        landCards.Remove(card);
     }
 }
