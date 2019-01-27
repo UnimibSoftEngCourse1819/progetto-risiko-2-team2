@@ -55,9 +55,7 @@ public class GameManager
             currentPlayer = players[0];
         else
             currentPlayer = players[index + 1];
-    }
-
-    
+    }   
 
 	public void move(string startLand, string endLand, int nTank)
 	{

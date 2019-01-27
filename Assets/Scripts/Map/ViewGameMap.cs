@@ -7,97 +7,64 @@ using System.IO;
 public class ViewGameMap : MonoBehaviour
 {
 
+    private const string INITIAL_TEXT = "BUG";
+    private List<string> logEvent = new List<string>();
 
-	private Text data_player, error, player;
-    private InputField tank_deploy, tank_attacker, tank_defender, tank_move;
-    private Button deploy, attack, move, passTurn;
-    private Dropdown deployTerritory, land_attacker, land_defender, land_start, land_end;
+	private Text eventLog, phase, selectedData, playerData, attackSelected, moveSelected, deployRemain, deploySelected;
+    
 
     private void Awake()//prepara l'interfaccia
     {
     	//Text
-        data_player = GameObject.Find("Text_Data").GetComponent<Text>(); 
-        error = GameObject.Find("Text_other").GetComponent<Text>(); 
-        player = GameObject.Find("Text_Player").GetComponent<Text>();
+        eventLog = GameObject.Find("TextEventLog").GetComponent<Text>(); 
+        phase = GameObject.Find("TextPhase").GetComponent<Text>(); 
+        selectedData = GameObject.Find("TextSelectedData").GetComponent<Text>(); 
+        playerData = GameObject.Find("TextPlayerData").GetComponent<Text>(); 
+        attackSelected = GameObject.Find("TextAttackSelected").GetComponent<Text>(); 
+        moveSelected = GameObject.Find("TextMoveSelected").GetComponent<Text>(); 
+        deployRemain = GameObject.Find("TextDeployRemain").GetComponent<Text>(); 
+        deploySelected = GameObject.Find("TextDeploySelected").GetComponent<Text>(); 
 
-        data_player.text = ""; 
-        error.text = "";
-        player.text = "E' il turno di ";
-    	
-	    //InputField
-
-        tank_deploy = GameObject.Find("InputField_Deploy").GetComponent<InputField>(); 
-        tank_attacker = GameObject.Find("InputField_attacker").GetComponent<InputField>();
-        tank_defender = GameObject.Find("InputField_defender").GetComponent<InputField>(); 
-        tank_move = GameObject.Find("InputField_move").GetComponent<InputField>();
-
-    	tank_deploy.text = "";
-        tank_attacker.text = "";
-        tank_defender.text = "";
-        tank_move.text = "";
-
-  		//Button
-
-        deploy = GameObject.Find("Button_Deploy").GetComponent<Button>(); 
-        attack = GameObject.Find("Button_attack").GetComponent<Button>(); 
-        move = GameObject.Find("Button_move").GetComponent<Button>(); 
-        passTurn = GameObject.Find("Button_pass_turn").GetComponent<Button>();
-
-    	deploy.GetComponentsInChildren<Text>()[0].text = "Aggiungi rinforzi";
-        attack.GetComponentsInChildren<Text>()[0].text = "Attacca";
-        move.GetComponentsInChildren<Text>()[0].text = "Sposta";
-        passTurn.GetComponentsInChildren<Text>()[0].text = "Passa turno";
-
-  		//Dropdown
-
-        deployTerritory = GameObject.Find("Dropdown_Deploy").GetComponent<Dropdown>(); 
-        land_attacker = GameObject.Find("Dropdown_attacker").GetComponent<Dropdown>(); 
-        land_defender = GameObject.Find("Dropdown_defender").GetComponent<Dropdown>(); 
-        land_start = GameObject.Find("Dropdown_start").GetComponent<Dropdown>(); 
-        land_end = GameObject.Find("Dropdown_end").GetComponent<Dropdown>(); 
-
-        deployTerritory.ClearOptions();
-        land_attacker.ClearOptions();
-        land_defender.ClearOptions();
-        land_start.ClearOptions();
-        land_end.ClearOptions();
+        eventLog.text = INITIAL_TEXT;
+        phase.text = INITIAL_TEXT;
+        selectedData.text = INITIAL_TEXT;
+        playerData.text = INITIAL_TEXT;
+        attackSelected.text = INITIAL_TEXT;
+        moveSelected.text = INITIAL_TEXT;
+        deployRemain.text = INITIAL_TEXT;
+        deploySelected.text = INITIAL_TEXT;
     }
 
-    public void loadDropdownList(List<string> options)
+    public void updatelogEvent(string message)
     {
-        foreach(string option in options)
+        if(logEvent.Count == 5)
+            logEvent.RemoveAt(0);
+        logEvent.Add(message);
+        eventLog.text = "";
+        foreach(string lineEvent in logEvent)
         {
-            addOptionDroppdown(deployTerritory, option);
-            addOptionDroppdown(land_attacker, option);
-            addOptionDroppdown(land_defender, option);
-            addOptionDroppdown(land_start, option);
-            addOptionDroppdown(land_end, option);
+            eventLog.text += lineEvent + Environment.NewLine; 
         }
     }
 
-    public void updateText(List<string> data)
+    public void updatePhase(string namePlayer, string phase)
     {
-        changePlayer(data[0]);
-        changeDataPlayer(data[1]);
-        changeLog(data[2]);
+        phase.text = namePlayer + Environment.NewLine + phase;
     }
 
-    private void changeDataPlayer(string data){
-    	data_player.text = data;
+    public void updateTwoSelected(string landStart, string landEnd)
+    {
+        attackSelected.text = landStart + Environment.NewLine + VS + Environment.NewLine + landEnd; 
+        moveSelected.text = landStart + Environment.NewLine + to + Environment.NewLine + landEnd; 
     }
 
-    private void changeLog(string message){
-    	error.text = message;
+    public void updateSingleSelected(string land)
+    {
+        deploySelected.text = land;
     }
 
-    private void changePlayer(string name){
-    	player.text = "E' il turno di "+ name;
-    }
-
-    private void addOptionDroppdown(Dropdown dropdownObject, string optionString){
-        Dropdown.OptionData newOption = new Dropdown.OptionData();
-        newOption.text = optionString;
-        dropdownObject.options.Add(newOption);
-        dropdownObject.RefreshShownValue();
+    public void updateDeployRemain(string n)
+    {
+        deployRemain.text = "Tank remaining : " + n;
     }
 }
