@@ -13,6 +13,7 @@ public class ModelGameMap : MonoBehaviour
 	public GameManager manager;
 	private string lastAction ="Start";
 	private string firstland = "", secondland = "";
+    private int tankAttacker;
 
 	public void deploy(string land, string tank)
     {
@@ -21,11 +22,21 @@ public class ModelGameMap : MonoBehaviour
     	updateView();
     }
 
-    public void attack(string landAttacker , string landDefender, string tankAttacker, string tankDefender)
+    public void deploy(string nTank)
     {
-    	manager.attack(landAttacker, landDefender, int.Parse(tankAttacker), int.Parse(tankDefender));
+        deploy(firstland, nTank);
+    }
+
+    public void startBattle(string tankDefender)
+    {
+    	manager.attack(firstland, secondland, tankAttacker, int.Parse(tankDefender));
     	lastAction = "Attacked";
     	updateView();
+    }
+
+    public void setTankAttacker(string tankAttacker)
+    {
+        this.tankAttacker = int.Parse(tankAttacker);
     }
 
     public void move(string landStart, string landEnd, string tank_deploy)
@@ -35,9 +46,21 @@ public class ModelGameMap : MonoBehaviour
     	updateView();
     }
 
+    public void move(string nTank)
+    {
+        move(firstland, secondland, nTank);
+    }
+
     public void pass(){
         manager.passTurn();
         lastAction = "Passed";
+        updateView();
+    }
+
+    public void nextPhase()
+    {
+        manager.nextPhase();
+        lastAction = "Phase skipped";
         updateView();
     }
 

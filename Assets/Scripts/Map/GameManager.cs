@@ -6,13 +6,16 @@ using System.IO;
 
 public class GameManager
 {
+    private const string DEPLOYMENT = "Deployment phase";
+    private const string ATTACK = "Attack phase";
+    private const string MOVE = "Move phase";
+    private const int MINIMUM_TANK_ON_LAND = 1;
+    private const int MINIMUM_TANK_ATTACK_PER_TIME = 1, MAX_TANK_ATTACK_PER_TIME = 3;
 
     private List<Player> players;
     private List<Continent> World;
     private Player currentPlayer;
-
-    private const int MINIMUM_TANK_ON_LAND = 1;
-    private const int MINIMUM_TANK_ATTACK_PER_TIME = 1, MAX_TANK_ATTACK_PER_TIME = 3;
+    private string currentPhase;
 
     public GameManager(List<Player> players, List<Continent> World)
     {
@@ -211,4 +214,21 @@ public class GameManager
 		}
 		return result;
 	}
+
+    public void nextPhase()
+    {
+        if (currentPhase.Equals(DEPLOYMENT))
+            currentPhase = ATTACK;
+        else if (currentPhase.Equals(ATTACK))
+            currentPhase = MOVE;
+        else
+            currentPhase = DEPLOYMENT;
+    }
+
+    public void giveTanks()
+    {
+        int nTanks = currentPlayer.getTotalLand() / 3;
+
+        currentPlayer.addTanks(nTanks);
+    }
 }

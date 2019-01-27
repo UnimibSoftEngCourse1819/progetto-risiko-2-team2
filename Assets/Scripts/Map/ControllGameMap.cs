@@ -23,12 +23,12 @@ public class ControllGameMap : MonoBehaviour
 
     public void onClickDeploy()
     {
-        model.addTroup(deployTank.text);
+        model.deploy(deployTank.text);
     }
 
     public void onClickAttack()
     {
-        model.attack(attackTank.text);
+        model.setTankAttacker(attackTank.text);
     }
 
     public void onClickMove()
@@ -43,7 +43,7 @@ public class ControllGameMap : MonoBehaviour
 
     public void onClickDefend()
     {
-        model.defend(defendTank);
+        model.startBattle(defendTank.text);
     }
 
     public void onClickPassTurn(){
