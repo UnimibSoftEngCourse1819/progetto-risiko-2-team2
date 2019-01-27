@@ -80,5 +80,13 @@ namespace RiskServer1
             ClientManager.SendDataTo(ConnectionID, buffer.ToArray());
             buffer.Dispose();
         }
+        public static void SendTurn(int ConnectionID)
+        {
+            ByteBuffer buffer = new ByteBuffer();
+            buffer.WriteInteger((int)ServerPackets.swelcomeMessage);
+            buffer.WriteString("Your Go");
+            ClientManager.SendDataTo(ConnectionID, buffer.ToArray());
+            buffer.Dispose();
+        }
     }
 }

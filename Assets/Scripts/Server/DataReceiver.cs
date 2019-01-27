@@ -26,7 +26,7 @@ namespace Assets.Scripts.Server
             string msg = buffer.ReadString();
             buffer.Dispose();
 
-            if (NetworkManager.state <= 0)  // casi normali 
+            if (NetworkManager.GetState() <= 0)  // casi normali 
             {
                 switch (msg) // aggiungere un caso per scoprire il colore ?
                 {
@@ -45,15 +45,15 @@ namespace Assets.Scripts.Server
                     case "Come ti chiami ?":
                         {
                             Debug.Log("ecco come mi chiamo");
-                            NetworkManager.state = -1; // impedisco l'uso del button nella waiting room
+                            NetworkManager.SetState( -1); // impedisco l'uso del button nella waiting room
                             DataSender.SendName();
                             break;
                         }
                     case "ok":
                         {
-                           NetworkManager.messaggio="ok";
+                           NetworkManager.SetMessaggio("ok");
                             Debug.Log("nome salvato");
-                            NetworkManager.state = 0; // riattivo il bottone
+                            NetworkManager.SetState ( 0); // riattivo il bottone
                             break;
                         }
                 /*    case "non si può giocare":
@@ -71,7 +71,7 @@ namespace Assets.Scripts.Server
                */
                     case "startgame":
                         {
-                            NetworkManager.messaggio = "start";
+                            NetworkManager.SetMessaggio("start");
                             Debug.Log(msg);
                             break;
                         }
@@ -79,24 +79,29 @@ namespace Assets.Scripts.Server
                         {
                             Debug.Log("newplayer");
                             NetworkManager.AddNPlayer(); // mi segno che è entrato un nuovo player
-                            NetworkManager.messaggio = "NewPlayer";
+                            NetworkManager.SetMessaggio ("NewPlayer");
                             break;
                         }
                     case "PlayerQuit":
                         {
                             Debug.Log("playerquit");
                             NetworkManager.DimNPlayer(); // mi segno che è uscito un nuovo player
-                            NetworkManager.messaggio = "PlayerQuit";
+                            NetworkManager.SetMessaggio("PlayerQuit");
+                            break;
+                        }
+                    case "Your Go":
+                        {
+                            NetworkManager.SetMessaggio("Myturn");
                             break;
                         }
 
                 }
             }
-            else if(NetworkManager.state==1) // salvo il numero di player
+            else if(NetworkManager.GetState()==1) // salvo il numero di player
             {
-                NetworkManager.N_player = msg;
+                NetworkManager.SetNPlayer (msg);
                // Debug.Log("msg");
-                NetworkManager.state = 0;
+                NetworkManager.SetState( 0);
               //  Debug.Log(NetworkManager.state);
             }
         }

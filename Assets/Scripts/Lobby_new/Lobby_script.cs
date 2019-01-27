@@ -33,7 +33,7 @@ public class Lobby_script : MonoBehaviour
             net.Partenza();
             // Debug.Log("il mio nome è "+nomeUtente);
             SceneManager.LoadScene("Waiting_Room");
-            NetworkManager.messaggio = player.Getname(); // mando il nome utente
+            NetworkManager.SetMessaggio ( player.Getname()); // mando il nome utente
 
         }
         else

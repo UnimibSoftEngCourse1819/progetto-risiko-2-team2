@@ -7,6 +7,7 @@ public class Player_script : MonoBehaviour
     private string nome;
     private string color; // tipo "rosso","verde"....
     private Player_script istanza;
+    private int turno = 0;
 
     private void Awake()
     {
@@ -18,7 +19,17 @@ public class Player_script : MonoBehaviour
         nome = s;
         DontDestroyOnLoad(this);
     }
-    
+    public void Update()
+    {
+        if (NetworkManager.GetMessaggio() == "Myturn")
+            turno = 1;
+    }
+    public void PassaTurno()
+    {
+       
+        turno=NetworkManager.PassaTurno();
+    }
+
     public void SetName(string a)
     {
         nome = a;
@@ -35,4 +46,14 @@ public class Player_script : MonoBehaviour
     {
         return color;
     }
+    public int GetTurno()
+    {
+        return turno;
+    }
+  
+    public void Myturn()
+    {
+        turno = 1;
+    }
+
 }

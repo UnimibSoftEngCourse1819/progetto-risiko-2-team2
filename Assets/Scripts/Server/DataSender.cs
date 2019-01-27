@@ -26,7 +26,7 @@ namespace Assets.Scripts.Server
             ByteBuffer buffer = new ByteBuffer();
             buffer.WriteInteger((int)ClientPackets.cHelloServer);
             buffer.WriteString("quanti player sono connessi ?");
-            NetworkManager.state = 1;
+            NetworkManager.SetState( 1);
             ClientTcp.SendData(buffer.ToArray());
             buffer.Dispose();
         }
@@ -42,7 +42,7 @@ namespace Assets.Scripts.Server
         {
             ByteBuffer buffer = new ByteBuffer();
             buffer.WriteInteger((int)ClientPackets.cHelloServer);
-            buffer.WriteString(NetworkManager.messaggio); // invio il nome
+            buffer.WriteString(NetworkManager.GetMessaggio()); // invio il nome
             ClientTcp.SendData(buffer.ToArray());
             buffer.Dispose();
         }
@@ -55,5 +55,13 @@ namespace Assets.Scripts.Server
             buffer.Dispose();
         }
 
+        public static void SendPasso() // quando si passa il turno
+        {
+            ByteBuffer buffer = new ByteBuffer();
+            buffer.WriteInteger((int)ClientPackets.cHelloServer);
+            buffer.WriteString("Passo"); // 
+            ClientTcp.SendData(buffer.ToArray());
+            buffer.Dispose();
+        }
     }
 }

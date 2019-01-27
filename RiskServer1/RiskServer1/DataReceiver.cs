@@ -65,13 +65,19 @@ namespace RiskServer1
                         }
                     case "start game": // mando un broadcast ai player
                         {
-                            Console.WriteLine(msg);
-                            GameManager.SetGame(1);
+                            Console.WriteLine(msg);                          
                             foreach (KeyValuePair<int, Client> keyValue in ClientManager.client)
                             {
                                 Console.WriteLine("starting new player ...");
                                 DataSender.SendStartGame(keyValue.Key);
                             }
+                            System.Threading.Thread.Sleep(2000);
+                            GameManager.StartGame(); // faccio partire il gioco
+                            break;
+                        }
+                    case "Passo":
+                        {
+
                             break;
                         }
                 }

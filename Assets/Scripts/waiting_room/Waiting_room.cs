@@ -23,9 +23,9 @@ public class Waiting_room : MonoBehaviour
     public void OnMouseDown()
     {
         count++;
-        if (NetworkManager.state == 0)
+        if (NetworkManager.GetState() == 0)
         {
-            if (aggiorna == 0 && NetworkManager.messaggio == "ok") // controllo numero di player
+            if (aggiorna == 0 && NetworkManager.GetMessaggio() == "ok") // controllo numero di player
             {
                 aggiorna = 1;
                 DataSender.AskNPlayer();
@@ -44,9 +44,9 @@ public class Waiting_room : MonoBehaviour
     {
       if(aggiorna == 1 )
         {
-            text2.text = "ci sono, al momento sono connessi " + NetworkManager.N_player+" player";
+            text2.text = "ci sono, al momento sono connessi " + NetworkManager.GetNPlayer()+" player";
             text1.text = "premi il bottone per far partire la partita";
-            if (NetworkManager.N_player == "1" || NetworkManager.N_player == "2" || NetworkManager.N_player == "3" || NetworkManager.N_player == "4" || NetworkManager.N_player == "5" || NetworkManager.N_player == "6")
+            if (NetworkManager.GetNPlayer() == "1" || NetworkManager.GetNPlayer() == "2" || NetworkManager.GetNPlayer() == "3" || NetworkManager.GetNPlayer() == "4" || NetworkManager.GetNPlayer() == "5" || NetworkManager.GetNPlayer() == "6")
                 aggiorna = 2; // solo se il numero di player è accettabile
             else
             {
@@ -54,17 +54,17 @@ public class Waiting_room : MonoBehaviour
                 aggiorna = 0; // così posso ripremere il tasto button 
             }
         }
-       else if(NetworkManager.messaggio == "start") // entra in game
+       else if(NetworkManager.GetMessaggio() == "start") // entra in game
         {
             SceneManager.LoadScene("mappa_0");
         }
-       else if(NetworkManager.messaggio=="NewPlayer")
+       else if(NetworkManager.GetMessaggio()=="NewPlayer")
         {
-            text2.text = "ci sono, al momento sono connessi " + NetworkManager.N_player + " player";
+            text2.text = "ci sono, al momento sono connessi " + NetworkManager.GetNPlayer() + " player";
        }
-        else if (NetworkManager.messaggio == "PlayerQuit")
+        else if (NetworkManager.GetMessaggio() == "PlayerQuit")
         {
-            text2.text = "ci sono, al momento sono connessi " + NetworkManager.N_player + " player";
+            text2.text = "ci sono, al momento sono connessi " + NetworkManager.GetNPlayer() + " player";
         }
     }
 
