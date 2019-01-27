@@ -37,6 +37,11 @@ public class Player
         territoryOwned.Add(conquered);
     }
 
+    public void removeLand(Land land)
+    {
+        territoryOwned.Remove(land);
+    }
+
     public Player(string nickname): this(nickname, new List<Land>() , null)//need to add Goal
     {
     }
