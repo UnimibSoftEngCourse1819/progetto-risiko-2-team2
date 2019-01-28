@@ -65,16 +65,12 @@ namespace RiskServer1
                         }
                     case "start game": // mando un broadcast ai player
                         {
-                            Console.WriteLine(msg);                          
-                            foreach (KeyValuePair<int, Client> keyValue in ClientManager.client)
-                            {
-                                Console.WriteLine("starting new player ...");
-                                DataSender.SendStartGame(keyValue.Key);
-                            }
-                            System.Threading.Thread.Sleep(2000);
-                            GameManager.StartGame(); // faccio partire il gioco
+                            Console.WriteLine(msg);
+                            GameManager.SetState(2); // mi preparo a ricevere il numero dell amappa
+
                             break;
                         }
+
                     case "Passo":
                         {
 
@@ -87,10 +83,19 @@ namespace RiskServer1
                 GameManager.SetState(0);
                 Console.WriteLine("salvataggio player");
                 GameManager.AddPlayer(connectionID, msg);
-                Console.WriteLine("player "+connectionID+" saved!");
+                Console.WriteLine("player "+connectionID+" "+msg+ "saved!");
                 DataSender.SendOk(connectionID);
             }
-            
+            else if(GameManager.GetState() == 2) // per inviare il nome della mappa da giocare
+            {
+                GameManager.SetState(0);
+                foreach (KeyValuePair<int, Client> keyValue in ClientManager.client)
+                {
+                    Console.WriteLine("starting map ..."+msg);
+                    DataSender.SendStartGame(keyValue.Key,msg);
+                }
+
+            }
         }
     }
 }

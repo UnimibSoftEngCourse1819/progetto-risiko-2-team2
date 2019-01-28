@@ -11,6 +11,7 @@ public class NetworkManager : MonoBehaviour
     private static string messaggio;  // la uso per comunicare con il server
     private static int N_player;
     private static int state = 0;
+    private static int mappa=-1;
     
 
     private void Awake()
@@ -44,6 +45,14 @@ public class NetworkManager : MonoBehaviour
 
     }
 
+    public static void SetMappa(int a)
+    {
+        mappa = a;
+    }
+    public static int GetMappa()
+    {
+        return mappa;
+    }
     public static string GetMessaggio()
     {
         return messaggio;

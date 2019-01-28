@@ -104,6 +104,13 @@ namespace Assets.Scripts.Server
                 NetworkManager.SetState( 0);
               //  Debug.Log(NetworkManager.state);
             }
+            else if (NetworkManager.GetState() == 2) // indico che mappa caricare
+            {
+                NetworkManager.SetMappa(int.Parse(msg));
+                Debug.Log("starting map "+msg);
+                NetworkManager.SetState(0);
+                //  Debug.Log(NetworkManager.state);
+            }
         }
     }
 }

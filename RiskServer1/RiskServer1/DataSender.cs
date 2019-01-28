@@ -56,11 +56,11 @@ namespace RiskServer1
             buffer.Dispose();
         }
 
-        public static void SendStartGame(int ConnectionID)
+        public static void SendStartGame(int ConnectionID,string msg) // indico che mappa far partire
         {
             ByteBuffer buffer = new ByteBuffer();
             buffer.WriteInteger((int)ServerPackets.swelcomeMessage);
-            buffer.WriteString("startgame");
+            buffer.WriteString(msg);
             ClientManager.SendDataTo(ConnectionID, buffer.ToArray());
             buffer.Dispose();
         }

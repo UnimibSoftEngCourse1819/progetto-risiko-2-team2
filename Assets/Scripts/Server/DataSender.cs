@@ -30,13 +30,26 @@ namespace Assets.Scripts.Server
             ClientTcp.SendData(buffer.ToArray());
             buffer.Dispose();
         }
-        public static void StarGame()
+        public static void StartMap(int a) // in via la pasrtenza del game e quale mappa
         {
+            
+            ByteBuffer buffer = new ByteBuffer();
+           
+           // System.Threading.Thread.Sleep(1000);          
+            buffer.WriteInteger((int)ClientPackets.cHelloServer);
+            buffer.WriteString(a.ToString());
+            ClientTcp.SendData(buffer.ToArray());
+            buffer.Dispose();
+        }
+        public static void StarGame(int a) // in via la pasrtenza del game e quale mappa
+        {
+            NetworkManager.SetState(2);
             ByteBuffer buffer = new ByteBuffer();
             buffer.WriteInteger((int)ClientPackets.cHelloServer);
             buffer.WriteString("start game");
             ClientTcp.SendData(buffer.ToArray());
             buffer.Dispose();
+            DataSender.StartMap(a);
         }
         public static void SendName()
         {
