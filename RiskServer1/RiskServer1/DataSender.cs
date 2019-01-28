@@ -56,7 +56,7 @@ namespace RiskServer1
             buffer.Dispose();
         }
 
-        public static void SendStartGame(int ConnectionID,string msg) // indico che mappa far partire
+        public static void SendStartGame(int ConnectionID, string msg) // indico che mappa far partire
         {
             ByteBuffer buffer = new ByteBuffer();
             buffer.WriteInteger((int)ServerPackets.swelcomeMessage);
@@ -88,5 +88,71 @@ namespace RiskServer1
             ClientManager.SendDataTo(ConnectionID, buffer.ToArray());
             buffer.Dispose();
         }
+        /******************************************************/// attacco
+        public static void SendAttacco(int connectionID,string nomePlayer,string[] stati, string[] risultato) // quando si attacca gli si passano i due stati coinvolti e il risultato
+        {
+            ByteBuffer buffer = new ByteBuffer(); // invio il fatto che si entra in mod attacco
+            buffer.WriteInteger((int)ServerPackets.swelcomeMessage);
+            buffer.WriteString("Attacco"); // 
+            buffer.Dispose();
+            SendNomePlayer(connectionID, nomePlayer);
+            SendStatoAttaccante(connectionID, stati[0]); // e gli passo lo stato
+            SendStatoAttaccato(connectionID, stati[1]); //e gli passo lo stato
+            SendRisultatoAttacco(connectionID, risultato[0]); // unità perse dall'attacante
+            SendRisultatoDifesa(connectionID, risultato[1]); // unità perse dalla difesa
+        }
+        public static void SendNomePlayer(int connectionID, string s) //
+        {
+            ByteBuffer buffer = new ByteBuffer();
+            buffer.WriteInteger((int)ServerPackets.swelcomeMessage);
+            buffer.WriteString(s); // 
+            ClientManager.SendDataTo(connectionID, buffer.ToArray());
+            buffer.Dispose();
+        }
+        public static void SendStatoAttaccante(int connectionID, string s) //
+        {
+            ByteBuffer buffer = new ByteBuffer();
+            buffer.WriteInteger((int)ServerPackets.swelcomeMessage);
+            buffer.WriteString(s); // 
+            ClientManager.SendDataTo(connectionID, buffer.ToArray());
+            buffer.Dispose();
+        }
+        public static void SendStatoAttaccato(int connectionID, string s) //
+        {
+            ByteBuffer buffer = new ByteBuffer();
+            buffer.WriteInteger((int)ServerPackets.swelcomeMessage);
+            buffer.WriteString(s); // 
+            ClientManager.SendDataTo(connectionID, buffer.ToArray());
+            buffer.Dispose();
+        }
+        public static void SendRisultatoAttacco(int connectionID, string s) //
+        {
+            ByteBuffer buffer = new ByteBuffer();
+            buffer.WriteInteger((int)ServerPackets.swelcomeMessage);
+            buffer.WriteString(s); // 
+            ClientManager.SendDataTo(connectionID, buffer.ToArray());
+            buffer.Dispose();
+        }
+        public static void SendRisultatoDifesa(int connectionID, string s) //
+        {
+            ByteBuffer buffer = new ByteBuffer();
+            buffer.WriteInteger((int)ServerPackets.swelcomeMessage);
+            buffer.WriteString(s); // 
+            ClientManager.SendDataTo(connectionID, buffer.ToArray());
+            buffer.Dispose();
+        }
+        /************************************************************///
+        //risuo i sendo sopra
+        public static void SendSpostamento(int connectionID, string nomePlayer,string[] stati, string[] risultato) // quando si sposta gli si passano i due stati coinvolti e il numero di carri
+        {
+            ByteBuffer buffer = new ByteBuffer(); // invio il fatto che si entra in mod spostamento
+            buffer.WriteInteger((int)ServerPackets.swelcomeMessage);
+            buffer.WriteString("Spostamento"); // 
+            buffer.Dispose();
+            SendNomePlayer(connectionID, nomePlayer);
+            SendStatoAttaccante(connectionID, stati[0]); // e gli passo lo stato
+            SendStatoAttaccato(connectionID, stati[1]); //e gli passo lo stato
+            SendRisultatoAttacco(connectionID, risultato[0]); // unità spostate dall'attacante
+             }
     }
 }

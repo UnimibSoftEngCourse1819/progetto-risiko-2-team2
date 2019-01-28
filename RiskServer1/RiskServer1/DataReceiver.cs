@@ -71,11 +71,24 @@ namespace RiskServer1
                             break;
                         }
 
-                    case "Passo":
+                    case "Passo": // si passsa il turno 
                         {
 
                             break;
                         }
+                    case "Attacco":
+                        {
+                            GameManager.SetState(3); // stato di attacco
+                            Console.WriteLine("attacco");
+                            break;
+                        }
+                    case "Spostamento":
+                        {
+                            GameManager.SetState(4); // stato spostamento
+                            Console.WriteLine("spostamento");
+                            break;
+                        }
+
                 }
             }
             else if(GameManager.GetState()==1) // per salvare il nome del player
@@ -95,6 +108,14 @@ namespace RiskServer1
                     DataSender.SendStartGame(keyValue.Key,msg);
                 }
 
+            }
+            else if(GameManager.GetState()==3) // mod attacco
+            {
+                GameManager.GestioneAttacco(msg,connectionID);                
+            }
+            else if (GameManager.GetState() == 4) // mod spostamento
+            { 
+                GameManager.GestioneSpostamento(msg,connectionID);              
             }
         }
     }

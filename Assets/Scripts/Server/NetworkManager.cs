@@ -9,10 +9,13 @@ public class NetworkManager : MonoBehaviour
 
     public static NetworkManager istanza;
     private static string messaggio;  // la uso per comunicare con il server
-    private static int N_player;
-    private static int state = 0;
-    private static int mappa=-1;
-    
+    private static int N_player; // numero di player
+    private static int state = 0; // stato generale per la lettura
+    private static int mappa=-1; // mappa scelta
+    private static int statoTurno = 0; // stato del turno
+    private static string[] stati = new string[2];
+    private static string[] risultatoAttacco = new string[2];
+    private static string nomePlayer; // indica il nome del player che ha fatto qualcosa
 
     private void Awake()
     {
@@ -45,6 +48,95 @@ public class NetworkManager : MonoBehaviour
 
     }
 
+    public static void AggiornaAfterAttacco(string s)
+    {
+        
+        switch (statoTurno) // inizializzo le 4 variabili e poi le invio 
+        {
+            case 0:
+                {
+                    nomePlayer = s;
+                    break;
+                }
+            case 1:
+                {
+                    stati[0] = s;
+                    break;
+                }
+
+            case 2:
+                {
+                    stati[1] = s;
+                    break;
+                }
+
+            case 3:
+                {
+                    risultatoAttacco[0] = s;
+                    break;
+                }
+
+            case 4:
+                {
+                    risultatoAttacco[1] = s;
+                    statoTurno = 0;
+                    state = 0; // rimetto lo stato a 0
+                    // gestico i dati ricevuti magari impostando uno stato "attacco"
+                    break;
+                }
+                
+        }
+        statoTurno++;
+    }
+    public static void AggiornaAfterSpostamento(string s)
+    {
+       
+        switch (statoTurno) // inizializzo le 3 variabili e poi le invio 
+        {
+            case 0:
+                {
+                    nomePlayer = s;
+                    break;
+                }
+            case 1:
+                {
+                    stati[0] = s;
+                    break;
+                }
+
+            case 2:
+                {
+                    stati[1] = s;
+                    break;
+                }
+
+            case 3:
+                {
+                    risultatoAttacco[0] = s;
+                    statoTurno = 0;
+                    state = 0; // rimetto lo stato a 0
+                               // gestico i dati ricevuti magari impostando uno stato "attacco"
+                    break;
+                }  
+        }
+        statoTurno++;
+    }
+    public static string GetNomePlayer()
+    {
+        return nomePlayer;
+    }
+    public static void SetNomePlayer(string s)
+    {
+        nomePlayer = s;
+    }
+    public static int GetStatoTurno()
+    {
+        return statoTurno;
+    }
+    public static void SetstatoTurno(int a)
+    {
+        statoTurno = a;
+    }
     public static void SetMappa(int a)
     {
         mappa = a;

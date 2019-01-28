@@ -12,8 +12,11 @@ namespace RiskServer1
         private static Dictionary<int, string> playerList_Color = new Dictionary<int, string>();
         private static int state=0; // indica se sono pronto a leggere o meno 
         private static int game = 0;// indica se siamo in gioco o meno
-        private static int turno=0;
+        private static int turno=0; // numero di turni giocati
         private static int Nplayer = 0;
+        private static int statoTurno = 0; // indica in che punto del turno si è
+        private static string[] stati=new string[2];
+        private static string[] risultatoAttacco=new  string[2];
 
         public static void AddPlayer(int ConnectionID, string nome)
         {
@@ -161,7 +164,73 @@ namespace RiskServer1
 
             }
         }
+        public static void GestioneAttacco(string s,int PlayerID)
+        {
+           statoTurno++;
+            switch (statoTurno) // inizializzo le 4 variabili e poi le invio 
+            {
+                case 1:
+                    {
+                        stati[0] = s;
+                        break;
+                    }
 
+                case 2:
+                    {
+                        stati[1] = s;
+                        break;
+                    }
+
+                case 3:
+                    {
+                        risultatoAttacco[0] = s;
+                        break;
+                    }
+
+                case 4:
+                    {
+                        risultatoAttacco[1] = s;
+                        statoTurno = 0; // mi preparo per l'attacco successivo
+                        state = 0;// riposto lo stato generale a 0
+                        foreach (KeyValuePair<int, Client> keyValue in ClientManager.client)
+                        {                
+                            DataSender.SendAttacco(keyValue.Key,playerList_Name[PlayerID],stati,risultatoAttacco );
+                        }
+                        break;
+                    }
+            }
+        }
+        public static void GestioneSpostamento(string s,int PlayerID) // simile a gestione attacco 
+        {
+            statoTurno++;
+            switch (statoTurno) // inizializzo le 4 variabili e poi le invio 
+            {
+                case 1:
+                    {
+                        stati[0] = s;
+                        break;
+                    }
+
+                case 2:
+                    {
+                        stati[1] = s;
+                        break;
+                    }
+
+                case 3:
+                    {
+                        risultatoAttacco[0] = s;
+                        statoTurno = 0; // mi preparo per l'attacco successivo
+                        state = 0; // riposrto lo stato generale a 0
+                        foreach (KeyValuePair<int, Client> keyValue in ClientManager.client)
+                        {
+
+                            DataSender.SendSpostamento(keyValue.Key,playerList_Name[PlayerID] ,stati, risultatoAttacco);
+                        }
+                        break;
+                    }                 
+                    }
+            }
         public static void SetGame(int c)
         {
             game = c;
@@ -178,7 +247,14 @@ namespace RiskServer1
         {
             return state;
         }
-        
+        public static int GetStatoTurno()
+        {
+            return statoTurno;
+        }  
+        public static void SetStatoTurno(int a)
+        {
+            statoTurno = a;
+        }
 
     }
 }

@@ -35,13 +35,7 @@ namespace Assets.Scripts.Server
                             Debug.Log(msg);
                             DataSender.SendHelloServer();
                             break;
-                        }
-                    /*   case "sei nella Wating room ora devi aspettare altri utenti":
-                           {
-                               Debug.Log(msg);                                           
-                               break;
-                           }
-                   */
+                        }                  
                     case "Come ti chiami ?":
                         {
                             Debug.Log("ecco come mi chiamo");
@@ -56,19 +50,6 @@ namespace Assets.Scripts.Server
                             NetworkManager.SetState ( 0); // riattivo il bottone
                             break;
                         }
-                /*    case "non si può giocare":
-                        {
-                            NetworkManager.messaggio = "no";
-                            Debug.Log(msg);
-                            break;
-                        }
-                    case "si puo giocare":
-                        {
-                            NetworkManager.messaggio = "si";
-                            Debug.Log(msg);
-                            break;
-                        }
-               */
                     case "startgame":
                         {
                             NetworkManager.SetMessaggio("start");
@@ -94,8 +75,17 @@ namespace Assets.Scripts.Server
                             NetworkManager.SetMessaggio("Myturn");
                             break;
                         }
-
-                }
+                    case "Attacco": // un player ha fatto un attacco devo aggionrare la mappa
+                        {
+                            NetworkManager.SetState(3); 
+                            break;
+                        }
+                    case "Spostamento":// un player ha fatto uno spostamento devo aggionrare la mappa
+                        {
+                            NetworkManager.SetState(4);
+                            break;
+                        }         
+               }
             }
             else if(NetworkManager.GetState()==1) // salvo il numero di player
             {
@@ -111,6 +101,15 @@ namespace Assets.Scripts.Server
                 NetworkManager.SetState(0);
                 //  Debug.Log(NetworkManager.state);
             }
+            else if(NetworkManager.GetState()==3) // fase di attcacco 
+            {
+                NetworkManager.AggiornaAfterAttacco(msg);                
+            }
+            else if (NetworkManager.GetState() == 4) // fase di spostamento 
+            {
+                NetworkManager.AggiornaAfterSpostamento(msg);
+            }
+
         }
     }
 }
