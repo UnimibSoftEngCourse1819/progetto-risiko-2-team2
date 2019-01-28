@@ -193,7 +193,7 @@ public class GameManager
     {
         for(int i = 0; i < n; i++)
         {
-            dices.Add(Random.Range(1, 6));
+            dices.Add(UnityEngine.Random.Range(1, 6));
         }
 
         dices.Sort();

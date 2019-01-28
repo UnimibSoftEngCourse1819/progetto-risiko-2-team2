@@ -15,7 +15,7 @@ public class ViewGameMap : MonoBehaviour
     private const int ATTACK = 0, DEFEND = 1, DEPLOY = 2, MOVE = 3;
     private List<string> logEvent = new List<string>();
 
-    private CanvasGroup attack, defense, move, deploy, popup, error, quit, cardsShow ;
+    private CanvasGroup attack, defense, move, deploy, popup, error, quit;
 	private Text eventLog, phase, selectedData, playerData, attackSelected, moveSelected, deployRemain, deploySelected;
     
 
@@ -48,9 +48,15 @@ public class ViewGameMap : MonoBehaviour
         popup = GameObject.Find("CanvasPopup").GetComponent<CanvasGroup>();
         error = GameObject.Find("CanvasError").GetComponent<CanvasGroup>();
         quit = GameObject.Find("CanvasQuit").GetComponent<CanvasGroup>();
-        cardsShow = GameObject.Find("CanvasCardShow").GetComponent<CanvasGroup>();
 
         hideAllCanvasOption();
+        closePopup();
+    }
+
+    private void showPopup()
+    {
+        popup.alpha = 1f;
+        popup.interactable = true;
     }
 
     private void hideAllCanvasOption()
@@ -110,23 +116,47 @@ public class ViewGameMap : MonoBehaviour
         hideAllCanvasOption();
         if(phase.Equals(PHASE[ATTACK], StringComparison.InvariantCultureIgnoreCase))
         {
-            attack.alpha = 0f;
-            attack.interactable = false;
+            attack.alpha = 1f;
+            attack.interactable = true;
         }
         if(phase.Equals(PHASE[DEFEND], StringComparison.InvariantCultureIgnoreCase))
         {
-            defense.alpha = 0f;
-            defense.interactable = false;
+            defense.alpha = 1f;
+            defense.interactable = true;
         }
         if(phase.Equals(PHASE[MOVE], StringComparison.InvariantCultureIgnoreCase))
         {
-            move.alpha = 0f;
-            move.interactable = false;;
+            move.alpha = 1f;
+            move.interactable = true;;
         }
         if(phase.Equals(PHASE[DEPLOY], StringComparison.InvariantCultureIgnoreCase))
         {
-            deploy.alpha = 0f;
-            deploy.interactable = false;
+            deploy.alpha = 1f;
+            deploy.interactable = true;
         }
+    }
+
+    public void showConfirmQuit()
+    {
+        showPopup();
+        quit.alpha = 1f;
+        quit.interactable = true;
+    }
+
+    public void errorPopup()
+    {
+        showPopup();
+        error.alpha = 1f;
+        error.interactable = true;
+    }
+
+    public void closePopup()
+    {
+        popup.alpha = 0f;
+        error.alpha = 0f;
+        quit.alpha = 0f;
+        popup.interactable = false;
+        error.interactable = false;
+        quit.interactable = false;
     }
 }

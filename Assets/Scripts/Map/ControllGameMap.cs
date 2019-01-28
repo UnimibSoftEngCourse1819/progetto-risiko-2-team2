@@ -61,8 +61,8 @@ public class ControllGameMap : MonoBehaviour
         model.exit();
     }
 
-    public void onClickError()
+    public void onClickClosePopup()
     {
-        model.closeError();
+        model.closePopup();
     }
 }
