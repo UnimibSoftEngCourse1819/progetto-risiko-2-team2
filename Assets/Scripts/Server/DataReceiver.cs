@@ -99,7 +99,7 @@ namespace Assets.Scripts.Server
             }
             else if(NetworkManager.GetState()==1) // salvo il numero di player
             {
-                NetworkManager.SetNPlayer (msg);
+                NetworkManager.SetNPlayer (int.Parse(msg));
                // Debug.Log("msg");
                 NetworkManager.SetState( 0);
               //  Debug.Log(NetworkManager.state);

@@ -46,7 +46,7 @@ public class Waiting_room : MonoBehaviour
         {
             text2.text = "ci sono, al momento sono connessi " + NetworkManager.GetNPlayer()+" player";
             text1.text = "premi il bottone per far partire la partita";
-            if (NetworkManager.GetNPlayer() == "1" || NetworkManager.GetNPlayer() == "2" || NetworkManager.GetNPlayer() == "3" || NetworkManager.GetNPlayer() == "4" || NetworkManager.GetNPlayer() == "5" || NetworkManager.GetNPlayer() == "6")
+            if (NetworkManager.GetNPlayer() >=1 & NetworkManager.GetNPlayer()<=6)
                 aggiorna = 2; // solo se il numero di player è accettabile
             else
             {

@@ -9,14 +9,14 @@ public class NetworkManager : MonoBehaviour
 
     public static NetworkManager istanza;
     private static string messaggio;  // la uso per comunicare con il server
-    private static string N_player;
+    private static int N_player;
     private static int state = 0;
     
 
     private void Awake()
     {
         istanza = this;
-        N_player = "0";
+        N_player = 0;
       
     }
 
@@ -60,80 +60,21 @@ public class NetworkManager : MonoBehaviour
     {
         state = s;
     }
-    public static string GetNPlayer()
+    public static int GetNPlayer()
     {
         return N_player;
     }
-    public static void SetNPlayer(string s)
+    public static void SetNPlayer(int s)
     {
         N_player= s;
     }
     public static void DimNPlayer()
     {
-        switch(N_player)
-        {
-            case "2":
-                {
-                    N_player = "1";
-                    break;
-                }
-            case "3":
-                {
-                    N_player = "2";
-                    break;
-                }
-            case "4":
-                {
-                    N_player = "3";
-                    break;
-                }
-            case "5":
-                {
-                    N_player = "4";
-                    break;
-                }
-            case "6":
-                {
-                    N_player = "5";
-                    break;
-                }
-        }
+        N_player--;
     }
     public static void AddNPlayer()
     {
-        switch (N_player)
-        {
-            case "1":
-                {
-                    N_player = "2";
-                    break;
-                }
-            case "2":
-                {
-                    N_player = "3";
-                    break;
-                }
-            case "3":
-                {
-                    N_player = "4";
-                    break;
-                }
-            case "4":
-                {
-                    N_player = "5";
-                    break;
-                }
-            case "5":
-                {
-                    N_player = "6";
-                    break;
-                }
-            case "6":
-                {
-                    N_player = "7";
-                    break;
-                }
-        }
+        N_player++;
     }
 
 }
