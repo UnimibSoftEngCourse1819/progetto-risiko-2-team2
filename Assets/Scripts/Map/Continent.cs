@@ -22,7 +22,11 @@ public class Continent
         this.bonusTank = bonusTank;
     }
 
-    public Continent(string name): this(name, new List<Land>())
+    public Continent(string name, int bonusTank): this(name, new List<Land>(), bonusTank)
+    {
+    }
+
+    public Continent(string name): this(name, new List<Land>(), 0)
     {
     }
 

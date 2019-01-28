@@ -66,7 +66,7 @@ public class ModelGameMap : MonoBehaviour
 
     private void updateView()
     {
-    	List<string> data =	manager.getDataForView();
+     	List<string> data =	manager.getDataForView();
     	data.Add(lastAction);
     	view.updateText(data);
     }
@@ -104,10 +104,26 @@ public class ModelGameMap : MonoBehaviour
 		return options;
 	}
 
-	private void createRelation(Land landLeft, Land landRight){
+	private void createRelation(Land landLeft, Land landRight)
+    {
 		//manca il controllo
 		landLeft.addNeighbor(landRight);
 		landRight.addNeighbor(landLeft);
 	}
+
+    public void quit()
+    {
+        view.showConfirmQuit();
+    }
+
+    public void exit()
+    {
+        //chiude il game
+    }
+
+    public void closePopup()
+    {
+        view.closePopup();
+    }
 
 }

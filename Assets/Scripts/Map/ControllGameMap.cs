@@ -46,7 +46,23 @@ public class ControllGameMap : MonoBehaviour
         model.startBattle(defendTank.text);
     }
 
-    public void onClickPassTurn(){
+    public void onClickPassTurn()
+    {
         model.pass();
+    }
+
+    public void onClickQuit()
+    {
+        model.quit();
+    }
+
+    public void onClickExit()
+    {
+        model.exit();
+    }
+
+    public void onClickClosePopup()
+    {
+        model.closePopup();
     }
 }
