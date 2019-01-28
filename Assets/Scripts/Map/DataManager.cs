@@ -245,7 +245,17 @@ public class DataManager
         return counter;
     }
 
-    public string useCards(List<LandCard> selectedCards)
+    public string useCards(string card1, string card2, string card3)
+    {
+
+        List<LandCard> chosed = new List<LandCard>();
+        using.Add(currentPlayer.getCard(card1));
+        using.Add(currentPlayer.getCard(card1));
+        using.Add(currentPlayer.getCard(card1));
+        return useCards(chosed);
+    }
+
+    private string useCards(List<LandCard> selectedCards)
     {
         string result = null;
         int additionalTanks = 0;

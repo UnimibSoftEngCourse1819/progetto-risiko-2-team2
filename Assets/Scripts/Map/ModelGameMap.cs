@@ -10,27 +10,20 @@ public class ModelGameMap : MonoBehaviour
 	private const string nameFile = "";
 	
 	public ViewGameMap view;
-	public GameManager manager;
+	public DataManager data;
 	private string lastAction ="Start";
 	private string firstland = "", secondland = "";
     private int tankAttacker;
-
-	public void deploy(string land, string tank)
-    {
-    	manager.addTroup(land, int.Parse(tank));
-    	lastAction = "Deployed";
-    	updateView();
-    }
 
     public void deploy(string nTank)
     {
         deploy(firstland, nTank);
     }
 
-    public void startBattle(string tankDefender)
+	private void deploy(string land, string tank)
     {
-    	manager.attack(firstland, secondland, tankAttacker, int.Parse(tankDefender));
-    	lastAction = "Attacked";
+    	data.addTroup(land, int.Parse(tank));
+    	lastAction = "Deployed";
     	updateView();
     }
 
@@ -39,9 +32,9 @@ public class ModelGameMap : MonoBehaviour
         this.tankAttacker = int.Parse(tankAttacker);
     }
 
-    public void move(string landStart, string landEnd, string tank_deploy)
+    public void move(string tankDeploy)
     {
-    	manager.move(landStart, landEnd, int.Parse(tank_deploy));
+    	data.move(landStart, landEnd, int.Parse(tankDeploy));
     	lastAction = "Moved";
     	updateView();
     }
@@ -51,12 +44,6 @@ public class ModelGameMap : MonoBehaviour
         move(firstland, secondland, nTank);
     }
 
-    public void pass(){
-        manager.passTurn();
-        lastAction = "Passed";
-        updateView();
-    }
-
     public void nextPhase()
     {
         manager.nextPhase();
@@ -64,13 +51,25 @@ public class ModelGameMap : MonoBehaviour
         updateView();
     }
 
+    public void startBattle(string tankDefender)
+    {
+        manager.attack(firstland, secondland, tankAttacker, int.Parse(tankDefender));
+        lastAction = "Attacked";
+        updateView();
+    }
+
+    public void pass(){
+        manager.passTurn();
+        lastAction = "Passed";
+        updateView();
+    }
+
     private void updateView()
     {
-     	List<string> data =	manager.getDataForView();
+     	List<string> data =	data.getDataForView();
     	data.Add(lastAction);
     	view.updateText(data);
     }
-
 
 	private void Awake()
 	{
@@ -85,30 +84,7 @@ public class ModelGameMap : MonoBehaviour
 		file.read(nameFile);
 		manager = new GameManager(players, file.getWorldData());
 		*/
-
 		updateView();
-	}
-
-	private List<string> getOptions(List<Continent> World)
-	{
-		List<string> options = new List<string>();
-		foreach(Continent continent in World)
-		{
-			List<Land> lands = continent.getLands();
-			foreach(Land land in lands)
-			{
-				options.Add(land.getName());
-			}
-		}
-
-		return options;
-	}
-
-	private void createRelation(Land landLeft, Land landRight)
-    {
-		//manca il controllo
-		landLeft.addNeighbor(landRight);
-		landRight.addNeighbor(landLeft);
 	}
 
     public void quit()
@@ -124,6 +100,16 @@ public class ModelGameMap : MonoBehaviour
     public void closePopup()
     {
         view.closePopup();
+    }
+
+    public void closeCard()
+    {
+        view.closeCard();
+    }
+
+    public void useCards(string card1, string card2, string card3)
+    {
+        data.useCards(card1, card2, card3);
     }
 
 }
