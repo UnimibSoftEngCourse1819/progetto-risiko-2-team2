@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class LandCard
 {
-    enum Symbol { Cavalry, Infantry, Artillery };
+    enum Symbol { Cavalry, Infantry, Artillery, Jolly };
     private Land land;
     private Symbol symbol;
 
@@ -31,6 +31,12 @@ public class LandCard
             this.symbol = Symbol.Artillery;
     }
 
+    public LandCard()
+    {
+        symbol = Symbol.Jolly;
+        land = null;
+    }
+
     public Land getLand()
     {
         return land;
@@ -44,5 +50,13 @@ public class LandCard
             return "Infantry";
         else
             return "Artillery";
+    }
+
+    public bool isJolly()
+    {
+        if (symbol.Equals("Jolly"))
+            return true;
+
+        return false;
     }
 }

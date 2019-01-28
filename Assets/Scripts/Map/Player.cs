@@ -135,8 +135,9 @@ public class Player
         landCards.Add(card);
     }
 
-    public void removeLandCard(LandCard card)
+    public void removeLandCard(List<LandCard> cards)
     {
-        landCards.Remove(card);
+        foreach (LandCard card in cards)
+            landCards.Remove(card);
     }
 }

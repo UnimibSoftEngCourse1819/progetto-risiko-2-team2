@@ -7,162 +7,38 @@ using System;
 
 public class GameManager
 {
-    private const string DEPLOYMENT = "Deployment phase";
-    private const string ATTACK = "Attack phase";
-    private const string MOVE = "Move phase";
-    private const int MINIMUM_TANK_ON_LAND = 1;
-    private const int MINIMUM_TANK_ATTACK_PER_TIME = 1, MAX_TANK_ATTACK_PER_TIME = 3;
-
-    private List<Player> players;
-    private List<Continent> World;
-    private List<LandCard> landCards;
-    private Player currentPlayer;
-    private string currentPhase;
-
-    public GameManager(List<Player> players, List<Continent> World, List<LandCard> landCards)
-    {
-        this.players = players;
-        this.World = World;
-        this.landCards = landCards;
-        currentPlayer = this.players[0];
-    }
-
-    public void attack(string attacker, string defender, int nTankAttacker, int nTankDefender)
-    {
-    	attack(FindLandByName(attacker), FindLandByName(defender), nTankAttacker, nTankDefender);
-    }
-
     public void attack(Land attacker, Land defender, int nTankAttacker, int nTankDefender)
     {
         /*
         simula un attacco con facendo tutti i controlli (attacker deve essere il currentplayer)
         se defender rimane con 0 di tank far in modo che la land passi al player
         */
-        int currentAttackerTanks = attacker.getTanksOnLand();
-        int currentDefenderTanks = defender.getTanksOnLand();
+        
+        List<int> attackerDices = new List<int>();
+        List<int> defenderDices = new List<int>();
 
-        if(checkedRispectiveOwners(attacker, defender) && checkedTankNumbers(currentAttackerTanks, currentDefenderTanks, nTankAttacker, nTankDefender))
-        {
-            List<int> attackerDices = new List<int>();
-            List<int> defenderDices = new List<int>();
+        rollDices(attackerDices, nTankAttacker);
+        rollDices(defenderDices, nTankDefender);
 
-            rollDices(attackerDices, nTankAttacker);
-            rollDices(defenderDices, nTankDefender);
-
-            checkResults(attackerDices, defenderDices, attacker, defender);
-
-            if(defender.getTanksOnLand() == 0)
-            {
-                foreach(Player player in players)
-                {
-                    if(player.hasLand(defender.getName()))
-                    {
-                        passLand(defender, player, currentPlayer, nTankAttacker);
-
-                        return;
-                    }
-                }
-            }
-        }
+        checkResults(attackerDices, defenderDices, attacker, defender);
     }
 
-    public void passTurn()
-    {
-        //cambia currentPlayer
-        int index = players.IndexOf(currentPlayer);
-        if (index == players.Count - 1)
-            currentPlayer = players[0];
-        else
-            currentPlayer = players[index + 1];
-    }   
-
-    private void passLand(Land land, Player oldOwner, Player newOwner, int tanks)
+    public void passLand(Land land, Player oldOwner, Player newOwner, int tanks)
     {
         oldOwner.removeLand(land);
         newOwner.addLand(land);
         land.addTanksOnLand(tanks);
     }
 
-	public void move(string startLand, string endLand, int nTank)
-	{
-		move(FindLandByName(startLand), FindLandByName(endLand), nTank);
-	} 
-
-    public void move(Land startLand, Land endLand, int nTank)
-    {
-        /*
-        simula lo spostamento di truppe da start a end (controllare che siano di currentplayer)
-        */
-        if (currentPlayer.hasLand(startLand.getName()) && currentPlayer.hasLand(endLand.getName()))
-        {
-            int temp = startLand.getTanksOnLand();
-            // Il territorio deve rimanere con almeno 1 tank
-            if (temp - 1 >= nTank)
-            {
-                startLand.removeTanksOnLand(nTank);
-                endLand.addTanksOnLand(nTank);
-            }
-            else
-                Debug.Log("Numero truppe insufficienti");
-        }
+    public void moveTanks(Land startLand, Land endLand, int nTank)
+    {     
+        startLand.removeTanksOnLand(nTank);
+        endLand.addTanksOnLand(nTank);
     }
 
-    public void addTroup(string land, int nTank)
+    public void addTanks(Land land, int nTank)
     {
-    	addTroup(FindLandByName(land), nTank);
-    }
-
-    public void addTroup(Land land, int nTank)
-    {
-        /*
-        aggiunge le truppe a land controllare che siano di currentplayer)
-        */
-        if(currentPlayer.hasLand(land.getName()))
-        {
-            land.addTanksOnLand(nTank);
-        }
-    }
-
-    public List<string> getDataForView()
-    {
-        List<string> data = new List<string>();
-        data.Add(currentPlayer.getName());
-        data.Add(getPlayerData());
-        return data;
-    }
-
-    private string getPlayerData()
-    {
-        string data = "";
-        List<Land> landsOwned = currentPlayer.getTerritoryOwned();
-        foreach(Land land in landsOwned)
-        {
-            data += land.getName() + " tank: " + land.getTanksOnLand() + " ";
-        }
-
-        return data;
-    }
-
-    private bool checkedRispectiveOwners(Land attacker, Land defender)//controlla che lo stato attacante è di sua proprietà e quello difensivo non sia suo
-    {
-        return (currentPlayer.hasLand(attacker.getName()) && !currentPlayer.hasLand(defender.getName()));
-    }
-
-    private bool checkedTankNumbers(int currentAttackerTanks, int currentDefenderTanks, int nTankAttacker, int nTankDefender)
-    {
-        /*
-            In ordine della condizione controlla :
-            -ci sia almeno 1 tank che attacchi
-            -il numero dei tank attaccanti non sia superiore a quello permesso
-            -rimangano almeno certo numero di tank dallo stato attacante
-            -ci sia almeno 1 tank che difenda
-            -il numero dei tank difensori non sia superiore a quello permesso
-            -controlla che il difensore non usi più tank di quelli che ha
-        */
-        return ((nTankAttacker >= 1 && nTankAttacker <= MAX_TANK_ATTACK_PER_TIME && 
-                (currentAttackerTanks - MINIMUM_TANK_ON_LAND) >= nTankAttacker) && 
-                ((nTankDefender >= 1 && nTankDefender <= MAX_TANK_ATTACK_PER_TIME && 
-                currentDefenderTanks >= nTankDefender)));
+        land.addTanksOnLand(nTank);
     }
 
     private void checkResults(List<int> attackerDices, List<int> defenderDices, Land attacker , Land defender)
@@ -193,55 +69,27 @@ public class GameManager
     {
         for(int i = 0; i < n; i++)
         {
-            dices.Add(Random.Range(1, 6));
+            dices.Add(UnityEngine.Random.Range(1, 6));
         }
 
         dices.Sort();
         dices.Reverse();
     }
 
-    private Land FindLandByName(string name)
-	{
-		Land result = null;
-		foreach (Continent continent in World)
-		{
-			List<Land> lands = continent.getLands();
-			foreach(Land land in lands)
-			{
-				if(land.getName() == name)
-				{
-					result = land;
-				}
-			}
-			
-		}
-		return result;
-	}
-
-    public void nextPhase()
+    public void giveTanks(Player player, List<Continent> world)
     {
-        if (currentPhase.Equals(DEPLOYMENT))
-            currentPhase = ATTACK;
-        else if (currentPhase.Equals(ATTACK))
-            currentPhase = MOVE;
-        else
-            currentPhase = DEPLOYMENT;
-    }
+        int nTanks = player.getTotalLand() / 3;
 
-    public void giveTanks()
-    {
-        int nTanks = currentPlayer.getTotalLand() / 3;
-
-        foreach(Continent continent in World)
+        foreach(Continent continent in world)
         {
-            if (currentPlayer.hasContinent(continent))
+            if (player.hasContinent(continent))
                 nTanks += continent.getBonusTank();
         }
 
-        currentPlayer.addTanks(nTanks);
+        player.addTanks(nTanks);
     }
 
-    public void distributeTanksToPlayers()
+    public void distributeTanksToPlayers(List<Player> players)
     {
         int nTanks;
         int nPlayers = players.Count;
@@ -259,11 +107,38 @@ public class GameManager
             player.setNTanks(nTanks);
     }
 
-    public void useCards(List<LandCard> cards)
+    // Restituisce il numero di tanks in base al simbolo
+    private int getTanks(string symbol)
     {
-        if(cards.Count == 3)
+        if (symbol.Equals("Cavalry"))
+            return 8;
+        else if (symbol.Equals("Infantry"))
+            return 6;
+        else
+            return 4;
+    }
+
+
+    // Assegna al player i tanks in base al tris di carte precedentement selezionate dal player
+    public void useCards(Player player, List<LandCard> cards, string type, Dealer dealer, int additionalTanks)
+    {
+        if (type.Equals("Equal"))
         {
-            
+            player.addTanks(getTanks(cards[0].getSymbol()) + additionalTanks);
+            player.removeLandCard(cards);
+            dealer.addCardsToDeck(cards);
         }
+        else if (type.Equals("Different"))
+        {
+            player.addTanks(10 + additionalTanks);
+            player.removeLandCard(cards);
+            dealer.addCardsToDeck(cards);
+        }
+        else
+        {
+            player.addTanks(12 + additionalTanks);
+            player.removeLandCard(cards);
+            dealer.addCardsToDeck(cards);
+        }         
     }
 }
