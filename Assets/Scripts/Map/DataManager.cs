@@ -255,6 +255,11 @@ public class DataManager
         return useCards(chosed);
     }
 
+    public List<string> getListCard()
+    {
+        return currentPlayer.getListCard();
+    }
+
     private string useCards(List<LandCard> selectedCards)
     {
         string result = null;

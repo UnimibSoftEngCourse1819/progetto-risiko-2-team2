@@ -22,9 +22,14 @@ public class ModelGameMap : MonoBehaviour
 
 	private void deploy(string land, string tank)
     {
-    	data.addTroup(land, int.Parse(tank));
-    	lastAction = "Deployed";
-    	updateView();
+    	string error = data.addTanks(land, int.Parse(tank));
+    	if(error != null)
+            view.showError(error);
+        else
+        {
+            lastAction = "Deployed";
+            updateView();
+        }
     }
 
     public void setTankAttacker(string tankAttacker)
@@ -34,32 +39,34 @@ public class ModelGameMap : MonoBehaviour
 
     public void move(string tankDeploy)
     {
-    	data.move(landStart, landEnd, int.Parse(tankDeploy));
-    	lastAction = "Moved";
-    	updateView();
-    }
-
-    public void move(string nTank)
-    {
-        move(firstland, secondland, nTank);
+    	string error = data.moveTanks(firstland, secondland, int.Parse(tankDeploy));
+    	if(error != null)
+            view.showError(error);
+        else
+        {
+           lastAction = "Moved";
+    	   updateView();
+        }
     }
 
     public void nextPhase()
     {
-        manager.nextPhase();
+        data.nextPhase();
         lastAction = "Phase skipped";
         updateView();
     }
 
     public void startBattle(string tankDefender)
     {
-        manager.attack(firstland, secondland, tankAttacker, int.Parse(tankDefender));
+        string error = data.attack(firstland, secondland, tankAttacker, int.Parse(tankDefender));
+        if(error != null)
+            view.showError(error);
         lastAction = "Attacked";
         updateView();
     }
 
     public void pass(){
-        manager.passTurn();
+        data.passTurn();
         lastAction = "Passed";
         updateView();
     }
@@ -109,7 +116,17 @@ public class ModelGameMap : MonoBehaviour
 
     public void useCards(string card1, string card2, string card3)
     {
-        data.useCards(card1, card2, card3);
+        string error = data.useCards(card1, card2, card3);
+        if(error != null)
+            view.showError(error);
+        lastAction = "useCards";
+        updateView();
+    }
+
+    public void showCards()
+    {
+        List<string> cards = data.getListCard();
+        view.showCards(cards);
     }
 
 }

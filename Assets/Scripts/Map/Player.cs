@@ -152,4 +152,17 @@ public class Player
         }       cardFound = card;
         return cardFound;
     }
+
+    public List<string> getListCard()
+    {
+        List<string> nameCards = new List<string>();
+        foreach(LandCard card in landCards)
+        {
+            if(card.isJolly())
+                nameCards.Add("Jolly");
+            else
+                nameCards.Add(card.getSymbol() + ": " + card.getLand().getName());
+        }
+        return nameCards;
+    }
 }
