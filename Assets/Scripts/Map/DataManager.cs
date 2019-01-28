@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -68,21 +68,25 @@ public class DataManager
 
     public string attack(string attacker, string defender, int nTankAttacker, int nTankDefender)
     {
-        int currentAttackerTanks = findLandByName(attacker).getTanksOnLand();
-        int currentDefenderTanks = findLandByName(defender).getTanksOnLand();
+        Land attackerLand = findLandByName(attacker);
+        Land defenderLand = findLandByName(defender);
+
+        int currentAttackerTanks = attackerLand.getTanksOnLand();
+        int currentDefenderTanks = defenderLand.getTanksOnLand();
+
         string result = null;
         
-        if (checkedRispectiveOwners(findLandByName(attacker), findLandByName(defender)) && checkedTankNumbers(currentAttackerTanks, currentDefenderTanks, nTankAttacker, nTankDefender))
+        if (checkedRispectiveOwners(attackerLand, defenderLand) && checkedTankNumbers(currentAttackerTanks, currentDefenderTanks, nTankAttacker, nTankDefender))
         {
-            gameManager.attack(findLandByName(attacker), findLandByName(defender), nTankAttacker, nTankDefender);
+            gameManager.attack(attackerLand, defenderLand, nTankAttacker, nTankDefender);
 
-            if (findLandByName(defender).getTanksOnLand() == 0)
+            if (defenderLand.getTanksOnLand() == 0)
             {
                 foreach (Player player in players)
                 {
                     if (player.hasLand(defender))
                     {
-                        gameManager.passLand(findLandByName(defender), player, currentPlayer, nTankAttacker);
+                        gameManager.passLand(defenderLand, player, currentPlayer, nTankAttacker);
                     }
                 }
             }
@@ -116,11 +120,14 @@ public class DataManager
 
     public string moveTanks(string startLand, string endLand, int nTank)
     {
+        Land firstLand = findLandByName(startLand);
+        Land secondLand = findLandByName(endLand);
+
         string result = null;
         
         if (currentPlayer.hasLand(startLand) && currentPlayer.hasLand(endLand) &&
-            (findLandByName(startLand).getTanksOnLand() - 1) >= nTank)
-            gameManager.moveTanks(findLandByName(startLand), findLandByName(endLand), nTank);
+            (firstLand.getTanksOnLand() - 1) >= nTank)
+            gameManager.moveTanks(firstLand, secondLand, nTank);
         else
             result = "One of the lands don't belong to the current player or the number of tanks you want to " +
                 "move is not allowed!";
