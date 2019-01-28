@@ -15,7 +15,7 @@ public class ViewGameMap : MonoBehaviour
     private const int ATTACK = 0, DEFEND = 1, DEPLOY = 2, MOVE = 3;
     private List<string> logEvent = new List<string>();
 
-    private CanvasGroup attack, defense, move, deploy, popup, error, quit;
+    private CanvasGroup attack, defense, move, deploy, deployGaming, popup, error, quit, cards;
 	private Text eventLog, phase, selectedData, playerData, attackSelected, moveSelected, deployRemain, deploySelected;
     
 
@@ -45,9 +45,11 @@ public class ViewGameMap : MonoBehaviour
         defense = GameObject.Find("CanvasDefense").GetComponent<CanvasGroup>(); 
         move = GameObject.Find("CanvasMove").GetComponent<CanvasGroup>(); 
         deploy = GameObject.Find("CanvasDeploy").GetComponent<CanvasGroup>();
+        deployGaming = GameObject.Find("CanvasDeployGaming").GetComponent<CanvasGroup>();
         popup = GameObject.Find("CanvasPopup").GetComponent<CanvasGroup>();
         error = GameObject.Find("CanvasError").GetComponent<CanvasGroup>();
         quit = GameObject.Find("CanvasQuit").GetComponent<CanvasGroup>();
+        cards = GameObject.Find("CanvasCards").GetComponent<CanvasGroup>();
 
         hideAllCanvasOption();
         closePopup();
