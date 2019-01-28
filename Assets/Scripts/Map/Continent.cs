@@ -13,11 +13,13 @@ public class Continent
     private string name;
     private List<Land> lands;
     private string nameSprite;
+    private int bonusTank;
 
-    public Continent(string name, List<Land> lands)
+    public Continent(string name, List<Land> lands, int bonusTank)
     {
         this.name = name;
         this.lands = lands;
+        this.bonusTank = bonusTank;
     }
 
     public Continent(string name): this(name, new List<Land>())
@@ -46,5 +48,10 @@ public class Continent
        	return false;
 	   Continent p = (Continent)obj;  
 	   return (name == p.getName());
+    }
+
+    public int getBonusTank()
+    {
+        return bonusTank;
     }
 }
