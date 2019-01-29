@@ -132,11 +132,19 @@ namespace RiskServer1
             }
             else if (GameManager.GetState() == 5) // mod spostamento
             {
+<<<<<<< HEAD
                 GameManager.GestioneSpostamento(msg, connectionID,1);
             }
             else if (GameManager.GetState() == 6) // mod spostamento
             {
                 GameManager.GestioneSpostamento(msg, connectionID,2); // ri utilizzo lo stesso codice
+=======
+                GameManager.GestionePosizionamento(msg, connectionID,1);
+            }
+            else if (GameManager.GetState() == 6) // mod spostamento
+            {
+                GameManager.GestionePosizionamento(msg, connectionID,2); // ri utilizzo lo stesso codice
+>>>>>>> b0ceede071d829b2070c372b46220c48b7469feb
             }
         }
     }

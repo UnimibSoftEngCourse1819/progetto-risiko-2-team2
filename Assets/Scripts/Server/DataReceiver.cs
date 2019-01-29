@@ -122,11 +122,19 @@ namespace Assets.Scripts.Server
             }
             else if (NetworkManager.GetState() == 5) // fase di spostamento 
             {
+<<<<<<< HEAD
                 NetworkManager.AggiornaAfterPosizionamento(msg,1);
             }
             else if (NetworkManager.GetState() == 6) // usata combo carte 
             {
                 NetworkManager.AggiornaAfterPosizionamento(msg,2);
+=======
+                NetworkManager.Aggiorna(msg,1);
+            }
+            else if (NetworkManager.GetState() == 6) // usata combo carte 
+            {
+                NetworkManager.Aggiorna(msg,2);
+>>>>>>> b0ceede071d829b2070c372b46220c48b7469feb
             }
 
         }

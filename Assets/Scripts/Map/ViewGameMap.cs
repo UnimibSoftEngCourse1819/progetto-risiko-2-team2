@@ -11,8 +11,8 @@ public class ViewGameMap : MonoBehaviour
 
     private const string INITIAL_TEXT = "BUG";
     private const int MAX_LINES_ON_EVENT_LOG = 17;
-    private readonly string[] PHASE = {"Attacking", "Defending", "Deploying", "Moving"};
-    private const int ATTACK = 0, DEFEND = 1, DEPLOY = 2, MOVE = 3;
+    private readonly string[] PHASE = {"Attack phase", "Deployment phase", "Move phase", "Defend phase"};
+    private const int ATTACK = 0, DEPLOY = 1, MOVE = 2, DEFEND = 3;
     private List<string> logEvent = new List<string>();
 
     private CanvasGroup attack, defense, move, deploy, deployGaming, popup, error, quit, cards;

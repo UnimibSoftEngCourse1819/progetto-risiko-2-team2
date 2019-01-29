@@ -95,6 +95,7 @@ namespace RiskServer1
             buffer.WriteInteger((int)ServerPackets.swelcomeMessage);
             buffer.WriteString("Attacco"); // 
             buffer.Dispose();
+<<<<<<< HEAD
             SendNomePlayer(connectionID, nomePlayer);
             SendStatoAttaccante(connectionID, stati[0]); // e gli passo lo stato
             SendStatoAttaccato(connectionID, stati[1]); //e gli passo lo stato
@@ -139,6 +140,16 @@ namespace RiskServer1
             buffer.WriteInteger((int)ServerPackets.swelcomeMessage);
             buffer.WriteString(s); // 
             ClientManager.SendDataTo(connectionID, buffer.ToArray());
+=======
+           }
+
+        public static void SendData(int ConnectionID,string msg)
+        {
+            ByteBuffer buffer = new ByteBuffer();
+            buffer.WriteInteger((int)ServerPackets.swelcomeMessage);
+            buffer.WriteString(msg);
+            ClientManager.SendDataTo(ConnectionID, buffer.ToArray());
+>>>>>>> b0ceede071d829b2070c372b46220c48b7469feb
             buffer.Dispose();
         }
         /************************************************************///
@@ -149,6 +160,7 @@ namespace RiskServer1
             buffer.WriteInteger((int)ServerPackets.swelcomeMessage);
             buffer.WriteString("Spostamento"); // 
             buffer.Dispose();
+<<<<<<< HEAD
             SendNomePlayer(connectionID, nomePlayer);
             SendStatoAttaccante(connectionID, stati[0]); // e gli passo lo stato
             SendStatoAttaccato(connectionID, stati[1]); //e gli passo lo stato
@@ -156,10 +168,16 @@ namespace RiskServer1
              }
         //uso questa classe sia per il posizionamento che per la combo delle carte
         public static void SendPosizionamento(int connectionID, string nomePlayer, string[] stati,int mod) // quando si sposta gli si passano i due stati coinvolti e il numero di carri
+=======
+          }
+        //uso questa classe sia per il posizionamento che per la combo delle carte
+        public static void SendPosizionamento(int connectionID, string msg,int mod) // quando si sposta gli si passano i due stati coinvolti e il numero di carri
+>>>>>>> b0ceede071d829b2070c372b46220c48b7469feb
         {
             ByteBuffer buffer = new ByteBuffer(); // invio il fatto che si entra in mod spostamento
             buffer.WriteInteger((int)ServerPackets.swelcomeMessage);
             if(mod==1)
+<<<<<<< HEAD
                  buffer.WriteString("Posizioamento"); // 
             else if(mod ==2)
                 buffer.WriteString("Combo Carte");
@@ -168,5 +186,13 @@ namespace RiskServer1
             SendStatoAttaccante(connectionID, stati[0]); // e gli passo lo stato
             SendStatoAttaccato(connectionID, stati[1]); //e gli passo lo stato
         }
+=======
+                 buffer.WriteString("Posizionamento"); // 
+            else if(mod ==2)
+                buffer.WriteString("Combo Carte");
+            buffer.Dispose();
+            SendData(connectionID, msg);
+             }
+>>>>>>> b0ceede071d829b2070c372b46220c48b7469feb
     }
 }

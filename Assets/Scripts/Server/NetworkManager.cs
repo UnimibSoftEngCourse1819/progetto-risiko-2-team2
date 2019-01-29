@@ -13,15 +13,24 @@ public class NetworkManager : MonoBehaviour
     private static int state = 0; // stato generale per la lettura
     private static int mappa=-1; // mappa scelta
     private static int statoTurno = 0; // stato del turno
+<<<<<<< HEAD
     private static string[] stati = new string[2];
     private static string[] risultatoAttacco = new string[2];
     private static string nomePlayer; // indica il nome del player che ha fatto qualcosa
 
+=======
+   private static ModelGameMap model;
+   
+>>>>>>> b0ceede071d829b2070c372b46220c48b7469feb
     private void Awake()
     {
         istanza = this;
         N_player = 0;
+<<<<<<< HEAD
       
+=======
+        model = GameObject.Find("CanvasMain").GetComponent<ModelGameMap>();
+>>>>>>> b0ceede071d829b2070c372b46220c48b7469feb
     }
 
     // Start is called before the first frame update
@@ -122,6 +131,7 @@ public class NetworkManager : MonoBehaviour
         statoTurno++;
     }
     //uso questa classe si aper il posizionamento che per la combo carte
+<<<<<<< HEAD
     public static void AggiornaAfterPosizionamento(string s,int mod)
     {
 
@@ -158,6 +168,23 @@ public class NetworkManager : MonoBehaviour
     {
         nomePlayer = s;
     }
+=======
+    public static void Aggiorna(string s, int mod)
+    {
+        switch (mod)
+        {
+            case 1:
+                {
+                    model.AggiornaSpostamento(s);
+                    break;
+                }
+        }
+        
+
+    state = 0; // rimetto lo stato a 0
+    }
+    
+>>>>>>> b0ceede071d829b2070c372b46220c48b7469feb
     public static int GetStatoTurno()
     {
         return statoTurno;

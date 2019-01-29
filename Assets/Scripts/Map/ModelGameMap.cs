@@ -15,6 +15,7 @@ public class ModelGameMap : MonoBehaviour
 	private string firstland = "", secondland = "";
     private int tankAttacker;
     private string message = "";
+    private string player = "";
 
     public void deploy(string nTank)
     {
@@ -162,4 +163,56 @@ public class ModelGameMap : MonoBehaviour
         view.showCards(cards);
     }
 
+    public void AggiornaRinforzi(string data)
+    {
+        view.updateLogEvent(messageManager.readDeploy(data));
+        data.addTanks(messageManager.getPlayer1(), messageManager.getNtank1());
+    }
+
+    public void AggiornaSpostamento(string data)
+    {       
+        view.updateLogEvent(messageManager.readMove(data));
+        data.moveTanks(messageManager.getLandStart(), messageManager.getLandEnd(), messageManager.getNtank1());
+    }
+
+    public void AggiornaAttacco(string data)
+    {       
+        view.updateLogEvent(messageManager.readInitiateCombat(data));
+        if(messageManager.getPlayer2().Equals(player))
+        {
+            view.chageCanvasOption("Defend phase");
+            view.updateTextPlayerData(data.getPlayerData(player));
+        }
+    }
+
+    public void AggiornaDifesa(string data)
+    {       
+        view.updateLogEvent(messageManager.readDefend(data));
+        data.attack(messageManager.getPlayer1(), messageManager.getPlayer2(), messageManager.getNtank1(), messageManager.getNtank2());
+        if(messageManager.getPlayer1().Equals(player))
+        {
+            view.chageCanvasOption("Attack phase");
+            view.updateTextPlayerData(data.getPlayerData(player));
+        }
+    }
+
+    public void AggiornaTurno(string data)
+    {       
+        view.updatePhase(messageManager.readPhase(data));
+        if(data.getPlayer().Equals(messageManager.getPlayer1()))
+            data.nextPhase();
+        else
+            data.passTurn();
+        if(player.Equals(data.getPlayer()))
+        {
+            view.chageCanvasOption(data.getCurrentPhase());
+        }
+    }
+
+    public void AggiornaCarte(string data)
+    {
+        view.updateLogEvent(messageManager.readCard(data));
+        
+    }
+        
 }

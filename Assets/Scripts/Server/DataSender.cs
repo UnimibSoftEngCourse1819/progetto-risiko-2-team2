@@ -85,6 +85,7 @@ namespace Assets.Scripts.Server
             buffer.WriteString("Attacco"); // 
             ClientTcp.SendData(buffer.ToArray());
             buffer.Dispose();
+<<<<<<< HEAD
             SendStatoAttaccante(); // e gli passo lo stato
             SendStatoAttaccato(); //e gli passo lo stato
             SendRisultatoAttacco(); // unità perse dall'attacante
@@ -99,6 +100,20 @@ namespace Assets.Scripts.Server
             buffer.Dispose();
         }
         public static void SendStatoAttaccato() // 
+=======
+         //   SendData(); // e gli passo lo stato
+            
+        }
+       public static void SendData(string msg) //
+        {
+            ByteBuffer buffer = new ByteBuffer();
+            buffer.WriteInteger((int)ClientPackets.cHelloServer);
+            buffer.WriteString(msg); // 
+            ClientTcp.SendData(buffer.ToArray());
+            buffer.Dispose();
+        }
+  /*      public static void SendStatoAttaccato() // 
+>>>>>>> b0ceede071d829b2070c372b46220c48b7469feb
         {
             ByteBuffer buffer = new ByteBuffer();
             buffer.WriteInteger((int)ClientPackets.cHelloServer);
@@ -131,29 +146,46 @@ namespace Assets.Scripts.Server
             buffer.WriteString("Spostamento"); // 
             ClientTcp.SendData(buffer.ToArray());
             buffer.Dispose();
+<<<<<<< HEAD
             SendStatoAttaccante(); // e gli passo lo stato
             SendStatoAttaccato(); //e gli passo lo stato
             SendRisultatoAttacco(); // unità spostate            
         }
         public static void SendPosizionamento() // quando si posiziona gli si passa 1 stati e il numero di armate
+=======
+                
+        }
+        public static void SendPosizionamento(string msg) // quando si posiziona gli si passa 1 stati e il numero di armate
+>>>>>>> b0ceede071d829b2070c372b46220c48b7469feb
         {
             ByteBuffer buffer = new ByteBuffer();
             buffer.WriteInteger((int)ClientPackets.cHelloServer);
             buffer.WriteString("Posizionamento"); // 
             ClientTcp.SendData(buffer.ToArray());
             buffer.Dispose();
+<<<<<<< HEAD
             SendStatoAttaccante(); // e gli passo lo stato
             SendStatoAttaccato(); //e gli passo il numero di carri
         }
         public static void SendComboCarte() // quando si posiziona gli si passa 1 stati e il numero di armate
+=======
+            SendData(msg); // e gli passo lo stato
+            }
+        public static void SendComboCarte(string msg) // quando si posiziona gli si passa 1 stati e il numero di armate
+>>>>>>> b0ceede071d829b2070c372b46220c48b7469feb
         {
             ByteBuffer buffer = new ByteBuffer();
             buffer.WriteInteger((int)ClientPackets.cHelloServer);
             buffer.WriteString("Combo Carte"); // 
             ClientTcp.SendData(buffer.ToArray());
             buffer.Dispose();
+<<<<<<< HEAD
             SendStatoAttaccante(); // e gli passo lo stato
             SendStatoAttaccato(); //e gli passo il tipo di combo
+=======
+            SendData(msg);
+           
+>>>>>>> b0ceede071d829b2070c372b46220c48b7469feb
         }
 
     }

@@ -14,7 +14,10 @@ namespace RiskServer1
         private static int game = 0;// indica se siamo in gioco o meno
         private static int turno=0; // numero di turni giocati
         private static int Nplayer = 0;
+<<<<<<< HEAD
         private static int statoTurno = 0; // indica in che punto del turno si è
+=======
+>>>>>>> b0ceede071d829b2070c372b46220c48b7469feb
         private static string[] stati=new string[2];
         private static string[] risultatoAttacco=new  string[2];
 
@@ -164,6 +167,7 @@ namespace RiskServer1
 
             }
         }
+<<<<<<< HEAD
         public static void GestioneAttacco(string s,int PlayerID)
         {
            statoTurno++;
@@ -255,6 +259,17 @@ namespace RiskServer1
                         break;
                     }
             }
+=======
+        public static void GestionePosizionamento(string msg, int PlayerID, int mod) // simile a gestione attacco 
+        {
+            state = 0; // riposrto lo stato generale a 0
+            
+            foreach (KeyValuePair<int, Client> keyValue in ClientManager.client)
+            {
+                DataSender.SendPosizionamento(keyValue.Key, msg, mod);
+            }
+      
+>>>>>>> b0ceede071d829b2070c372b46220c48b7469feb
         }
             public static void SetGame(int c)
         {

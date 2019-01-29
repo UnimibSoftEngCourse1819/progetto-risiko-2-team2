@@ -85,13 +85,21 @@ public class Waiting_room : MonoBehaviour
                 case 1:
                     {
                         Debug.Log(" mappa in partenza caso 1");
+<<<<<<< HEAD
                         SceneManager.LoadScene("mappa_0");
+=======
+                        SceneManager.LoadScene("MapBattle");
+>>>>>>> b0ceede071d829b2070c372b46220c48b7469feb
                         break;
                     }
                 case 0:
                     {
                         Debug.Log("mappa in partenza caso 0");
+<<<<<<< HEAD
                         SceneManager.LoadScene("mappa_0");
+=======
+                        SceneManager.LoadScene("MapBattle");
+>>>>>>> b0ceede071d829b2070c372b46220c48b7469feb
                         break;
                     }
             }
