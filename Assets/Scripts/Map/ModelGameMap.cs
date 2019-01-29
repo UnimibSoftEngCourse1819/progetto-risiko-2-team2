@@ -161,5 +161,9 @@ public class ModelGameMap : MonoBehaviour
         List<string> cards = data.getListCard();
         view.showCards(cards);
     }
-
+    public void AggiornaSpostamento(string s)
+    {       
+        view.updateLogEvent(messageManager.readDeploy(s));
+    }
+        
 }
