@@ -86,6 +86,6 @@ public class ControllGameMap : MonoBehaviour
 
     public void onClickCloseCard()
     {
-        model.closeCards();
+        model.closeCard();
     }
 }

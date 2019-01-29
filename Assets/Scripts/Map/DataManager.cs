@@ -105,6 +105,7 @@ public class DataManager
             currentPlayer = players[0];
         else
             currentPlayer = players[index + 1];
+        nextPhase();
     }
 
     // Cambia fase di gioco
@@ -147,18 +148,28 @@ public class DataManager
         return result;
     }
 
-    public List<string> getDataForView()
+    public string getPlayerData()
     {
-        List<string> data = new List<string>();
-        data.Add(currentPlayer.getName());
-        data.Add(getPlayerData());
-        return data;
+        return getPlayerData(currentPlayer.getName());
     }
 
-    private string getPlayerData()
+
+    private Player getPlayerbyName(string name)
     {
+        Player searching = null;
+        foreach(Player player in players)
+        {
+            if(player.getName().Equals(name))
+                searching = player;
+        }
+        return searching;
+    }
+
+    public string getPlayerData(string name)
+    {
+        Player searching = getPlayerbyName(name);
         string data = "";
-        List<Land> landsOwned = currentPlayer.getTerritoryOwned();
+        List<Land> landsOwned = searching.getTerritoryOwned();
         foreach (Land land in landsOwned)
         {
             data += land.getName() + " tank: " + land.getTanksOnLand() + " ";
@@ -166,6 +177,8 @@ public class DataManager
 
         return data;
     }
+
+
 
     // Assegna tanks all'inizio di ogni turno
     public void giveTanks()
@@ -221,14 +234,14 @@ public class DataManager
     // Controlla che le carte selezionate siano un Jolly e due carte di ugual simbolo
     private bool isTrisWithJolly(List<LandCard> cards)
     {
+        bool result = false;
         if (cards[0].isJolly() && cards[1].getSymbol().Equals(cards[2].getSymbol()) && !cards[1].isJolly())
-            return true;
+            result = true;
         else if (cards[1].isJolly() && cards[0].getSymbol().Equals(cards[2].getSymbol()) && !cards[0].isJolly())
-            return true;
+            result = true;
         else if (cards[2].isJolly() && cards[0].getSymbol().Equals(cards[1].getSymbol()) && !cards[0].isJolly())
-            return true;
-
-        return false;
+            result = true;
+        return result;
     }
 
     // Restituisce il numero di tank addizionali nel caso possegga delle land raffigurate nell carte
@@ -248,11 +261,11 @@ public class DataManager
     public string useCards(string card1, string card2, string card3)
     {
 
-        List<LandCard> chosed = new List<LandCard>();
-        using.Add(currentPlayer.getCard(card1));
-        using.Add(currentPlayer.getCard(card1));
-        using.Add(currentPlayer.getCard(card1));
-        return useCards(chosed);
+        List<LandCard> choosed = new List<LandCard>();
+        choosed.Add(currentPlayer.getCard(card1));
+        choosed.Add(currentPlayer.getCard(card2));
+        choosed.Add(currentPlayer.getCard(card3));
+        return useCards(choosed);
     }
 
     public List<string> getListCard()
@@ -292,4 +305,36 @@ public class DataManager
 
         return result;
     }
+
+    public string getPlayer()
+    {
+        return currentPlayer.getName();
+    }
+
+    public string getPlayerByLand(string land)
+    {
+        string result = "";
+        foreach(Player player in players)
+        {
+            if(player.hasLand(land))
+                result = player.getName();
+        }
+        return result;
+    }
+
+    public string getCurrentPhase()
+    {
+        return currentPhase;
+    }
+
+    public int getTankOfLand(string name)
+    {
+      return findLandByName(name).getTanksOnLand();
+    }
+
+    public int getPlayerTanksReinforcement(string name)
+    {
+        return getPlayerbyName(name).getNTanks();
+    }
+
 }

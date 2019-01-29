@@ -25,6 +25,7 @@ public class Player
         territoryOwned = null;
         color = null;
         nTanks = 0;
+        landCards = new List<LandCard>();
     }
 
     public Player(string nickname, List<Land> territory, string color, int nTanks)//need to add Goal
@@ -34,6 +35,11 @@ public class Player
         this.color = color;
         this.nTanks = nTanks;
         //this.goal = goal;
+    }
+
+    public void addCard(LandCard card)
+    {
+        landCards.Add(card);
     }
 
     public void addLand(Land conquered)
@@ -146,10 +152,11 @@ public class Player
         LandCard cardFound = null;
         foreach(LandCard card in landCards)
         {
-            if(card.isJolly() && name = "Jolly")
+            if(card.isJolly() && name.Equals("Jolly"))
                 cardFound = card;
-            if(!cards.isJolly() && card.getLand().Equals(name))          
-        }       cardFound = card;
+            if(!card.isJolly() && card.getLand().Equals(name))
+                cardFound = card;          
+        }       
         return cardFound;
     }
 

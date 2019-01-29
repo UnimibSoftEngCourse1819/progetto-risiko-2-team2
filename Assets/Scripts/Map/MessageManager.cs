@@ -137,7 +137,7 @@ public class MessageManager : MonoBehaviour
 
    public string messageMove(string player, string landStart, string landEnd, int nTank)
    {
-   	message = "";
+    message = "";
     message += player + ": " + nTank + " tanks has moved from " + landStart + " to " + landEnd + System.Environment.NewLine;
     message += player + " " + nTank + " " + landStart + " " + landEnd;
     return message;
@@ -157,6 +157,37 @@ public class MessageManager : MonoBehaviour
    	return messageLog;
    }
 
-   
+   public string messagePhase(string player, string phase)
+   {
+      message = "";
+      message += player + " " + phase;
+      return message;
+   }
+
+   public string readPhase(string message)
+   {
+      string[] data =  message.Split(' ');
+      return data[0] + System.Environment.NewLine + data[1];
+   }
+
+   public string messageCard(string player, int nTank)
+   {
+    message = "";
+    message += player + ": has used cards and get " + nTank + " as bonus reinforcements";
+    message += player + " " + nTank;
+    return message;
+   }
+
+  public List<string> readCard(string message)
+   {
+      string[] data =  message.Split(new[] { System.Environment.NewLine },System.StringSplitOptions.None);
+      string[] dataLogic = data[1].Split(' ');
+      player1 = dataLogic[0];
+      nTank1 = int.Parse(dataLogic[1]);
+      List<string> eventLog = new List<string>();
+      eventLog.Add(data[0]);
+      return eventLog;
+   }
+
 
 }

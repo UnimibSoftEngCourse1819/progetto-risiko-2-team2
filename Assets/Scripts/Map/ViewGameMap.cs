@@ -16,8 +16,8 @@ public class ViewGameMap : MonoBehaviour
     private List<string> logEvent = new List<string>();
 
     private CanvasGroup attack, defense, move, deploy, deployGaming, popup, error, quit, cards;
-	private Text eventLog, phase, selectedData, playerData, attackSelected, moveSelected, deployRemain, deploySelected;
-    
+	private Text eventLog, phase, selectedData, playerData, attackSelected, moveSelected, deployRemain, deploySelected, errorT;
+    private Dropdown card1, card2, card3;
 
     private void Awake()//prepara l'interfaccia
     {
@@ -29,7 +29,8 @@ public class ViewGameMap : MonoBehaviour
         attackSelected = GameObject.Find("TextAttackSelected").GetComponent<Text>(); 
         moveSelected = GameObject.Find("TextMoveSelected").GetComponent<Text>(); 
         deployRemain = GameObject.Find("TextDeployRemain").GetComponent<Text>(); 
-        deploySelected = GameObject.Find("TextDeploySelected").GetComponent<Text>(); 
+        deploySelected = GameObject.Find("TextDeploySelected").GetComponent<Text>();
+        errorT =  GameObject.Find("TextError").GetComponent<Text>();
 
         eventLog.text = INITIAL_TEXT;
         phase.text = INITIAL_TEXT;
@@ -39,6 +40,7 @@ public class ViewGameMap : MonoBehaviour
         moveSelected.text = INITIAL_TEXT;
         deployRemain.text = INITIAL_TEXT;
         deploySelected.text = INITIAL_TEXT;
+        errorT.text = INITIAL_TEXT;
 
         //CanvasGroup
         attack = GameObject.Find("CanvasAttack").GetComponent<CanvasGroup>();
@@ -51,8 +53,36 @@ public class ViewGameMap : MonoBehaviour
         quit = GameObject.Find("CanvasQuit").GetComponent<CanvasGroup>();
         cards = GameObject.Find("CanvasCards").GetComponent<CanvasGroup>();
 
+        //Dropdown
+        card1 = GameObject.Find("DropdownCard1").GetComponent<Dropdown>();
+        card2 = GameObject.Find("DropdownCard2").GetComponent<Dropdown>();
+        card3 = GameObject.Find("DropdownCard3").GetComponent<Dropdown>();
+
+        clearOptions();
         hideAllCanvasOption();
         closePopup();
+        closeCard();
+    }
+
+    private void clearOptions()
+    {
+        card1.ClearOptions(); 
+        card2.ClearOptions(); 
+        card3.ClearOptions(); 
+    }
+
+    public void showError(string message)
+    {
+        showPopup();
+        error.alpha = 1f;
+        error.interactable = true;
+        errorT.text = message;
+    }
+
+    public void closeCard()
+    {
+        cards.alpha = 0f;
+        cards.interactable = false;
     }
 
     private void showPopup()
@@ -71,9 +101,16 @@ public class ViewGameMap : MonoBehaviour
         move.interactable = false;
         deploy.alpha = 0f;
         deploy.interactable = false;
+        deployGaming.alpha = 0f;
+        deployGaming.interactable = false;
     }
 
-    public void updatelogEvent(string message)
+    public void updateTextPlayerData(string data)
+    {
+        playerData.text = data;
+    }
+
+    public void updateLogEvent(string message)
     {
         if(logEvent.Count == MAX_LINES_ON_EVENT_LOG)
             logEvent.RemoveAt(0);
@@ -85,9 +122,22 @@ public class ViewGameMap : MonoBehaviour
         }
     }
 
+    public void updateLogEvent(List<string> messages)
+    {
+        foreach(string message in messages)
+        {
+            updateLogEvent(message);
+        }
+    }
+
+    public void updatePhase(string message)
+    {
+        phase.text = message;
+    }
+
     public void updatePhase(string namePlayer, string phase)
     {
-        this.phase.text = namePlayer + System.Environment.NewLine + phase;
+         updatePhase ("" + namePlayer + System.Environment.NewLine + phase);
     }
 
     public void updateTwoSelected(string landStart, string landEnd)
@@ -110,7 +160,7 @@ public class ViewGameMap : MonoBehaviour
     {
         updatePhase(data[0], INITIAL_TEXT);
         playerData.text = data[1];
-        updatelogEvent(data[2]);
+        updateLogEvent(data[2]);
     }
 
     public void changeCanvasOption(string phase)
@@ -161,4 +211,25 @@ public class ViewGameMap : MonoBehaviour
         error.interactable = false;
         quit.interactable = false;
     }
+
+    public void showCards(List<string> options)
+    {
+        cards.alpha = 0f;
+        cards.interactable = true;
+        clearOptions();
+        foreach(string option in options)
+        {
+            addOption(option);
+        }
+    }
+
+    private void addOption(string option)
+    {
+        Dropdown.OptionData temp = new Dropdown.OptionData();
+        temp.text = option;
+        card1.options.Add(temp);
+        card2.options.Add(temp);
+        card3.options.Add(temp);
+    }
+
 }
