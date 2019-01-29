@@ -36,8 +36,9 @@ public class GameManager
         endLand.addTanksOnLand(nTank);
     }
 
-    public void addTanks(Land land, int nTank)
+    public void addTanks(Player player, Land land, int nTank)
     {
+        player.removeTanks(nTank);
         land.addTanksOnLand(nTank);
     }
 

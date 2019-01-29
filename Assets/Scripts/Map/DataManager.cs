@@ -141,7 +141,7 @@ public class DataManager
         string result = null;
 
         if (currentPlayer.hasLand(land))
-            gameManager.addTanks(findLandByName(land), nTank);
+            gameManager.addTanks(currentPlayer, findLandByName(land), nTank);
         else
             result = "This land doesn't belong to the player";
 
@@ -154,7 +154,7 @@ public class DataManager
     }
 
 
-    private Player getPlayerbyName(string name)
+    private Player getPlayerByName(string name)
     {
         Player searching = null;
         foreach(Player player in players)
@@ -167,7 +167,7 @@ public class DataManager
 
     public string getPlayerData(string name)
     {
-        Player searching = getPlayerbyName(name);
+        Player searching = getPlayerByName(name);
         string data = "";
         List<Land> landsOwned = searching.getTerritoryOwned();
         foreach (Land land in landsOwned)
@@ -334,7 +334,6 @@ public class DataManager
 
     public int getPlayerTanksReinforcement(string name)
     {
-        return getPlayerbyName(name).getNTanks();
+        return getPlayerByName(name).getNTanks();
     }
-
 }
