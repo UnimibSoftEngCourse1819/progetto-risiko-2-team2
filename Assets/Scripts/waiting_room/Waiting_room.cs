@@ -9,10 +9,10 @@ public class Waiting_room : MonoBehaviour
 {
     private Text text1;
     private Text text2;
-    private int aggiorna=0;
-    private int count=0;
+    private int aggiorna = 0;
+    private int count = 0;
     private int mappa;
-    private bool play=false;
+    private bool play = false;
 
     private void Awake()
     {
@@ -31,11 +31,11 @@ public class Waiting_room : MonoBehaviour
             {
                 aggiorna = 1;
                 DataSender.AskNPlayer();
-            }          
+            }
             else if (aggiorna == 2 & play) // faccio partire la partita
             {
                 DataSender.StarGame(mappa);
-                
+
             }
         }
         else
@@ -57,11 +57,11 @@ public class Waiting_room : MonoBehaviour
 
     private void Update()
     {
-      if(aggiorna == 1 )
+        if (aggiorna == 1)
         {
-            text2.text = "ci sono, al momento sono connessi " + NetworkManager.GetNPlayer()+" player";
+            text2.text = "ci sono, al momento sono connessi " + NetworkManager.GetNPlayer() + " player";
             text1.text = "premi play per far partire la partita ()";
-            if (NetworkManager.GetNPlayer() >=1 & NetworkManager.GetNPlayer()<=6)
+            if (NetworkManager.GetNPlayer() >= 1 & NetworkManager.GetNPlayer() <= 6)
                 aggiorna = 2; // solo se il numero di player è accettabile
             else
             {
@@ -69,44 +69,36 @@ public class Waiting_room : MonoBehaviour
                 text2.text = "il numero di player non è accettabile";
                 aggiorna = 0; // così posso ripremere il tasto button 
             }
-        }       
-       else if(NetworkManager.GetMessaggio()=="NewPlayer")
+        }
+        else if (NetworkManager.GetMessaggio() == "NewPlayer")
         {
             text2.text = "ci sono, al momento sono connessi " + NetworkManager.GetNPlayer() + " player";
-       }
+        }
         else if (NetworkManager.GetMessaggio() == "PlayerQuit")
         {
             text2.text = "ci sono, al momento sono connessi " + NetworkManager.GetNPlayer() + " player";
         }
-      if(play  & NetworkManager.GetMappa()>=0)
+        if (play & NetworkManager.GetMappa() >= 0)
         {
             switch (NetworkManager.GetMappa())
             {
                 case 1:
                     {
                         Debug.Log(" mappa in partenza caso 1");
-<<<<<<< HEAD
-                        SceneManager.LoadScene("mappa_0");
-=======
                         SceneManager.LoadScene("MapBattle");
->>>>>>> b0ceede071d829b2070c372b46220c48b7469feb
                         break;
                     }
                 case 0:
                     {
                         Debug.Log("mappa in partenza caso 0");
-<<<<<<< HEAD
-                        SceneManager.LoadScene("mappa_0");
-=======
                         SceneManager.LoadScene("MapBattle");
->>>>>>> b0ceede071d829b2070c372b46220c48b7469feb
                         break;
                     }
             }
         }
     }
 
-    
+
 
 
 }

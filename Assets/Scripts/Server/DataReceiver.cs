@@ -10,13 +10,13 @@ namespace Assets.Scripts.Server
 {
     public enum serverPackets
     {
-        sWelcomeMessage=1,
+        sWelcomeMessage = 1,
     }
-   
 
-     class DataReceiver  // dovrebbe essere static ma mi serve che non lo sia
+
+    class DataReceiver  // dovrebbe essere static ma mi serve che non lo sia
     {
-       
+
 
         public static void HandleWelcomeMessage(byte[] data) // dovrebbe essere static ma così funzoina
         {
@@ -35,19 +35,19 @@ namespace Assets.Scripts.Server
                             Debug.Log(msg);
                             DataSender.SendHelloServer();
                             break;
-                        }                  
+                        }
                     case "Come ti chiami ?":
                         {
                             Debug.Log("ecco come mi chiamo");
-                            NetworkManager.SetState( -1); // impedisco l'uso del button nella waiting room
+                            NetworkManager.SetState(-1); // impedisco l'uso del button nella waiting room
                             DataSender.SendName();
                             break;
                         }
                     case "ok":
                         {
-                           NetworkManager.SetMessaggio("ok");
+                            NetworkManager.SetMessaggio("ok");
                             Debug.Log("nome salvato");
-                            NetworkManager.SetState ( 0); // riattivo il bottone
+                            NetworkManager.SetState(0); // riattivo il bottone
                             break;
                         }
                     case "startgame":
@@ -60,7 +60,7 @@ namespace Assets.Scripts.Server
                         {
                             Debug.Log("newplayer");
                             NetworkManager.AddNPlayer(); // mi segno che è entrato un nuovo player
-                            NetworkManager.SetMessaggio ("NewPlayer");
+                            NetworkManager.SetMessaggio("NewPlayer");
                             break;
                         }
                     case "PlayerQuit":
@@ -77,7 +77,7 @@ namespace Assets.Scripts.Server
                         }
                     case "Attacco": // un player ha fatto un attacco devo aggionrare la mappa
                         {
-                            NetworkManager.SetState(3); 
+                            NetworkManager.SetState(3);
                             break;
                         }
                     case "Spostamento":// un player ha fatto uno spostamento devo aggionrare la mappa
@@ -98,43 +98,35 @@ namespace Assets.Scripts.Server
 
                 }
             }
-            else if(NetworkManager.GetState()==1) // salvo il numero di player
+            else if (NetworkManager.GetState() == 1) // salvo il numero di player
             {
-                NetworkManager.SetNPlayer (int.Parse(msg));
-               // Debug.Log("msg");
-                NetworkManager.SetState( 0);
-              //  Debug.Log(NetworkManager.state);
+                NetworkManager.SetNPlayer(int.Parse(msg));
+                // Debug.Log("msg");
+                NetworkManager.SetState(0);
+                //  Debug.Log(NetworkManager.state);
             }
             else if (NetworkManager.GetState() == 2) // indico che mappa caricare
             {
                 NetworkManager.SetMappa(int.Parse(msg));
-                Debug.Log("starting map "+msg);
+                Debug.Log("starting map " + msg);
                 NetworkManager.SetState(0);
                 //  Debug.Log(NetworkManager.state);
             }
-            else if(NetworkManager.GetState()==3) // fase di attcacco 
+            else if (NetworkManager.GetState() == 3) // fase di attcacco 
             {
-                NetworkManager.Aggiorna(msg,4);                
+                NetworkManager.Aggiorna(msg, 4);
             }
             else if (NetworkManager.GetState() == 4) // fase di spostamento 
             {
-                NetworkManager.Aggiorna(msg,3);
+                NetworkManager.Aggiorna(msg, 3);
             }
             else if (NetworkManager.GetState() == 5) // fase di posizioanemnto 
             {
-<<<<<<< HEAD
-                NetworkManager.AggiornaAfterPosizionamento(msg,1);
+                NetworkManager.Aggiorna(msg, 1);
             }
             else if (NetworkManager.GetState() == 6) // usata combo carte 
             {
-                NetworkManager.AggiornaAfterPosizionamento(msg,2);
-=======
-                NetworkManager.Aggiorna(msg,1);
-            }
-            else if (NetworkManager.GetState() == 6) // usata combo carte 
-            {
-                NetworkManager.Aggiorna(msg,2);
->>>>>>> b0ceede071d829b2070c372b46220c48b7469feb
+                NetworkManager.Aggiorna(msg, 2);
             }
 
         }
