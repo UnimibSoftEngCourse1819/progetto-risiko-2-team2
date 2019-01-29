@@ -25,9 +25,9 @@ public class Waiting_room : MonoBehaviour
     public void PlayGame()
     {
         count++;
-        if (NetworkManager.GetState() == 0)
+        if (NetworkManager.getState() == 0)
         {
-            if (aggiorna == 0 && NetworkManager.GetMessaggio() == "ok") // controllo numero di player
+            if (aggiorna == 0 && NetworkManager.getMessage() == "ok") // controllo numero di player
             {
                 aggiorna = 1;
                 DataSender.AskNPlayer();
@@ -59,9 +59,9 @@ public class Waiting_room : MonoBehaviour
     {
         if (aggiorna == 1)
         {
-            text2.text = "ci sono, al momento sono connessi " + NetworkManager.GetNPlayer() + " player";
+            text2.text = "ci sono, al momento sono connessi " + NetworkManager.getNPlayer() + " player";
             text1.text = "premi play per far partire la partita ()";
-            if (NetworkManager.GetNPlayer() >= 1 & NetworkManager.GetNPlayer() <= 6)
+            if (NetworkManager.getNPlayer() >= 1 & NetworkManager.getNPlayer() <= 6)
                 aggiorna = 2; // solo se il numero di player è accettabile
             else
             {
@@ -70,17 +70,17 @@ public class Waiting_room : MonoBehaviour
                 aggiorna = 0; // così posso ripremere il tasto button 
             }
         }
-        else if (NetworkManager.GetMessaggio() == "NewPlayer")
+        else if (NetworkManager.getMessage() == "NewPlayer")
         {
-            text2.text = "ci sono, al momento sono connessi " + NetworkManager.GetNPlayer() + " player";
+            text2.text = "ci sono, al momento sono connessi " + NetworkManager.getNPlayer() + " player";
         }
-        else if (NetworkManager.GetMessaggio() == "PlayerQuit")
+        else if (NetworkManager.getMessage() == "PlayerQuit")
         {
-            text2.text = "ci sono, al momento sono connessi " + NetworkManager.GetNPlayer() + " player";
+            text2.text = "ci sono, al momento sono connessi " + NetworkManager.getNPlayer() + " player";
         }
-        if (play & NetworkManager.GetMappa() >= 0)
+        if (play & NetworkManager.getMap() >= 0)
         {
-            switch (NetworkManager.GetMappa())
+            switch (NetworkManager.getMap())
             {
                 case 1:
                     {

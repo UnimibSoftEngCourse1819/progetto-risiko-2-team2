@@ -26,7 +26,7 @@ namespace Assets.Scripts.Server
             ByteBuffer buffer = new ByteBuffer();
             buffer.WriteInteger((int)ClientPackets.cHelloServer);
             buffer.WriteString("quanti player sono connessi ?");
-            NetworkManager.SetState(1);
+            NetworkManager.setState(1);
             ClientTcp.SendData(buffer.ToArray());
             buffer.Dispose();
         }
@@ -43,7 +43,7 @@ namespace Assets.Scripts.Server
         }
         public static void StarGame(int a) // in via la pasrtenza del game e quale mappa
         {
-            NetworkManager.SetState(2);
+            NetworkManager.setState(2);
             ByteBuffer buffer = new ByteBuffer();
             buffer.WriteInteger((int)ClientPackets.cHelloServer);
             buffer.WriteString("start game");
@@ -55,7 +55,7 @@ namespace Assets.Scripts.Server
         {
             ByteBuffer buffer = new ByteBuffer();
             buffer.WriteInteger((int)ClientPackets.cHelloServer);
-            buffer.WriteString(NetworkManager.GetMessaggio()); // invio il nome
+            buffer.WriteString(NetworkManager.getMessage()); // invio il nome
             ClientTcp.SendData(buffer.ToArray());
             buffer.Dispose();
         }

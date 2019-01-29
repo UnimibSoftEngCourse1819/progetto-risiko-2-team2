@@ -26,7 +26,7 @@ namespace Assets.Scripts.Server
             string msg = buffer.ReadString();
             buffer.Dispose();
 
-            if (NetworkManager.GetState() <= 0)  // casi normali 
+            if (NetworkManager.getState() <= 0)  // casi normali 
             {
                 switch (msg) // aggiungere un caso per scoprire il colore ?
                 {
@@ -39,94 +39,94 @@ namespace Assets.Scripts.Server
                     case "Come ti chiami ?":
                         {
                             Debug.Log("ecco come mi chiamo");
-                            NetworkManager.SetState(-1); // impedisco l'uso del button nella waiting room
+                            NetworkManager.setState(-1); // impedisco l'uso del button nella waiting room
                             DataSender.SendName();
                             break;
                         }
                     case "ok":
                         {
-                            NetworkManager.SetMessaggio("ok");
+                            NetworkManager.setMessage("ok");
                             Debug.Log("nome salvato");
-                            NetworkManager.SetState(0); // riattivo il bottone
+                            NetworkManager.setState(0); // riattivo il bottone
                             break;
                         }
                     case "startgame":
                         {
-                            NetworkManager.SetMessaggio("start");
+                            NetworkManager.setMessage("start");
                             Debug.Log(msg);
                             break;
                         }
                     case "NewPlayer":
                         {
                             Debug.Log("newplayer");
-                            NetworkManager.AddNPlayer(); // mi segno che è entrato un nuovo player
-                            NetworkManager.SetMessaggio("NewPlayer");
+                            NetworkManager.addNPlayer(); // mi segno che è entrato un nuovo player
+                            NetworkManager.setMessage("NewPlayer");
                             break;
                         }
                     case "PlayerQuit":
                         {
                             Debug.Log("playerquit");
-                            NetworkManager.DimNPlayer(); // mi segno che è uscito un nuovo player
-                            NetworkManager.SetMessaggio("PlayerQuit");
+                            NetworkManager.dimNPlayer(); // mi segno che è uscito un nuovo player
+                            NetworkManager.setMessage("PlayerQuit");
                             break;
                         }
                     case "Your Go":
                         {
-                            NetworkManager.SetMessaggio("Myturn");
+                            NetworkManager.setMessage("Myturn");
                             break;
                         }
                     case "Attacco": // un player ha fatto un attacco devo aggionrare la mappa
                         {
-                            NetworkManager.SetState(3);
+                            NetworkManager.setState(3);
                             break;
                         }
                     case "Spostamento":// un player ha fatto uno spostamento devo aggionrare la mappa
                         {
-                            NetworkManager.SetState(4);
+                            NetworkManager.setState(4);
                             break;
                         }
                     case "Posizionamento":// un player ha fatto uno posizioanemtnopdevo aggionrare la mappa
                         {
-                            NetworkManager.SetState(5);
+                            NetworkManager.setState(5);
                             break;
                         }
                     case "Combo Carte":// un player ha fatto uno posizioanemtnopdevo aggionrare la mappa
                         {
-                            NetworkManager.SetState(6);
+                            NetworkManager.setState(6);
                             break;
                         }
 
                 }
             }
-            else if (NetworkManager.GetState() == 1) // salvo il numero di player
+            else if (NetworkManager.getState() == 1) // salvo il numero di player
             {
-                NetworkManager.SetNPlayer(int.Parse(msg));
+                NetworkManager.setNPlayer(int.Parse(msg));
                 // Debug.Log("msg");
-                NetworkManager.SetState(0);
+                NetworkManager.setState(0);
                 //  Debug.Log(NetworkManager.state);
             }
-            else if (NetworkManager.GetState() == 2) // indico che mappa caricare
+            else if (NetworkManager.getState() == 2) // indico che mappa caricare
             {
-                NetworkManager.SetMappa(int.Parse(msg));
+                NetworkManager.setMap(int.Parse(msg));
                 Debug.Log("starting map " + msg);
-                NetworkManager.SetState(0);
+                NetworkManager.setState(0);
                 //  Debug.Log(NetworkManager.state);
             }
-            else if (NetworkManager.GetState() == 3) // fase di attcacco 
+            else if (NetworkManager.getState() == 3) // fase di attcacco 
             {
-                NetworkManager.Aggiorna(msg, 4);
+                NetworkManager.refresh(msg, 4);
             }
-            else if (NetworkManager.GetState() == 4) // fase di spostamento 
+            else if (NetworkManager.getState() == 4) // fase di spostamento 
             {
-                NetworkManager.Aggiorna(msg, 3);
+                NetworkManager.refresh(msg, 3);
             }
-            else if (NetworkManager.GetState() == 5) // fase di posizioanemnto 
+            else if (NetworkManager.getState() == 5) // fase di posizioanemnto 
             {
-                NetworkManager.Aggiorna(msg, 1);
+                NetworkManager.refresh(msg, 1);
             }
-            else if (NetworkManager.GetState() == 6) // usata combo carte 
+            else if (NetworkManager.getState() == 6) // usata combo carte 
             {
-                NetworkManager.Aggiorna(msg, 2);
+                NetworkManager.refresh(msg, 2);
             }
 
         }

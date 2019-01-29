@@ -30,10 +30,10 @@ public class Lobby_script : MonoBehaviour
     {
         if(!string.IsNullOrEmpty(player.Getname())) // chiamo la network manager
         {
-            net.Partenza();
+            net.initiate();
             // Debug.Log("il mio nome è "+nomeUtente);
             SceneManager.LoadScene("Waiting_Room");
-            NetworkManager.SetMessaggio ( player.Getname()); // mando il nome utente
+            NetworkManager.setMessage ( player.Getname()); // mando il nome utente
 
         }
         else

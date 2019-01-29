@@ -21,13 +21,13 @@ public class Player_script : MonoBehaviour
     }
     public void Update()
     {
-        if (NetworkManager.GetMessaggio() == "Myturn")
+        if (NetworkManager.getMessage() == "Myturn")
             turno = 1;
     }
     public void PassaTurno()
     {
        
-        turno=NetworkManager.PassaTurno();
+        turno=NetworkManager.passTurn();
     }
 
     public void SetName(string a)
