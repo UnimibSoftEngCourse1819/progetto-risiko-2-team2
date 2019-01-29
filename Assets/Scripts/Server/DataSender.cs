@@ -78,14 +78,14 @@ namespace Assets.Scripts.Server
         }
         //attacco
         /***********************************************************************/
-        public static void SendAttacco() // quando si attacca gli si passano i due stati coinvolti e il risultato
+        public static void SendAttacco(string msg) // quando si attacca gli si passano i due stati coinvolti e il risultato
         {
             ByteBuffer buffer = new ByteBuffer();
             buffer.WriteInteger((int)ClientPackets.cHelloServer);
             buffer.WriteString("Attacco"); // 
             ClientTcp.SendData(buffer.ToArray());
             buffer.Dispose();
-         //   SendData(); // e gli passo lo stato
+            SendData(msg);
             
         }
        public static void SendData(string msg) //
@@ -96,39 +96,14 @@ namespace Assets.Scripts.Server
             ClientTcp.SendData(buffer.ToArray());
             buffer.Dispose();
         }
-  /*      public static void SendStatoAttaccato() // 
-        {
-            ByteBuffer buffer = new ByteBuffer();
-            buffer.WriteInteger((int)ClientPackets.cHelloServer);
-            buffer.WriteString(""); // 
-            ClientTcp.SendData(buffer.ToArray());
-            buffer.Dispose();
-        }
-        public static void SendRisultatoAttacco() // 
-        {
-            ByteBuffer buffer = new ByteBuffer();
-            buffer.WriteInteger((int)ClientPackets.cHelloServer);
-            buffer.WriteString(""); // 
-            ClientTcp.SendData(buffer.ToArray());
-            buffer.Dispose();
-        }
-        public static void SendRisultatoDifesa() // 
-        {
-            ByteBuffer buffer = new ByteBuffer();
-            buffer.WriteInteger((int)ClientPackets.cHelloServer);
-            buffer.WriteString(""); // 
-            ClientTcp.SendData(buffer.ToArray());
-            buffer.Dispose();
-        }
-        /*************************************************************************/
-        // riuso i send sopra
-        public static void SendSpostamento() // quando si sposta gli si passano 2 stati e il numero di armate
+        public static void SendSpostamento(string msg) // quando si sposta gli si passano 2 stati e il numero di armate
         {
             ByteBuffer buffer = new ByteBuffer();
             buffer.WriteInteger((int)ClientPackets.cHelloServer);
             buffer.WriteString("Spostamento"); // 
             ClientTcp.SendData(buffer.ToArray());
             buffer.Dispose();
+            SendData(msg);
                 
         }
         public static void SendPosizionamento(string msg) // quando si posiziona gli si passa 1 stati e il numero di armate

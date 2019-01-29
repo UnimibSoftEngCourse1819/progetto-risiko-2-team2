@@ -46,79 +46,6 @@ public class NetworkManager : MonoBehaviour
 
     }
 
-    public static void AggiornaAfterAttacco(string s)
-    {
-        
-        switch (statoTurno) // inizializzo le 4 variabili e poi le invio 
-        {
-            case 0:
-                {
-                    nomePlayer = s;
-                    break;
-                }
-            case 1:
-                {
-                    stati[0] = s;
-                    break;
-                }
-
-            case 2:
-                {
-                    stati[1] = s;
-                    break;
-                }
-
-            case 3:
-                {
-                    risultatoAttacco[0] = s;
-                    break;
-                }
-
-            case 4:
-                {
-                    risultatoAttacco[1] = s;
-                    statoTurno = 0;
-                    state = 0; // rimetto lo stato a 0
-                    // gestico i dati ricevuti magari impostando uno stato "attacco"
-                    break;
-                }
-                
-        }
-        statoTurno++;
-    }
-    public static void AggiornaAfterSpostamento(string s)
-    {
-       
-        switch (statoTurno) // inizializzo le 3 variabili e poi le invio 
-        {
-            case 0:
-                {
-                    nomePlayer = s;
-                    break;
-                }
-            case 1:
-                {
-                    stati[0] = s;
-                    break;
-                }
-
-            case 2:
-                {
-                    stati[1] = s;
-                    break;
-                }
-
-            case 3:
-                {
-                    risultatoAttacco[0] = s;
-                    statoTurno = 0;
-                    state = 0; // rimetto lo stato a 0
-                               // gestico i dati ricevuti magari impostando uno stato "attacco"
-                    break;
-                }  
-        }
-        statoTurno++;
-    }
     //uso questa classe si aper il posizionamento che per la combo carte
     public static void Aggiorna(string s, int mod)
     {
@@ -126,13 +53,26 @@ public class NetworkManager : MonoBehaviour
         {
             case 1:
                 {
+                    model.AggiornaPosizionamento(s);
+                    break;
+                }
+            case 2:
+                {
+                    model.AggiornaComboCarte(s);
+                    break;
+                }
+            case 3:
+                {
                     model.AggiornaSpostamento(s);
                     break;
                 }
+                case 4:
+                {
+                    model.AggiornaAttacco(s);
+                    break;
+                }
         }
-        
-
-    state = 0; // rimetto lo stato a 0
+     state = 0; // rimetto lo stato a 0
     }
     
     public static int GetStatoTurno()

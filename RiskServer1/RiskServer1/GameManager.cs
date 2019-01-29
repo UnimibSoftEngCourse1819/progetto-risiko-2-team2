@@ -14,8 +14,7 @@ namespace RiskServer1
         private static int game = 0;// indica se siamo in gioco o meno
         private static int turno=0; // numero di turni giocati
         private static int Nplayer = 0;
-        private static string[] stati=new string[2];
-        private static string[] risultatoAttacco=new  string[2];
+        
 
         public static void AddPlayer(int ConnectionID, string nome)
         {
@@ -163,7 +162,7 @@ namespace RiskServer1
 
             }
         }
-        public static void GestionePosizionamento(string msg, int PlayerID, int mod) // simile a gestione attacco 
+        public static void GestioneGameMessages(string msg, int PlayerID, int mod) // simile a gestione attacco 
         {
             state = 0; // riposrto lo stato generale a 0
             
@@ -189,14 +188,5 @@ namespace RiskServer1
         {
             return state;
         }
-        public static int GetStatoTurno()
-        {
-            return statoTurno;
-        }  
-        public static void SetStatoTurno(int a)
-        {
-            statoTurno = a;
-        }
-
-    }
+           }
 }

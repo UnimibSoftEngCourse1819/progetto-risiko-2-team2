@@ -114,13 +114,13 @@ namespace Assets.Scripts.Server
             }
             else if(NetworkManager.GetState()==3) // fase di attcacco 
             {
-                NetworkManager.AggiornaAfterAttacco(msg);                
+                NetworkManager.Aggiorna(msg,4);                
             }
             else if (NetworkManager.GetState() == 4) // fase di spostamento 
             {
-                NetworkManager.AggiornaAfterSpostamento(msg);
+                NetworkManager.Aggiorna(msg,3);
             }
-            else if (NetworkManager.GetState() == 5) // fase di spostamento 
+            else if (NetworkManager.GetState() == 5) // fase di posizioanemnto 
             {
                 NetworkManager.Aggiorna(msg,1);
             }
