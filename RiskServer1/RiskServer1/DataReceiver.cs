@@ -124,19 +124,19 @@ namespace RiskServer1
             }
             else if(GameManager.GetState()==3) // mod attacco
             {
-                GameManager.GestioneAttacco(msg,connectionID);                
+                GameManager.GestioneGameMessages(msg,connectionID,4);                
             }
             else if (GameManager.GetState() == 4) // mod spostamento
             { 
-                GameManager.GestioneSpostamento(msg,connectionID);              
+                GameManager.GestioneGameMessages(msg,connectionID,3);              
             }
-            else if (GameManager.GetState() == 5) // mod spostamento
+            else if (GameManager.GetState() == 5) // mod posizionamento
             {
-                GameManager.GestionePosizionamento(msg, connectionID,1);
+                GameManager.GestioneGameMessages(msg, connectionID,1);
             }
-            else if (GameManager.GetState() == 6) // mod spostamento
+            else if (GameManager.GetState() == 6) // mod combo carte
             {
-                GameManager.GestionePosizionamento(msg, connectionID,2); // ri utilizzo lo stesso codice
+                GameManager.GestioneGameMessages(msg, connectionID,2); // ri utilizzo lo stesso codice
             }
         }
     }

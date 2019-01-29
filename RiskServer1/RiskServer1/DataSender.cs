@@ -88,15 +88,6 @@ namespace RiskServer1
             ClientManager.SendDataTo(ConnectionID, buffer.ToArray());
             buffer.Dispose();
         }
-        /******************************************************/// attacco
-        public static void SendAttacco(int connectionID,string nomePlayer,string[] stati, string[] risultato) // quando si attacca gli si passano i due stati coinvolti e il risultato
-        {
-            ByteBuffer buffer = new ByteBuffer(); // invio il fatto che si entra in mod attacco
-            buffer.WriteInteger((int)ServerPackets.swelcomeMessage);
-            buffer.WriteString("Attacco"); // 
-            buffer.Dispose();
-           }
-
         public static void SendData(int ConnectionID,string msg)
         {
             ByteBuffer buffer = new ByteBuffer();
@@ -105,15 +96,6 @@ namespace RiskServer1
             ClientManager.SendDataTo(ConnectionID, buffer.ToArray());
             buffer.Dispose();
         }
-        /************************************************************///
-        //risuo i sendo sopra
-        public static void SendSpostamento(int connectionID, string nomePlayer,string[] stati, string[] risultato) // quando si sposta gli si passano i due stati coinvolti e il numero di carri
-        {
-            ByteBuffer buffer = new ByteBuffer(); // invio il fatto che si entra in mod spostamento
-            buffer.WriteInteger((int)ServerPackets.swelcomeMessage);
-            buffer.WriteString("Spostamento"); // 
-            buffer.Dispose();
-          }
         //uso questa classe sia per il posizionamento che per la combo delle carte
         public static void SendPosizionamento(int connectionID, string msg,int mod) // quando si sposta gli si passano i due stati coinvolti e il numero di carri
         {
@@ -123,6 +105,10 @@ namespace RiskServer1
                  buffer.WriteString("Posizionamento"); // 
             else if(mod ==2)
                 buffer.WriteString("Combo Carte");
+            else if(mod ==3)
+                buffer.WriteString("Spostamento");
+            else if(mod ==4)
+                buffer.WriteString("Attacco");
             buffer.Dispose();
             SendData(connectionID, msg);
              }
