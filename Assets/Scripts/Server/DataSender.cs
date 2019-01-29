@@ -135,5 +135,26 @@ namespace Assets.Scripts.Server
             SendStatoAttaccato(); //e gli passo lo stato
             SendRisultatoAttacco(); // unità spostate            
         }
+        public static void SendPosizionamento() // quando si posiziona gli si passa 1 stati e il numero di armate
+        {
+            ByteBuffer buffer = new ByteBuffer();
+            buffer.WriteInteger((int)ClientPackets.cHelloServer);
+            buffer.WriteString("Posizionamento"); // 
+            ClientTcp.SendData(buffer.ToArray());
+            buffer.Dispose();
+            SendStatoAttaccante(); // e gli passo lo stato
+            SendStatoAttaccato(); //e gli passo il numero di carri
+        }
+        public static void SendComboCarte() // quando si posiziona gli si passa 1 stati e il numero di armate
+        {
+            ByteBuffer buffer = new ByteBuffer();
+            buffer.WriteInteger((int)ClientPackets.cHelloServer);
+            buffer.WriteString("Combo Carte"); // 
+            ClientTcp.SendData(buffer.ToArray());
+            buffer.Dispose();
+            SendStatoAttaccante(); // e gli passo lo stato
+            SendStatoAttaccato(); //e gli passo il tipo di combo
+        }
+
     }
 }

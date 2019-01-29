@@ -203,7 +203,7 @@ namespace RiskServer1
         public static void GestioneSpostamento(string s,int PlayerID) // simile a gestione attacco 
         {
             statoTurno++;
-            switch (statoTurno) // inizializzo le 4 variabili e poi le invio 
+            switch (statoTurno) // inizializzo le 3 variabili e poi le invio 
             {
                 case 1:
                     {
@@ -231,7 +231,32 @@ namespace RiskServer1
                     }                 
                     }
             }
-        public static void SetGame(int c)
+        public static void GestionePosizionamento(string s, int PlayerID,int mod) // simile a gestione attacco 
+        {
+            statoTurno++;
+            switch (statoTurno) // inizializzo le 2 variabili e poi le invio 
+            {
+                case 1:
+                    {
+                        stati[0] = s;
+                        break;
+                    }
+
+                case 2:
+                    {
+                        stati[1] = s;
+                        statoTurno = 0; // mi preparo per l'attacco successivo
+                        state = 0; // riposrto lo stato generale a 0
+                        foreach (KeyValuePair<int, Client> keyValue in ClientManager.client)
+                        {
+
+                            DataSender.SendPosizionamento(keyValue.Key, playerList_Name[PlayerID], stati,mod);
+                        }
+                        break;
+                    }
+            }
+        }
+            public static void SetGame(int c)
         {
             game = c;
         }

@@ -84,8 +84,19 @@ namespace Assets.Scripts.Server
                         {
                             NetworkManager.SetState(4);
                             break;
-                        }         
-               }
+                        }
+                    case "Posizionamento":// un player ha fatto uno posizioanemtnopdevo aggionrare la mappa
+                        {
+                            NetworkManager.SetState(5);
+                            break;
+                        }
+                    case "Combo Carte":// un player ha fatto uno posizioanemtnopdevo aggionrare la mappa
+                        {
+                            NetworkManager.SetState(6);
+                            break;
+                        }
+
+                }
             }
             else if(NetworkManager.GetState()==1) // salvo il numero di player
             {
@@ -108,6 +119,14 @@ namespace Assets.Scripts.Server
             else if (NetworkManager.GetState() == 4) // fase di spostamento 
             {
                 NetworkManager.AggiornaAfterSpostamento(msg);
+            }
+            else if (NetworkManager.GetState() == 5) // fase di spostamento 
+            {
+                NetworkManager.AggiornaAfterPosizionamento(msg,1);
+            }
+            else if (NetworkManager.GetState() == 6) // usata combo carte 
+            {
+                NetworkManager.AggiornaAfterPosizionamento(msg,2);
             }
 
         }

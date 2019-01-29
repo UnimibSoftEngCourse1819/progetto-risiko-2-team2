@@ -154,5 +154,19 @@ namespace RiskServer1
             SendStatoAttaccato(connectionID, stati[1]); //e gli passo lo stato
             SendRisultatoAttacco(connectionID, risultato[0]); // unità spostate dall'attacante
              }
+        //uso questa classe sia per il posizionamento che per la combo delle carte
+        public static void SendPosizionamento(int connectionID, string nomePlayer, string[] stati,int mod) // quando si sposta gli si passano i due stati coinvolti e il numero di carri
+        {
+            ByteBuffer buffer = new ByteBuffer(); // invio il fatto che si entra in mod spostamento
+            buffer.WriteInteger((int)ServerPackets.swelcomeMessage);
+            if(mod==1)
+                 buffer.WriteString("Posizioamento"); // 
+            else if(mod ==2)
+                buffer.WriteString("Combo Carte");
+            buffer.Dispose();
+            SendNomePlayer(connectionID, nomePlayer);
+            SendStatoAttaccante(connectionID, stati[0]); // e gli passo lo stato
+            SendStatoAttaccato(connectionID, stati[1]); //e gli passo lo stato
+        }
     }
 }

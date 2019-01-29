@@ -121,6 +121,35 @@ public class NetworkManager : MonoBehaviour
         }
         statoTurno++;
     }
+    //uso questa classe si aper il posizionamento che per la combo carte
+    public static void AggiornaAfterPosizionamento(string s,int mod)
+    {
+
+        switch (statoTurno) // inizializzo le 3 variabili e poi le invio 
+        {
+            case 0:
+                {
+                    nomePlayer = s;
+                    break;
+                }
+            case 1:
+                {
+                    stati[0] = s;
+                    break;
+                }
+
+            case 2:
+                {
+                    stati[1] = s;
+                    statoTurno = 0;
+                    state = 0; // rimetto lo stato a 0
+                               // gestico i dati ricevuti magari impostando uno stato "attacco"
+
+                    break;
+                }
+        }
+        statoTurno++;
+    }
     public static string GetNomePlayer()
     {
         return nomePlayer;

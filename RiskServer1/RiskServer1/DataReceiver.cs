@@ -88,6 +88,19 @@ namespace RiskServer1
                             Console.WriteLine("spostamento");
                             break;
                         }
+                      case"Posizionamento":
+                        {
+                            GameManager.SetState(5); // stato spostamento
+                            Console.WriteLine("Posizionamento");
+                            break;
+                        }
+                    case "Combo Carte":
+                        {
+                            GameManager.SetState(6); // stato spostamento
+                            Console.WriteLine("Combo carte");
+                            break;
+                        }
+
 
                 }
             }
@@ -116,6 +129,14 @@ namespace RiskServer1
             else if (GameManager.GetState() == 4) // mod spostamento
             { 
                 GameManager.GestioneSpostamento(msg,connectionID);              
+            }
+            else if (GameManager.GetState() == 5) // mod spostamento
+            {
+                GameManager.GestioneSpostamento(msg, connectionID,1);
+            }
+            else if (GameManager.GetState() == 6) // mod spostamento
+            {
+                GameManager.GestioneSpostamento(msg, connectionID,2); // ri utilizzo lo stesso codice
             }
         }
     }
