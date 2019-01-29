@@ -13,24 +13,13 @@ public class NetworkManager : MonoBehaviour
     private static int state = 0; // stato generale per la lettura
     private static int mappa=-1; // mappa scelta
     private static int statoTurno = 0; // stato del turno
-<<<<<<< HEAD
-    private static string[] stati = new string[2];
-    private static string[] risultatoAttacco = new string[2];
-    private static string nomePlayer; // indica il nome del player che ha fatto qualcosa
-
-=======
    private static ModelGameMap model;
    
->>>>>>> b0ceede071d829b2070c372b46220c48b7469feb
     private void Awake()
     {
         istanza = this;
         N_player = 0;
-<<<<<<< HEAD
-      
-=======
         model = GameObject.Find("CanvasMain").GetComponent<ModelGameMap>();
->>>>>>> b0ceede071d829b2070c372b46220c48b7469feb
     }
 
     // Start is called before the first frame update
@@ -57,134 +46,35 @@ public class NetworkManager : MonoBehaviour
 
     }
 
-    public static void AggiornaAfterAttacco(string s)
-    {
-        
-        switch (statoTurno) // inizializzo le 4 variabili e poi le invio 
-        {
-            case 0:
-                {
-                    nomePlayer = s;
-                    break;
-                }
-            case 1:
-                {
-                    stati[0] = s;
-                    break;
-                }
-
-            case 2:
-                {
-                    stati[1] = s;
-                    break;
-                }
-
-            case 3:
-                {
-                    risultatoAttacco[0] = s;
-                    break;
-                }
-
-            case 4:
-                {
-                    risultatoAttacco[1] = s;
-                    statoTurno = 0;
-                    state = 0; // rimetto lo stato a 0
-                    // gestico i dati ricevuti magari impostando uno stato "attacco"
-                    break;
-                }
-                
-        }
-        statoTurno++;
-    }
-    public static void AggiornaAfterSpostamento(string s)
-    {
-       
-        switch (statoTurno) // inizializzo le 3 variabili e poi le invio 
-        {
-            case 0:
-                {
-                    nomePlayer = s;
-                    break;
-                }
-            case 1:
-                {
-                    stati[0] = s;
-                    break;
-                }
-
-            case 2:
-                {
-                    stati[1] = s;
-                    break;
-                }
-
-            case 3:
-                {
-                    risultatoAttacco[0] = s;
-                    statoTurno = 0;
-                    state = 0; // rimetto lo stato a 0
-                               // gestico i dati ricevuti magari impostando uno stato "attacco"
-                    break;
-                }  
-        }
-        statoTurno++;
-    }
     //uso questa classe si aper il posizionamento che per la combo carte
-<<<<<<< HEAD
-    public static void AggiornaAfterPosizionamento(string s,int mod)
-    {
-
-        switch (statoTurno) // inizializzo le 3 variabili e poi le invio 
-        {
-            case 0:
-                {
-                    nomePlayer = s;
-                    break;
-                }
-            case 1:
-                {
-                    stati[0] = s;
-                    break;
-                }
-
-            case 2:
-                {
-                    stati[1] = s;
-                    statoTurno = 0;
-                    state = 0; // rimetto lo stato a 0
-                               // gestico i dati ricevuti magari impostando uno stato "attacco"
-
-                    break;
-                }
-        }
-        statoTurno++;
-    }
-    public static string GetNomePlayer()
-    {
-        return nomePlayer;
-    }
-    public static void SetNomePlayer(string s)
-    {
-        nomePlayer = s;
-    }
-=======
     public static void Aggiorna(string s, int mod)
     {
         switch (mod)
         {
             case 1:
                 {
+                    model.AggiornaPosizionamento(s);
+                    break;
+                }
+            case 2:
+                {
+                    model.AggiornaComboCarte(s);
+                    break;
+                }
+            case 3:
+                {
                     model.AggiornaSpostamento(s);
                     break;
                 }
+                case 4:
+                {
+                    model.AggiornaAttacco(s);
+                    break;
+                }
         }
-        
-
-    state = 0; // rimetto lo stato a 0
+     state = 0; // rimetto lo stato a 0
     }
     
->>>>>>> b0ceede071d829b2070c372b46220c48b7469feb
     public static int GetStatoTurno()
     {
         return statoTurno;

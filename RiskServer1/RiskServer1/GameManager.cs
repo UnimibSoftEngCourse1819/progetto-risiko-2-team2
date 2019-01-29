@@ -14,12 +14,7 @@ namespace RiskServer1
         private static int game = 0;// indica se siamo in gioco o meno
         private static int turno=0; // numero di turni giocati
         private static int Nplayer = 0;
-<<<<<<< HEAD
-        private static int statoTurno = 0; // indica in che punto del turno si è
-=======
->>>>>>> b0ceede071d829b2070c372b46220c48b7469feb
-        private static string[] stati=new string[2];
-        private static string[] risultatoAttacco=new  string[2];
+        
 
         public static void AddPlayer(int ConnectionID, string nome)
         {
@@ -167,100 +162,7 @@ namespace RiskServer1
 
             }
         }
-<<<<<<< HEAD
-        public static void GestioneAttacco(string s,int PlayerID)
-        {
-           statoTurno++;
-            switch (statoTurno) // inizializzo le 4 variabili e poi le invio 
-            {
-                case 1:
-                    {
-                        stati[0] = s;
-                        break;
-                    }
-
-                case 2:
-                    {
-                        stati[1] = s;
-                        break;
-                    }
-
-                case 3:
-                    {
-                        risultatoAttacco[0] = s;
-                        break;
-                    }
-
-                case 4:
-                    {
-                        risultatoAttacco[1] = s;
-                        statoTurno = 0; // mi preparo per l'attacco successivo
-                        state = 0;// riposto lo stato generale a 0
-                        foreach (KeyValuePair<int, Client> keyValue in ClientManager.client)
-                        {                
-                            DataSender.SendAttacco(keyValue.Key,playerList_Name[PlayerID],stati,risultatoAttacco );
-                        }
-                        break;
-                    }
-            }
-        }
-        public static void GestioneSpostamento(string s,int PlayerID) // simile a gestione attacco 
-        {
-            statoTurno++;
-            switch (statoTurno) // inizializzo le 3 variabili e poi le invio 
-            {
-                case 1:
-                    {
-                        stati[0] = s;
-                        break;
-                    }
-
-                case 2:
-                    {
-                        stati[1] = s;
-                        break;
-                    }
-
-                case 3:
-                    {
-                        risultatoAttacco[0] = s;
-                        statoTurno = 0; // mi preparo per l'attacco successivo
-                        state = 0; // riposrto lo stato generale a 0
-                        foreach (KeyValuePair<int, Client> keyValue in ClientManager.client)
-                        {
-
-                            DataSender.SendSpostamento(keyValue.Key,playerList_Name[PlayerID] ,stati, risultatoAttacco);
-                        }
-                        break;
-                    }                 
-                    }
-            }
-        public static void GestionePosizionamento(string s, int PlayerID,int mod) // simile a gestione attacco 
-        {
-            statoTurno++;
-            switch (statoTurno) // inizializzo le 2 variabili e poi le invio 
-            {
-                case 1:
-                    {
-                        stati[0] = s;
-                        break;
-                    }
-
-                case 2:
-                    {
-                        stati[1] = s;
-                        statoTurno = 0; // mi preparo per l'attacco successivo
-                        state = 0; // riposrto lo stato generale a 0
-                        foreach (KeyValuePair<int, Client> keyValue in ClientManager.client)
-                        {
-
-                            DataSender.SendPosizionamento(keyValue.Key, playerList_Name[PlayerID], stati,mod);
-                        }
-                        break;
-                    }
-            }
-=======
-        public static void GestionePosizionamento(string msg, int PlayerID, int mod) // simile a gestione attacco 
+        public static void GestioneGameMessages(string msg, int PlayerID, int mod) // simile a gestione attacco 
         {
             state = 0; // riposrto lo stato generale a 0
             
@@ -269,7 +171,6 @@ namespace RiskServer1
                 DataSender.SendPosizionamento(keyValue.Key, msg, mod);
             }
       
->>>>>>> b0ceede071d829b2070c372b46220c48b7469feb
         }
             public static void SetGame(int c)
         {
@@ -287,14 +188,5 @@ namespace RiskServer1
         {
             return state;
         }
-        public static int GetStatoTurno()
-        {
-            return statoTurno;
-        }  
-        public static void SetStatoTurno(int a)
-        {
-            statoTurno = a;
-        }
-
-    }
+           }
 }
