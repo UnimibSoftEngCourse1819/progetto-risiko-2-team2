@@ -84,7 +84,7 @@ public class Land
         return result;
     }
     
-    public int get_NeighborsNumber()
+    public int getNeighborsNumber()
     {
         return neighbors.Count;
     }
