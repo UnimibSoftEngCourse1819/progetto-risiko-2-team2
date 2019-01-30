@@ -169,6 +169,7 @@ namespace RiskServer1
             foreach (KeyValuePair<int, Client> keyValue in ClientManager.client)
             {
                 DataSender.SendPosizionamento(keyValue.Key, msg, mod);
+
             }
       
         }

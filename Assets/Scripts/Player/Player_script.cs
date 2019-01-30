@@ -24,12 +24,7 @@ public class Player_script : MonoBehaviour
         if (NetworkManager.getMessage() == "Myturn")
             turno = 1;
     }
-    public void PassaTurno()
-    {
-       
-        turno=NetworkManager.passTurn();
-    }
-
+   
     public void SetName(string a)
     {
         nome = a;

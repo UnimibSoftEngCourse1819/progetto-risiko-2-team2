@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using Assets.Scripts.Server;
 
 public class ModelGameMap : MonoBehaviour
 {
@@ -33,7 +34,7 @@ public class ModelGameMap : MonoBehaviour
             message = messageManager.messageDeploy(dataManager.getPlayer(), int.Parse(tank), land);
             view.updateLogEvent(messageManager.readDeploy(message));
             view.updateTextPlayerData(dataManager.getPlayerData());
-            //un metodo che invii message agli altri utenti
+            DataSender.SendPosizionamento(message);
         }
     }
 
@@ -44,7 +45,7 @@ public class ModelGameMap : MonoBehaviour
                                                         firstland, secondland,
                                                         int.Parse(tankAttacker));
         view.updateLogEvent (messageManager.readDeploy(message));
-        //un metodo che invii message agli altri utenti
+        DataSender.SendAttackDeclared(message);
     }
 
     public void move(string tankDeploy)
@@ -57,7 +58,7 @@ public class ModelGameMap : MonoBehaviour
            message = messageManager.messageMove(dataManager.getPlayer(), firstland, secondland, int.Parse(tankDeploy));
            view.updateLogEvent(messageManager.readMove(message));
            view.updateTextPlayerData(dataManager.getPlayerData());
-           //un metodo che invii message agli altri utenti
+            DataSender.SendSpostamento(message);
         }
     }
 
@@ -95,7 +96,7 @@ public class ModelGameMap : MonoBehaviour
                             tankDefender, result);
            view.updateLogEvent(messageManager.readDefend(message));
            view.updateTextPlayerData(dataManager.getPlayerData(defenseOwner));
-           //un metodo che invii message agli altri utenti
+            DataSender.SendAttacco(message);
         }
     }
 
@@ -103,7 +104,7 @@ public class ModelGameMap : MonoBehaviour
         dataManager.passTurn();
         message = messageManager.messagePhase(dataManager.getPlayer(), dataManager.getCurrentPhase());
         view.updatePhase(messageManager.readPhase(message));
-        //un metodo che invii message agli altri utenti
+        DataSender.SendPasso(message);
     }
 
 	private void Awake()
@@ -153,7 +154,7 @@ public class ModelGameMap : MonoBehaviour
         {
          message = messageManager.messageCard( dataManager.getPlayer(), dataManager.getPlayerTanksReinforcement(dataManager.getPlayer()) - startTank);
          view.updateLogEvent(messageManager.readCard(message));
-         //un metodo che invii message agli altri utenti
+            DataSender.SendComboCarte(message);
         }
     }
 

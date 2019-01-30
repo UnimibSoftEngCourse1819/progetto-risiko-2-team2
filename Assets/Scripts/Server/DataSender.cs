@@ -68,13 +68,14 @@ namespace Assets.Scripts.Server
             buffer.Dispose();
         }
 
-        public static void SendPasso() // quando si passa il turno
+        public static void SendPasso(string msg) // quando si passa il turno
         {
             ByteBuffer buffer = new ByteBuffer();
             buffer.WriteInteger((int)ClientPackets.cHelloServer);
             buffer.WriteString("Passo"); // 
             ClientTcp.SendData(buffer.ToArray());
             buffer.Dispose();
+            SendData(msg);
         }
         //attacco
         /***********************************************************************/
@@ -124,6 +125,24 @@ namespace Assets.Scripts.Server
             buffer.Dispose();
             SendData(msg);
 
+        }
+        public static void SendAttackDeclared(string msg) // dichiarato un attacco
+        {
+            ByteBuffer buffer = new ByteBuffer();
+            buffer.WriteInteger((int)ClientPackets.cHelloServer);
+            buffer.WriteString("Dichiaro Attacco"); // 
+            ClientTcp.SendData(buffer.ToArray());
+            buffer.Dispose();
+            SendData(msg);
+        }
+        public static void SendNextPhase(string msg) // dichiarato un attacco
+        {
+            ByteBuffer buffer = new ByteBuffer();
+            buffer.WriteInteger((int)ClientPackets.cHelloServer);
+            buffer.WriteString("Next Phase"); // 
+            ClientTcp.SendData(buffer.ToArray());
+            buffer.Dispose();
+            SendData(msg);
         }
 
     }

@@ -95,7 +95,16 @@ namespace Assets.Scripts.Server
                             NetworkManager.setState(6);
                             break;
                         }
-
+                    case "Dichiaro Attacco":
+                        {
+                            NetworkManager.setState(7);
+                            break;
+                        }
+                    case "Next Phase":
+                        {
+                            NetworkManager.setState(8);
+                            break;
+                        }
                 }
             }
             else if (NetworkManager.getState() == 1) // salvo il numero di player
@@ -127,6 +136,14 @@ namespace Assets.Scripts.Server
             else if (NetworkManager.getState() == 6) // usata combo carte 
             {
                 NetworkManager.refresh(msg, 2);
+            }
+            else if (NetworkManager.getState() == 7) // attacco dichiarato
+            {
+                NetworkManager.refresh(msg, 5);
+            }
+            else if (NetworkManager.getState() == 8) // attacco dichiarato
+            {
+                NetworkManager.refresh(msg, 6);
             }
 
         }

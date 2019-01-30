@@ -20,15 +20,6 @@ namespace RiskServer1
             ClientManager.SendDataTo(COnnectionID, buffer.ToArray());
             buffer.Dispose();
         }
-        /*     public static void SendWaitingMessage(int ConnectionID)
-             {
-                 ByteBuffer buffer = new ByteBuffer();
-                 buffer.WriteInteger((int)ServerPackets.swelcomeMessage);
-                 buffer.WriteString("sei nella Wating room ora devi aspettare altri utenti");
-                 ClientManager.SendDataTo(ConnectionID, buffer.ToArray());
-                 buffer.Dispose();
-             }
-       */
         public static void SendAskName(int ConnectionID)
         {
             ByteBuffer buffer = new ByteBuffer();
@@ -109,6 +100,10 @@ namespace RiskServer1
                 buffer.WriteString("Spostamento");
             else if(mod ==4)
                 buffer.WriteString("Attacco");
+            else if(mod==5)
+                buffer.WriteString("Dichiaro Attacco");
+           else if(mod ==6)
+                buffer.WriteString("Next Phase");
             buffer.Dispose();
             SendData(connectionID, msg);
              }

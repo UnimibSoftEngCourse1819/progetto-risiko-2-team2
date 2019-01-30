@@ -73,7 +73,8 @@ namespace RiskServer1
 
                     case "Passo": // si passsa il turno 
                         {
-
+                            GameManager.SetState(8); // stato di passo = statop next phase
+                            Console.WriteLine("attacco");
                             break;
                         }
                     case "Attacco":
@@ -98,6 +99,18 @@ namespace RiskServer1
                         {
                             GameManager.SetState(6); // stato spostamento
                             Console.WriteLine("Combo carte");
+                            break;
+                        }
+                    case"Dichiaro Attacco":
+                        {
+                            GameManager.SetState(7); // stato spostamento
+                            Console.WriteLine("Dichiaro attacco");
+                            break;
+                        }
+                    case "Next Phase":
+                        {
+                            GameManager.SetState(8); // stato spostamento
+                            Console.WriteLine("Next Phase");
                             break;
                         }
 
@@ -138,6 +151,15 @@ namespace RiskServer1
             {
                 GameManager.GestioneGameMessages(msg, connectionID,2); // ri utilizzo lo stesso codice
             }
+            else if (GameManager.GetState() == 7) // attacco dichiarato
+            {
+                GameManager.GestioneGameMessages(msg, connectionID, 5); // ri utilizzo lo stesso codice
+            }
+            else if (GameManager.GetState() == 8) // next phase
+            {
+                GameManager.GestioneGameMessages(msg, connectionID, 6); // ri utilizzo lo stesso codice
+            }
+           
         }
     }
 }

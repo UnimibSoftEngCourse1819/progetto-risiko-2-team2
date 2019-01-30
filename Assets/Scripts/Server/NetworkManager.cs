@@ -38,14 +38,7 @@ public class NetworkManager : MonoBehaviour
         ClientTcp.Disconnect();
     }
 
-    public static int passTurn()
-    {
-        message = "";
-        DataSender.SendPasso(); // mando il segnale di passo
-        return 0;
-
-    }
-
+   
     //uso questa classe si aper il posizionamento che per la combo carte
     public static void refresh(string s, int mod)
     {
@@ -68,7 +61,17 @@ public class NetworkManager : MonoBehaviour
                 }
                 case 4:
                 {
+                    model.updateDefense(s);
+                    break;
+                }
+            case 5:
+                {
                     model.updateAttack(s);
+                    break;
+                }
+            case 6:
+                {
+                    model.updateTurn(s);
                     break;
                 }
         }
