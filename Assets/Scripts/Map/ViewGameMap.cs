@@ -18,6 +18,7 @@ public class ViewGameMap : MonoBehaviour
     private CanvasGroup attack, defense, move, deploy, deployGaming, popup, error, quit, cards;
 	private Text eventLog, phase, selectedData, playerData, attackSelected, moveSelected, deployRemain, deploySelected, errorT;
     private Dropdown card1, card2, card3;
+    public GameObject button;
 
     private void Awake()//prepara l'interfaccia
     {
@@ -236,21 +237,21 @@ public class ViewGameMap : MonoBehaviour
     {
         foreach(StateData state in stateData)
         {
-            Button newButton = new Button();
-            button.GetComponent<Renderer>().material.mainTexture = stateData.getTexture();
-            button.transform.position = stateData.getVector();
-            setupButton(button, stateData.GetName());
+            GameObject newButton = Instantiate(button) as GameObject;
+            button.GetComponent<Renderer>().material.mainTexture = state.getTexture();
+            button.transform.position = state.getVector();
+            setupButton(newButton, state.getName());
         }
     }
 
-    private void setupButton(Button button, string nameLand)
+    private void setupButton(GameObject button, string nameLand)
     {
         button.GetComponent<Button>().onClick.AddListener(delegate { onClickedState(nameLand); });
     }
        
     public void onClickedState(string nameLand)
     {
-        Debug.Log(nameState);
+        Debug.Log(nameLand);
     }
 
 }

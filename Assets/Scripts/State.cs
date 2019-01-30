@@ -10,6 +10,8 @@ public class State : MonoBehaviour, IPointerClickHandler
     public float unitPerPixels = 320f;
     
     public string idName;
+    public string continent;
+    private Texture2D texture;
     string[] connections;
 
     public void setState(Texture2D text)
@@ -36,6 +38,22 @@ public class State : MonoBehaviour, IPointerClickHandler
 
         coll.isTrigger = true;
     }
+
+    public string getContinent()
+    {
+        return continent;
+    }
+
+    public string[] getConnections()
+    {
+        return connections;
+    }
+
+    public Texture2D getTexture()
+    {
+        return texture;
+    }
+
 
     public void Erase()
     {

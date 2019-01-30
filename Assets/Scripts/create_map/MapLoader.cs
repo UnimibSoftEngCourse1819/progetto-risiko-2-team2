@@ -13,7 +13,7 @@ public class MapLoader : MonoBehaviour
     public MapData currentMap;
 
     
-    public void SaveMap(List<MovableState> currentStates)
+    public void SaveMap(List<string> continents, List<MovableState> currentStates)
     {
         // Save the path where to save the map in the user pc
         string savingPath = EditorUtility.SaveFolderPanel("Select a folder to save your map into.", startPath, "RiskMap");
@@ -34,7 +34,7 @@ public class MapLoader : MonoBehaviour
             map.states.Add(JsonUtility.ToJson(sd));
             
 
-            byte[] textureBytes = state.text.EncodeToPNG();
+            byte[] textureBytes = state.getTexture().EncodeToPNG();
 
             File.WriteAllBytes(texturePath + "/" + sd.stateName + ".png", textureBytes);
         }
@@ -87,11 +87,11 @@ public class MapLoader : MonoBehaviour
 		//creating lands
 		foreach(StateData stateData in statesData)
 		{
-			Land landBuffer = new Land(StateData.getName(), 1);
+			Land landBuffer = new Land(stateData.getName(), 1);
 			foreach(Continent continent in realWorld)
 			{
 				if(continent.getName().Equals(stateData.getContinent()))
-					continent.AddLand(landBuffer);
+					continent.addLand(landBuffer);
 			} 
 		}
 
@@ -100,10 +100,10 @@ public class MapLoader : MonoBehaviour
 		{
 			Land landBuffer = getLandFromWorld(realWorld, stateData.getName());
 			string[] neighbors = stateData.getConnection();
-			for(int i = 0; i < neighbors.Lenght; i++)
+			for(int i = 0; i < neighbors.Length; i++)
 			{
 				Land neighborBuffer = getLandFromWorld(realWorld, neighbors[i]);
-				landBuffer.AddNeighbors(neighborBuffer);
+				landBuffer.addNeighbor(neighborBuffer);
 			}
 		}
 		return realWorld;
@@ -115,7 +115,7 @@ public class MapLoader : MonoBehaviour
 		foreach(Continent continent in world)
 		{
 			Land landBuffer = null;
-			landBuffer = world.getLand(nameLand);
+			landBuffer = continent.getLand(nameLand);
 			if(landBuffer != null)
 				result = landBuffer;
 		}
@@ -131,7 +131,6 @@ public class MapData
 {
     public List<string> states;
     public List<StateData> actualStates;
-
     public List<string> continents;
 
     public MapData()
@@ -165,9 +164,9 @@ public class StateData
     {
         this.stateName = state.idName;
         this.positionInMap = state.transform.position;
-        this.continentName = state.continent;
-        connection = state.connections.ToArray();
-        texture = state.text;
+        this.continentName = state.getContinent();
+        this.connection = state.getConnections();
+        this.texture = state.getTexture();
     }
 
     public string getName()

@@ -1687,6 +1687,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   view: {fileID: 349745859}
   messageManager: {fileID: 349745860}
+  loader: {fileID: 0}
 --- !u!114 &349745859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1699,6 +1700,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 915b77e26221cc54daa766c830652d5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  button: {fileID: 2028551571888011663, guid: 31fff468219dab14fabc5deeb2edf8f3, type: 3}
 --- !u!114 &349745860
 MonoBehaviour:
   m_ObjectHideFlags: 0
