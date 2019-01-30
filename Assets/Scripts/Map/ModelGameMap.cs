@@ -13,6 +13,7 @@ public class ModelGameMap : MonoBehaviour
 	public ViewGameMap view;
 	public DataManager dataManager;
     public MessageManager messageManager;
+    public MapLoader loader;
 	private string firstland = "", secondland = "";
     private int tankAttacker;
     private string message = "";
@@ -114,14 +115,8 @@ public class ModelGameMap : MonoBehaviour
 
 	private void loadData()//inizializza i dei dati su cui ci si può testare la parte logica
 	{
-		/*
-		//carica i dati
-		FileLoader file;
-		file.read(nameFile);
-		manager = new GameManager(players, file.getWorldData());
-        e aggiona l'interfaccia
-		*/
-
+        MapData data = loader.loadMap();
+        
 	}
 
     public void quit()

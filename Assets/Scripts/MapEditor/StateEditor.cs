@@ -129,16 +129,3 @@ public class StateEditor : MonoBehaviour
         
     }
 }
-
-public class MapData
-{
-    List<StateData> states;
-
-
-
-}
-
-public class StateData
-{
-
-}

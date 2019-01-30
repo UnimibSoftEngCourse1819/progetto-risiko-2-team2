@@ -232,4 +232,25 @@ public class ViewGameMap : MonoBehaviour
         card3.options.Add(temp);
     }
 
+    public void drawMap(List<StateData> stateData)
+    {
+        foreach(StateData state in stateData)
+        {
+            Button newButton = new Button();
+            button.GetComponent<Renderer>().material.mainTexture = stateData.getTexture();
+            button.transform.position = stateData.getVector();
+            setupButton(button, stateData.GetName());
+        }
+    }
+
+    private void setupButton(Button button, string nameLand)
+    {
+        button.GetComponent<Button>().onClick.AddListener(delegate { onClickedState(nameLand); });
+    }
+       
+    public void onClickedState(string nameLand)
+    {
+        Debug.Log(nameState);
+    }
+
 }

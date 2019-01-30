@@ -58,4 +58,16 @@ public class Continent
     {
         return bonusTank;
     }
+
+        
+    public Land getLand(string name)
+    {
+        Land found = null;
+        foreach(Land land in lands)
+        {
+            if(land.getName().Equals(name))
+                found = land;
+        }
+        return found;
+    }
 }
