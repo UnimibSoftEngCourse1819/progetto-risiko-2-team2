@@ -111,6 +111,7 @@ public class ModelGameMap : MonoBehaviour
 	private void Awake()
 	{
 		loadData();
+        NetworkManager.istance.InizializzaModel();
 	}
 
 	private void loadData()//inizializza i dei dati su cui ci si può testare la parte logica

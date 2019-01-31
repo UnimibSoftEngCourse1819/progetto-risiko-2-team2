@@ -19,9 +19,15 @@ public class NetworkManager : MonoBehaviour
     {
         istance = this;
         nPlayers = 0;
-        model = GameObject.Find("CanvasMain").GetComponent<ModelGameMap>();
+        
     }
 
+   public void InizializzaModel()
+    {
+        model = GameObject.Find("CanvasMain").GetComponent<ModelGameMap>();
+    }
+        
+    
     // Start is called before the first frame update
     public void initiate()
     {
