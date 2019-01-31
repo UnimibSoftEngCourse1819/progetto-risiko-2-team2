@@ -46,7 +46,7 @@ public class Waiting_room : MonoBehaviour
     }
     public void CreateNewMap()
     {
-        // vai alla crea nuova mappa
+        SceneManager.LoadScene("MapEditor");
     }
     public void GetMappaName(int s) // si è pronti a giocare e si è scelta la mappa
     {
