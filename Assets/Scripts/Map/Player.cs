@@ -28,6 +28,15 @@ public class Player
         landCards = new List<LandCard>();
     }
 
+    public Player(string username)
+    {
+        nickname = username;
+        territoryOwned = null;
+        color = null;
+        nTanks = 0;
+        landCards = new List<LandCard>();
+    }
+
     public Player(string nickname, List<Land> territory, string color, int nTanks)//need to add Goal
     {
         this.nickname = nickname;

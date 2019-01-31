@@ -112,13 +112,34 @@ public class ModelGameMap : MonoBehaviour
 	{
 		loadData();
         NetworkManager.istance.InizializzaModel();
+
+        
 	}
 
 	private void loadData()//inizializza i dei dati su cui ci si può testare la parte logica
 	{
+        Debug.Log("CIAONE");
+
         MapData data = loader.loadMap();
-        
-	}
+        view.drawMap(data.actualStates);
+
+        List<Player> players = new List<Player>();
+
+        players.Add(new Player("gino"));
+
+        players.Add(new Player("pippo"));
+
+        List<Continent> world = loader.getWorld(data);
+
+        dataManager = new DataManager(players, world, loader.getAllLands(world));
+
+        view.updateTextPlayerData(dataManager.getPlayer());
+
+        string phase = dataManager.getCurrentPhase();
+        view.updatePhase(phase);
+        view.changeCanvasOption(phase);
+
+    }
 
     public void quit()
     {
