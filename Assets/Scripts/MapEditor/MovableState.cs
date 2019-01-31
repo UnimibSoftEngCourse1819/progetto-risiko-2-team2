@@ -8,7 +8,8 @@ public class MovableState : State, IDragHandler
     private Rect boundraries;
 
     public void OnDrag(PointerEventData eventData)
-    {        
+    {
+
         Vector2 newPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 spriteSize = Camera.main.ScreenToWorldPoint(GetComponent<SpriteRenderer>().sprite.rect.size);        
 

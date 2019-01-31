@@ -7,27 +7,32 @@ using UnityEngine.Events;
 
 public class State : MonoBehaviour, IPointerClickHandler
 {
-    public float unitPerPixels = 320f;
+    public float unitPerPixels = 320f / 16.13f;
     
     public string idName;
+    public List<string> connections;
     public string continent;
-    private Texture2D texture;
-    string[] connections;
+    public Texture2D text;
 
-    public void setState(Texture2D text)
+    private void Awake()
     {
-        setStateTexture(text);
+        Click = new Pressed();
     }
 
-    public void setState(Texture2D text, string name)
+    public void SetState(Texture2D text)
     {
-        setState(text);
+        SetStateTexture(text);
+    }
+
+    public void SetState(Texture2D text, string name)
+    {
+        SetState(text);
         idName = name;
     }
 
-    public void setStateTexture(Texture2D text)
+    public void SetStateTexture(Texture2D text)
     {
-
+        this.text = text;
         Vector2 pivot = new Vector2(0.5f, 0.5f);
         
         Sprite s = Sprite.Create(text, new Rect(0, 0, text.width, text.height), pivot, unitPerPixels);
@@ -39,33 +44,21 @@ public class State : MonoBehaviour, IPointerClickHandler
         coll.isTrigger = true;
     }
 
-    public string getContinent()
-    {
-        return continent;
-    }
-
-    public string[] getConnections()
-    {
-        return connections;
-    }
-
-    public Texture2D getTexture()
-    {
-        return texture;
-    }
-
-
     public void Erase()
     {
         Destroy(this.gameObject);
     }
 
-    public delegate void StatePressedDelegate(State buttonState);
-    public StatePressedDelegate click;
-
-    public UnityEvent statePressed;
+    public Pressed Click;
+    
     public void OnPointerClick(PointerEventData eventData)
     {
-        click(this);
+        Click.Invoke(this);
     }
 }
+
+public class Pressed : UnityEvent<State>
+{
+
+}
+
