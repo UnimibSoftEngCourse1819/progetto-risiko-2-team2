@@ -410,7 +410,7 @@ public class StateEditor : MonoBehaviour
 
     public void LoadNewMap()
     {
-        MapData mapToLoad = mapLoader.LoadMap();
+        MapData mapToLoad = mapLoader.loadMap();
 
         if (mapToLoad != null)
         {

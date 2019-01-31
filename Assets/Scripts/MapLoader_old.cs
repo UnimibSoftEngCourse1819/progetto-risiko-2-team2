@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿/*using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
@@ -43,7 +43,7 @@ public class MapLoader : MonoBehaviour
         File.WriteAllText(savingPath + "/map.json", JsonUtility.ToJson(map));
     }
 
-    public MapData loadMap()
+    public MapData LoadMap()
     {
         string loadPath = EditorUtility.OpenFolderPanel("Select a folder to load your map.", startPath, "json");
 
@@ -68,69 +68,19 @@ public class MapLoader : MonoBehaviour
 
 
             currentMap = md;
+
+            
         }
         return currentMap;
     }
-
-    public List<Continent> getWorld(MapData data)
-	{
-		List<StateData> statesData = data.getWorldData();
-		List<Continent> realWorld = new List<Continent>();
-		List<string> continentData = data.getContinents();
-		//creating continents
-		foreach(string continentName in continentData)
-		{
-			Continent continentBuffer = new Continent(continentName);
-			realWorld.Add(continentBuffer);
-		}
-
-		//creating lands
-		foreach(StateData stateData in statesData)
-		{
-			Land landBuffer = new Land(stateData.getName(), 1);
-			foreach(Continent continent in realWorld)
-			{
-				if(continent.getName().Equals(stateData.getContinent()))
-					continent.addLand(landBuffer);
-			} 
-		}
-
-		//making the connection
-		foreach(StateData stateData in statesData)
-		{
-			Land landBuffer = getLandFromWorld(realWorld, stateData.getName());
-			string[] neighbors = stateData.getConnection();
-			for(int i = 0; i < neighbors.Length; i++)
-			{
-				Land neighborBuffer = getLandFromWorld(realWorld, neighbors[i]);
-				landBuffer.addNeighbor(neighborBuffer);
-			}
-		}
-		return realWorld;
-	}
-
-	private Land getLandFromWorld(List<Continent> world, string nameLand)
-	{
-		Land result = null;
-		foreach(Continent continent in world)
-		{
-			Land landBuffer = null;
-			landBuffer = continent.getLand(nameLand);
-			if(landBuffer != null)
-				result = landBuffer;
-		}
-		return result;
-	}
-
 }
-
-
 
 
 public class MapData
 {
     public List<string> states;
     public List<StateData> actualStates;
+
     public List<string> continents;
 
     public MapData()
@@ -138,16 +88,6 @@ public class MapData
         states = new List<string>();
         continents = new List<string>();
         actualStates = new List<StateData>();
-    }
-
-    public List<StateData> getWorldData()
-    {
-    	return actualStates;
-    }
-
-    public List<string> getContinents()
-    {
-    	return continents;
     }
 
 }
@@ -165,32 +105,9 @@ public class StateData
         this.stateName = state.idName;
         this.positionInMap = state.transform.position;
         this.continentName = state.continent;
-        this.connection = state.connections.ToArray();
-        this.texture = state.text;
-    }
-
-    public string getName()
-    {
-    	return stateName;
-    }
-
-    public string[] getConnection()
-    {
-    	return connection;
-    }
-
-    public string getContinent()
-    {
-    	return continentName;
-    }
-
-    public Texture2D getTexture()
-    {
-    	return texture;
-    }
-
-    public Vector3 getVector()
-    {
-    	return positionInMap;
+        connection = state.connections.ToArray();
+        texture = state.text;
     }
 }
+
+*/
