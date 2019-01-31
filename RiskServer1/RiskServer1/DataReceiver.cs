@@ -113,7 +113,12 @@ namespace RiskServer1
                             Console.WriteLine("Next Phase");
                             break;
                         }
-
+                    case "Nomi Player":
+                        {
+                            Console.WriteLine("Next Phase");
+                            GameManager.GestioneGameMessages("", connectionID, 7); // 
+                            break;
+                        }
 
                 }
             }

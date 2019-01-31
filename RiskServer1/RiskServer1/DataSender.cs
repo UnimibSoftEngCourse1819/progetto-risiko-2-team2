@@ -87,6 +87,22 @@ namespace RiskServer1
             ClientManager.SendDataTo(ConnectionID, buffer.ToArray());
             buffer.Dispose();
         }
+        public static void SendNomi(int ConnectionID)
+        {
+            ByteBuffer buffer = new ByteBuffer();
+            buffer.WriteInteger((int)ServerPackets.swelcomeMessage);
+            buffer.WriteString("Nomi Player");
+            ClientManager.SendDataTo(ConnectionID, buffer.ToArray());
+            buffer.Dispose();
+        }
+        public static void SendEnd(int ConnectionID)
+        {
+            ByteBuffer buffer = new ByteBuffer();
+            buffer.WriteInteger((int)ServerPackets.swelcomeMessage);
+            buffer.WriteString("End Player");
+            ClientManager.SendDataTo(ConnectionID, buffer.ToArray());
+            buffer.Dispose();
+        }
         //uso questa classe sia per il posizionamento che per la combo delle carte
         public static void SendPosizionamento(int connectionID, string msg,int mod) // quando si sposta gli si passano i due stati coinvolti e il numero di carri
         {
@@ -104,6 +120,7 @@ namespace RiskServer1
                 buffer.WriteString("Dichiaro Attacco");
            else if(mod ==6)
                 buffer.WriteString("Next Phase");
+           
             buffer.Dispose();
             SendData(connectionID, msg);
              }

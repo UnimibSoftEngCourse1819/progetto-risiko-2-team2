@@ -51,7 +51,7 @@ namespace RiskServer1
                     }
                 case 6:
                     {
-                        playerList_Color.Add(ConnectionID, "giaalo");// perchè nessuno lo vuole
+                        playerList_Color.Add(ConnectionID, "giallo");// perchè nessuno lo vuole
                         break;
                     }
             }
@@ -165,11 +165,35 @@ namespace RiskServer1
         public static void GestioneGameMessages(string msg, int PlayerID, int mod) // simile a gestione attacco 
         {
             state = 0; // riposrto lo stato generale a 0
-            
-            foreach (KeyValuePair<int, Client> keyValue in ClientManager.client)
+            if (mod == 7)
             {
-                DataSender.SendPosizionamento(keyValue.Key, msg, mod);
+                foreach (KeyValuePair<int, Client> keyValue in ClientManager.client)
+                {
+                    DataSender.SendNomi(PlayerID);
+                    foreach (KeyValuePair<int, Client> chiave in ClientManager.client)
+                    {
+                        
+                        foreach (KeyValuePair<int, string> nome in playerList_Name)
+                        {
+                            DataSender.SendData(PlayerID,nome.Value);
+                        }
+                        DataSender.SendData(PlayerID, "Fine Nomi");
+                        foreach (KeyValuePair<int, string> nome in playerList_Color)
+                        {
+                            DataSender.SendData(PlayerID,nome.Value);
+                        }
+                        
+                    }
+                    DataSender.SendEnd(PlayerID);
+                }
+            }
+            else
+            {
+                foreach (KeyValuePair<int, Client> keyValue in ClientManager.client)
+                {
+                    DataSender.SendPosizionamento(keyValue.Key, msg, mod);
 
+                }
             }
       
         }

@@ -70,6 +70,11 @@ public class ModelGameMap : MonoBehaviour
         view.updatePhase(messageManager.readPhase(message));
         //un metodo che invii message agli altri utenti
     }
+    public void NomiPlayer()  // prende  i nomi e i colori
+    {
+
+
+    }
 
     public void startBattle(string tankDefender)
     {

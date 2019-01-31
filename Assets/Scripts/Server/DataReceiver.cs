@@ -105,6 +105,11 @@ namespace Assets.Scripts.Server
                             NetworkManager.setState(8);
                             break;
                         }
+                    case "Nomi Player":
+                        {
+                            NetworkManager.setState(9);
+                            break;
+                        }
                 }
             }
             else if (NetworkManager.getState() == 1) // salvo il numero di player
@@ -144,6 +149,24 @@ namespace Assets.Scripts.Server
             else if (NetworkManager.getState() == 8) // attacco dichiarato
             {
                 NetworkManager.refresh(msg, 6);
+            }
+            else if(NetworkManager.getState() == 9) // caso lettura nomi 
+            { 
+                if(msg=="Fine Nomi")
+                {
+                    NetworkManager.setState(10);                   
+                }
+              else
+                    NetworkManager.InizializzaPlayer(msg, 0);
+            }
+            else if (NetworkManager.getState() == 10) // caso lettura nomi 
+            {
+                if (msg == "End Player")
+                {
+                    NetworkManager.setState(0);
+                }
+                else
+                    NetworkManager.InizializzaPlayer(msg, 1);
             }
 
         }

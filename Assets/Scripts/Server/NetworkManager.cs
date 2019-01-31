@@ -13,13 +13,18 @@ public class NetworkManager : MonoBehaviour
     private static int state = 0; // stato generale per la lettura
     private static int map = -1; // mappa scelta
     private static int turnState = 0; // stato del turno
-   private static ModelGameMap model;
-   
+    private static ModelGameMap model;
+    private static string[] playerName=new string [6];
+    private static string[] playerColor= new string [6];
+    private static int countName=0;
+    private static int countColor = 0;
+
+
     private void Awake()
     {
         istance = this;
         nPlayers = 0;
-        
+       
     }
 
    public void InizializzaModel()
@@ -84,6 +89,30 @@ public class NetworkManager : MonoBehaviour
      state = 0; // rimetto lo stato a 0
     }
     
+    public static void InizializzaPlayer(string msg,int mod)
+    {
+
+        if (mod == 0)
+        {
+            playerName[countName] = msg;
+            countName++;
+
+        }
+        else
+        {
+            playerColor[countColor] = msg;
+            countColor++;
+        }
+    }
+
+    public static string [] getNomiPlayers()
+    {
+        return playerName;
+    }
+    public static string[] getColorPlayers()
+    {
+        return playerColor;
+    }
     public static int getTurnState()
     {
         return turnState;

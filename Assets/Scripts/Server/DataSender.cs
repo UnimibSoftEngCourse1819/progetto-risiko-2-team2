@@ -144,6 +144,15 @@ namespace Assets.Scripts.Server
             buffer.Dispose();
             SendData(msg);
         }
+        public static void SendAskNamePlayer() // dichiarato un attacco
+        {
+            ByteBuffer buffer = new ByteBuffer();
+            buffer.WriteInteger((int)ClientPackets.cHelloServer);
+            buffer.WriteString("Nomi Player"); // 
+            ClientTcp.SendData(buffer.ToArray());
+            buffer.Dispose();
+            
+        }
 
     }
 }
