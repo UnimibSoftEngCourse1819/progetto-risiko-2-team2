@@ -4,18 +4,33 @@ using UnityEngine;
 
 public class DestroyEnemyGoal : Goal
 {
-    private readonly string armyColor;
+    private string target;
 
-    public DestroyEnemyGoal(string color)
+    public DestroyEnemyGoal()
     {
-        armyColor = color;
+        target = null;
+    }
+
+    private DestroyEnemyGoal(DestroyEnemyGoal goal)
+    {
+        target = goal.getTarget();
+    }
+
+    public override void fixGoal(List<Player> players, Player player, List<Continent> world)
+    {
+        int index = Random.Range(0, players.Count - 1);
+        
+        while(player.getName().Equals(players[index]))
+            index = Random.Range(0, players.Count - 1);
+
+        target = players[index].getName();
     }
 
     public override bool isAccomplished(List<Player> players, Player player, List<Continent> world)
     {
         foreach(Player p in players)
         {
-            if(player.getColor().Equals(armyColor))
+            if(player.getColor().Equals(target))
             {
                 if (player.getTotalLand() == 0)
                     return true;
@@ -25,5 +40,15 @@ public class DestroyEnemyGoal : Goal
         }
 
         return false;
+    }
+
+    public string getTarget()
+    {
+        return target;
+    }
+
+    public override Goal getClone()
+    {
+        return new DestroyEnemyGoal(this);
     }
 }

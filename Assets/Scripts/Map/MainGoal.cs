@@ -4,14 +4,24 @@ using UnityEngine;
 
 public class MainGoal : Goal
 {
-    private readonly int nTerritoryGoal;
-    private const int PERCENTAGE = 70;
+    private int nTerritoryGoal;
+    private const int PERCENTAGE = 58;
 
-    public MainGoal(List<Continent> world)
+    public MainGoal()
+    {
+        nTerritoryGoal = 0;
+    }
+
+    private MainGoal(MainGoal goal)
+    {
+        nTerritoryGoal = goal.getNTerritoryGoal();
+    }
+
+    public override void fixGoal(List<Player> players, Player player, List<Continent> world)
     {
         int nLands = 0;
 
-        foreach(Continent continent in world)
+        foreach (Continent continent in world)
         {
             nLands += continent.getLands().Count;
         }
@@ -25,5 +35,15 @@ public class MainGoal : Goal
             return true;
 
         return false;
+    }
+
+    public int getNTerritoryGoal()
+    {
+        return nTerritoryGoal;
+    }
+
+    public override Goal getClone()
+    {
+        return new MainGoal(this);
     }
 }

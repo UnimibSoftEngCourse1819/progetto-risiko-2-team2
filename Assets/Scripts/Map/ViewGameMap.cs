@@ -20,7 +20,7 @@ public class ViewGameMap : MonoBehaviour
     private Dropdown card1, card2, card3;
     public State statePrefab;
 
-    private void Awake()//prepara l'interfaccia
+    public void prepareView()//prepara l'interfaccia
     {
     	//Text
         eventLog = GameObject.Find("TextEventLog").GetComponent<Text>(); 
@@ -32,6 +32,8 @@ public class ViewGameMap : MonoBehaviour
         deployRemain = GameObject.Find("TextDeployRemain").GetComponent<Text>(); 
         deploySelected = GameObject.Find("TextDeploySelected").GetComponent<Text>();
         errorT =  GameObject.Find("TextError").GetComponent<Text>();
+
+        Debug.Log("Tacatà");
 
         eventLog.text = INITIAL_TEXT;
         phase.text = INITIAL_TEXT;
@@ -108,6 +110,8 @@ public class ViewGameMap : MonoBehaviour
 
     public void updateTextPlayerData(string data)
     {
+        Debug.Log(data);
+        Debug.Log(playerData);
         playerData.text = data;
     }
 

@@ -5,10 +5,15 @@ using UnityEngine;
 public class Dealer
 {
     private readonly List<LandCard> landCards;
+    private readonly List<Goal> goals;
 
     public Dealer()
     {
         landCards = new List<LandCard>();
+        goals = new List<Goal>();
+        goals.Add(new MainGoal());
+        goals.Add(new ConquerGoal());
+        goals.Add(new DestroyEnemyGoal());
     }
 
     public Dealer(List<Land> lands) : this()
@@ -26,6 +31,16 @@ public class Dealer
         }
 
         shuffleCards();
+    }
+
+    public void assignGoal(List<Player> players, Player player, List<Continent> world)
+    {
+        int index = Random.Range(0, goals.Count - 1);
+
+        Goal goal = goals[index].getClone();
+
+        goal.fixGoal(players, player, world);
+        player.setGoal(goal);
     }
 
     public void shuffleCards()

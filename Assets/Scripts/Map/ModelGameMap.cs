@@ -116,10 +116,9 @@ public class ModelGameMap : MonoBehaviour
 
 	private void Awake()
 	{
+        view.prepareView();
 		loadData();
-        NetworkManager.istance.InizializzaModel();
-
-        
+        NetworkManager.istance.InizializzaModel();        
 	}
 
 	private void loadData()//inizializza i dei dati su cui ci si può testare la parte logica
@@ -131,9 +130,11 @@ public class ModelGameMap : MonoBehaviour
 
         List<Player> players = new List<Player>();
 
-        players.Add(new Player("gino"));
+        players.Add(new Player("Pippo"));
 
-        players.Add(new Player("pippo"));
+        players.Add(new Player("Paperino"));
+
+        players.Add(new Player("Topolino"));
 
         List<Continent> world = loader.getWorld(data);
 
@@ -144,7 +145,7 @@ public class ModelGameMap : MonoBehaviour
         string phase = dataManager.getCurrentPhase();
         view.updatePhase(phase);
         view.changeCanvasOption(phase);
-        player = data.getPlayer();
+        player = dataManager.getPlayer();
     }
 
     public void quit()

@@ -23,7 +23,14 @@ public class DataManager
         this.players = players;
         this.world = world;
         currentPlayer = this.players[0];
+        currentPhase = DEPLOYMENT;
         dealer = new Dealer(lands);
+
+        gameManager.distributeTanksToPlayers(players);
+        dealer.drawCards(players);
+
+        foreach (Player player in players)
+            dealer.assignGoal(players, player, world);
     }
 
     private Land findLandByName(string name)

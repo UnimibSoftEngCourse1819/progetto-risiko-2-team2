@@ -2,13 +2,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Conquer : Goal
+public class ConquerGoal : Goal
 {
     private readonly List<Continent> continentsToConquer;
 
-    public Conquer(List<Continent> continents)
+    public ConquerGoal()
     {
-        continentsToConquer = continents;
+        continentsToConquer = new List<Continent>();
+    }
+
+    private ConquerGoal(ConquerGoal goal)
+    {
+        continentsToConquer = goal.getContinentsToConquer();
+    }
+
+    public override void fixGoal(List<Player> players, Player player, List<Continent> world)
+    {
+        int index = Random.Range(0, world.Count - 1);
+
+        Continent continent = world[index];
+        continentsToConquer.Add(continent);
+
+        while (continentsToConquer.Contains(world[index]))
+            index = Random.Range(0, world.Count - 1);
+
+        continent = world[index];
+        continentsToConquer.Add(continent);
     }
 
     public override bool isAccomplished(List<Player> players, Player player, List<Continent> world)
@@ -32,5 +51,15 @@ public class Conquer : Goal
         }
 
         return true;
+    }
+
+    public List<Continent> getContinentsToConquer()
+    {
+        return continentsToConquer;
+    }
+
+    public override Goal getClone()
+    {
+        return new ConquerGoal(this);
     }
 }

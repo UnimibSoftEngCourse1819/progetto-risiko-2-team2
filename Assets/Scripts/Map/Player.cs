@@ -17,7 +17,7 @@ public class Player
     private List<LandCard> landCards;
     private string color;
     private int nTanks;
-    //private Goal goal;
+    private Goal goal;
    
     public Player()
     {
@@ -37,13 +37,22 @@ public class Player
         landCards = new List<LandCard>();
     }
 
-    public Player(string nickname, List<Land> territory, string color, int nTanks)//need to add Goal
+    public Player(string nickname, List<Land> territory, string color, int nTanks, Goal goal)//need to add Goal
     {
         this.nickname = nickname;
         territoryOwned = territory;
         this.color = color;
         this.nTanks = nTanks;
-        //this.goal = goal;
+        this.goal = goal;
+    }
+
+    public Player(string nickname, int nTanks) : this(nickname, new List<Land>(), null, nTanks, null)//need to add Goal
+    {
+    }
+
+    public void setGoal(Goal goal)
+    {
+        this.goal = goal;
     }
 
     public void addCard(LandCard card)
@@ -59,10 +68,6 @@ public class Player
     public void removeLand(Land land)
     {
         territoryOwned.Remove(land);
-    }
-
-    public Player(string nickname, int nTanks) : this(nickname, new List<Land>() , null, nTanks)//need to add Goal
-    {
     }
 
     public bool hasLand(string name)
