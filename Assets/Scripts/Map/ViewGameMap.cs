@@ -186,6 +186,8 @@ public class ViewGameMap : MonoBehaviour
         {
             deploy.alpha = 1f;
             deploy.interactable = true;
+            deployGaming.alpha = 1f;
+            deployGaming.interactable = true;
         }
     }
 

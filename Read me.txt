@@ -1,4 +1,0 @@
-Benvenuto nel magico risiko 
-
-per far partire il gioco devi entrare nella cartella Riskserver1\risikoserver1\ e far partire il file denmominato "program"
-a quel punto apri unity (puoi anche averlo già aperto) e fai paritre la scena lobby e poi segui le istruzioni
