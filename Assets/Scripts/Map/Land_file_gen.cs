@@ -14,6 +14,7 @@ public class Land_file_gen : MonoBehaviour
     private int num_Continenti;
     private string nome_Continente;
     private string codice_Continente;
+    private int value_Continente;
     private int num_stati;
     private string nome_Stato;
     private string codice_Vicino;
@@ -37,7 +38,7 @@ public class Land_file_gen : MonoBehaviour
     public void GetInput(string stringa)
     { 
         input.text = "";
-        if(count < 9)
+        if(count < 10)
         count = Inizializzatore(count, stringa); 
         
     }
@@ -62,6 +63,7 @@ public class Land_file_gen : MonoBehaviour
         {
             file.WriteLine(nome_Continente);
             file.WriteLine(codice_Continente);
+            file.WriteLine(value_Continente);
             file.WriteLine(num_stati);
             file.Close();
         }
@@ -118,42 +120,50 @@ public class Land_file_gen : MonoBehaviour
                 {
 
                     codice_Continente = stringa;
-                    testo.text = "inserisci il numero di stati del continente " + nome_Continente;
+                    testo.text = "inserisci il valore del continente " + nome_Continente;
                     count = 5;
                     break;
                 }
-            case 5: // inserisci il numero di stati 
+            case 5: // inserisco il codice del continente
+                {
+
+                    value_Continente =int.Parse( stringa);
+                    testo.text = "inserisci il numero di stati del continente " + nome_Continente;
+                    count = 6;
+                    break;
+                }
+            case 6: // inserisci il numero di stati 
                 {
                     int c = conta_stati + 1;
                     num_stati = int.Parse(stringa);
                     SalvaContinente();
                     testo.text = "inserisci il nome dello stato numero "+c ;
-                    count = 6;
+                    count = 7;
                     break;
                 }
 
-            case 6: // nome stato
+            case 7: // nome stato
                 {
                     conta_stati++;
                     nome_Stato = stringa;
                     SalvaStato();
                     testo.text = "inserisci un vicino dello stato " + nome_Stato;
-                    count = 7;
+                    count = 8;
                     break;
                 }
                 
-            case 7:  // vicini dello stato ( max 10 )
+            case 8:  // vicini dello stato ( max 10 )
                 {
                     conta_vicini++;
                     codice_Vicino = stringa;
                     SalvaVicino();
                     testo.text = "inserisci un vicino dello stato " + nome_Stato;
                     if (conta_vicini < max_vicini) // ho inserito tutti i valori dei vicini ?                                           
-                        count = 7; // inserisci nuovo vicino
+                        count = 8; // inserisci nuovo vicino
                     else if (conta_stati < num_stati) // controlla se ho finito di inizializzare gli stati di un continente
                     {
                         conta_vicini = 0;
-                        count = 6; // vicini finiti
+                        count = 7; // vicini finiti
                         testo.text = "inserisci il nome dello stato numero "+num_stati;
                     }
                     else if (conta_contineti < num_Continenti)  // controlla se ho finito di inizializzare un continente
@@ -165,11 +175,11 @@ public class Land_file_gen : MonoBehaviour
                     }
                     else if( conta_contineti<num_Continenti)
                     {
-                        count = 8;
+                        count = 9;
                     }
                     break;
                 }
-            case 8:  // caso finale
+            case 9:  // caso finale
                 {
                     testo.text = "inizializzazione completata";
                     input.DeactivateInputField();
