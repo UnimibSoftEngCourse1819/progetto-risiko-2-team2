@@ -18,6 +18,7 @@ public class ModelGameMap : MonoBehaviour
     private int tankAttacker;
     private string message = "";
     private string player = "";
+    private bool started = true;
 
     public void deploy(string nTank)
     {
@@ -143,7 +144,7 @@ public class ModelGameMap : MonoBehaviour
         string phase = dataManager.getCurrentPhase();
         view.updatePhase(phase);
         view.changeCanvasOption(phase);
-
+        player = data.getPlayer();
     }
 
     public void quit()
