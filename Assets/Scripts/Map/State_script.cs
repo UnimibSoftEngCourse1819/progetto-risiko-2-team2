@@ -16,12 +16,45 @@ public class State_script : MonoBehaviour
     private string[] near_lands;
     private int Player_ID;
     private int N_tank;
+    private Attack_script attacco;
+    private Spostamento_script spostamento;
+    private int N_vicini=0;
 
-    private void OnMouseDown()
+    private void Awake()
     {
-        Debug.Log(land_name);
-        
+        attacco =  GameObject.Find("Attacca").GetComponent<Attack_script>();
+        spostamento = GameObject.Find("Spostamento").GetComponent<Spostamento_script>();
     }
+
+    private void OnMouseDown() // passo allo script attack_script o allo script spostamento i codici degli stati
+    {
+        if (attacco.GetAtt() == 1)
+        {
+            attacco.GetAttaccante(land_code);
+            Debug.Log("primo");
+        }
+        else if (attacco.GetAtt() == 2)
+        {
+            attacco.GetAttaccato(land_code);
+            Debug.Log("secondo");
+        }
+        else if (spostamento.GetState() == 1)
+            spostamento.GetPartenza(land_code);
+        else if (spostamento.GetState() == 2)
+            spostamento.GetArrivo(land_code);
+
+    }
+
+    public int IslandNear(string codice)  // controlla se un dato territorio è un vicino
+    {
+        int r=-1;
+        for (int i =0; i< N_vicini;i++)
+        {
+            if (near_lands[i] == codice)
+                r = 1;
+        }
+        return r;
+    } 
 
     public void Inizializza(string name, string c_name, string code)
     {
@@ -37,17 +70,37 @@ public class State_script : MonoBehaviour
 
     public void Inser_new_neighbour(string neighbour) // salvo il nuovo vicino
     {
-        for (int i = 0; i < MAX_BORDERS; i++)
-        {
-            if (near_lands[i] == "")
-            {
-                near_lands[i] = neighbour;
-                break;
-            }
-        }
+        near_lands[N_vicini] = neighbour;
+        N_vicini++;
     }
 
+    public string GetName()
+    {
+        return land_name;
+    }
+    public string GetCodice()
+    {
+        return land_code;
+    }
 
+    public int DimTanks(int c)  // controlla se posso diminuire il numero di carri e ritorna il risultato
+    {
+        if (c > N_tank)
+            return -1;
+        else
+            N_tank -= c;
+        return 1;
+    }
+
+    public void IncTanks(int c) // aumenta il numero di carri
+    {
+        N_tank += c;
+    }
+   
+    public int GetTanks() // ritorna il numero di carri
+    {
+        return N_tank;
+    }
 
 
 }
