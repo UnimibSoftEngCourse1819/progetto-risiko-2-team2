@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Dealer
 {
-    private List<LandCard> landCards;
+    private readonly List<LandCard> landCards;
 
     public Dealer()
     {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MainGoal : Goal
 {
-    private int nTerritoryGoal;
+    private readonly int nTerritoryGoal;
     private const int PERCENTAGE = 70;
 
     public MainGoal(List<Continent> world)

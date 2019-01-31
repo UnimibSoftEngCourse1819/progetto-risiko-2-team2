@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Conquer : Goal
 {
-    private List<Continent> continentsToConquer;
+    private readonly List<Continent> continentsToConquer;
 
     public Conquer(List<Continent> continents)
     {

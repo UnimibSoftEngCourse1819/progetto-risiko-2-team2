@@ -6,8 +6,8 @@ using UnityEngine;
 public class LandCard
 {
     enum Symbol { Cavalry, Infantry, Artillery, Jolly };
-    private Land land;
-    private Symbol symbol;
+    private readonly Land land;
+    private readonly Symbol symbol;
 
     public LandCard(Land land, int symbol)
     {

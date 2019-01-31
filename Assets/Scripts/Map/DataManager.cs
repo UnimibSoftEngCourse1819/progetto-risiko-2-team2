@@ -10,12 +10,12 @@ public class DataManager
     private const int MINIMUM_TANK_ON_LAND = 1;
     private const int MINIMUM_TANK_ATTACK_PER_TIME = 1, MAX_TANK_ATTACK_PER_TIME = 3;
 
-    private GameManager gameManager;
-    private List<Player> players;
-    private List<Continent> world;
+    private readonly GameManager gameManager;
+    private readonly List<Player> players;
+    private readonly List<Continent> world;
     private Player currentPlayer;
     private string currentPhase;
-    private Dealer dealer;
+    private readonly Dealer dealer;
 
     public DataManager(List<Player> players, List<Continent> world, List<Land> lands)
     {
@@ -60,10 +60,10 @@ public class DataManager
             -il numero dei tank difensori non sia superiore a quello permesso
             -controlla che il difensore non usi più tank di quelli che ha
         */
-        return ((nTankAttacker >= 1 && nTankAttacker <= MAX_TANK_ATTACK_PER_TIME &&
+        return ((nTankAttacker >= MINIMUM_TANK_ATTACK_PER_TIME && nTankAttacker <= MAX_TANK_ATTACK_PER_TIME &&
                 (currentAttackerTanks - MINIMUM_TANK_ON_LAND) >= nTankAttacker) &&
-                ((nTankDefender >= 1 && nTankDefender <= MAX_TANK_ATTACK_PER_TIME &&
-                currentDefenderTanks >= nTankDefender)));
+                (nTankDefender >= MINIMUM_TANK_ATTACK_PER_TIME && nTankDefender <= MAX_TANK_ATTACK_PER_TIME &&
+                currentDefenderTanks >= nTankDefender));
     }
 
     public string attack(string attacker, string defender, int nTankAttacker, int nTankDefender)

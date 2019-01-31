@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class Lobby_script : MonoBehaviour
+public class LobbyScript : MonoBehaviour
 {
 
     private InputField input;
@@ -31,7 +31,6 @@ public class Lobby_script : MonoBehaviour
         if(!string.IsNullOrEmpty(player.Getname())) // chiamo la network manager
         {
             net.initiate();
-            // Debug.Log("il mio nome è "+nomeUtente);
             SceneManager.LoadScene("Waiting_Room");
             NetworkManager.setMessage ( player.Getname()); // mando il nome utente
 

@@ -15,24 +15,22 @@ public class Land
     */
     private const int MAXNEIGHBOR = 10; 
 
-    private string name;
-    private List<Land> neighbors;
-    private string nameSprite;
+    private readonly string name;
+    private readonly List<Land> neighbors;
     private int tanksOnLand = 0;
 
-    public Land(string name, List<Land> neighbor, string nameSprite, int tanksOnLand)
+    public Land(string name, List<Land> neighbor, int tanksOnLand)
     {
         this.name = name;
         this.neighbors = neighbor;
-        this.nameSprite = nameSprite;
         this.tanksOnLand = tanksOnLand;
     }
 
-    public Land(string name, string nameSprite): this(name,  new List<Land>(), nameSprite, 0)
+    public Land(string name): this(name,  new List<Land>(), 0)
     {
     }
 
-    public Land(string name,int tanks): this(name, new List<Land>(), null, tanks)
+    public Land(string name,int tanks): this(name, new List<Land>(), tanks)
     {
     }
 
@@ -49,7 +47,7 @@ public class Land
 
     public bool hasMaxNeighbor()
     {
-        return neighbors.Count == 10;
+        return neighbors.Count == MAXNEIGHBOR;
     }
 
     public bool isNeighbor(string name)
@@ -66,10 +64,6 @@ public class Land
     public bool isNeighbor(Land land)
     {
         return isNeighbor(land.getName());
-    }
-
-    public string getNameSprite(){
-        return nameSprite;
     }
 
     public bool addNeighbor(Land newLand)

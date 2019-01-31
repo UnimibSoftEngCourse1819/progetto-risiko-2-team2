@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DestroyEnemyGoal : Goal
 {
-    private string armyColor;
+    private readonly string armyColor;
 
     public DestroyEnemyGoal(string color)
     {

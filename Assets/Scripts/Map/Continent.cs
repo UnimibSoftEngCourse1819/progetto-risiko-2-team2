@@ -10,10 +10,9 @@ public class Continent
         si può usare List.Count createvi un metodo 
     */
 	
-    private string name;
-    private List<Land> lands;
-    private string nameSprite;
-    private int bonusTank;
+    private readonly string name;
+    private readonly List<Land> lands;
+    private readonly int bonusTank;
 
     public Continent(string name, List<Land> lands, int bonusTank)
     {
