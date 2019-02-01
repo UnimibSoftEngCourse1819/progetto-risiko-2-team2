@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DataManager
 {
+    private const string START_DEPLOYMENT = "Initial Deploy phase";
     private const string DEPLOYMENT = "Deployment phase";
     private const string ATTACK = "Attack phase";
     private const string MOVE = "Move phase";
@@ -342,5 +343,17 @@ public class DataManager
     public int getPlayerTanksReinforcement(string name)
     {
         return getPlayerByName(name).getNTanks();
+    }
+
+    public bool isAllPlayerRunOutOfTanks()
+    {
+       bool result = true;
+       return result;
+    }
+
+    public string getLandData(string land)
+    {
+        string result = "";
+       return result;
     }
 }

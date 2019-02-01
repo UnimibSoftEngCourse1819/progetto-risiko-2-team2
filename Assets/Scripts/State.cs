@@ -13,7 +13,7 @@ public class State : MonoBehaviour, IPointerClickHandler
     public List<string> connections;
     public string continent;
     public Texture2D text;
-
+    
     private void Awake()
     {
         Click = new Pressed();
@@ -61,4 +61,3 @@ public class Pressed : UnityEvent<State>
 {
 
 }
-

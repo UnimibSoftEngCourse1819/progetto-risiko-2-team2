@@ -11,8 +11,8 @@ public class ViewGameMap : MonoBehaviour
 
     private const string INITIAL_TEXT = "BUG";
     private const int MAX_LINES_ON_EVENT_LOG = 17;
-    private readonly string[] PHASE = {"Attack phase", "Deployment phase", "Move phase", "Defend phase"};
-    private const int ATTACK = 0, DEPLOY = 1, MOVE = 2, DEFEND = 3;
+    private readonly string[] PHASE = {"Initial Deploy phase", "Attack phase", "Deployment phase", "Move phase", "Defend phase"};
+    private const int STARTDEPLOY = 0, ATTACK = 1, DEPLOY = 2, MOVE = 3, DEFEND = 4;
     private readonly List<string> logEvent = new List<string>();
 
     private CanvasGroup attack, defense, move, deploy, deployGaming, popup, error, quit, cards;
@@ -147,6 +147,10 @@ public class ViewGameMap : MonoBehaviour
 
     public void updateTwoSelected(string landStart, string landEnd)
     {
+        if (landStart == null)
+            landStart = "";
+        if (landEnd == null)
+            landEnd = "";
         attackSelected.text = landStart + System.Environment.NewLine + "VS" + System.Environment.NewLine + landEnd; 
         moveSelected.text = landStart + System.Environment.NewLine + "to" + System.Environment.NewLine + landEnd; 
     }
@@ -171,6 +175,11 @@ public class ViewGameMap : MonoBehaviour
     public void changeCanvasOption(string phase)
     {
         hideAllCanvasOption();
+        if(phase.Equals(PHASE[STARTDEPLOY], StringComparison.InvariantCultureIgnoreCase))
+        {
+            deploy.alpha = 1f;
+            deploy.interactable = true;
+        }
         if(phase.Equals(PHASE[ATTACK], StringComparison.InvariantCultureIgnoreCase))
         {
             attack.alpha = 1f;
@@ -244,20 +253,14 @@ public class ViewGameMap : MonoBehaviour
         foreach(StateData state in stateData)
         {
             State newState = Instantiate(statePrefab);
-
             newState.SetState(state.texture, state.stateName);
             newState.transform.position = state.getVector();
         }
     }
 
-    private void setupButton(GameObject button, string nameLand)
+    public void updateLandText(string text)
     {
-        button.GetComponent<Button>().onClick.AddListener(delegate { onClickedState(nameLand); });
-    }
-       
-    public void onClickedState(string nameLand)
-    {
-        Debug.Log(nameLand);
+        selectedData.text = text;
     }
 
 }

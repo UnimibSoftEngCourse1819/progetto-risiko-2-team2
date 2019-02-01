@@ -9,16 +9,18 @@ public class ModelGameMap : MonoBehaviour
 {
 	
 	private const string nameFile = "";
+    private const int INITIAL_TANKS_DEPLOY = 3;
 	
 	public ViewGameMap view;
 	public DataManager dataManager;
     public MessageManager messageManager;
     public MapLoader loader;
-	private readonly string firstland = "", secondland = "";
+	private string firstland = "", secondland = "";
     private int tankAttacker;
     private string message = "";
     private string player = "";
-    private readonly bool started = true;
+    private bool started = true;
+    private int countStartDeploy;
 
     public bool getStarted()
     {
@@ -37,10 +39,33 @@ public class ModelGameMap : MonoBehaviour
             view.showError(error);
         else
         {
-            message = messageManager.messageDeploy(dataManager.getPlayer(), int.Parse(tank), land);
-            view.updateLogEvent(messageManager.readDeploy(message));
-            view.updateTextPlayerData(dataManager.getPlayerData());
-            DataSender.SendPosizionamento(message);
+            if(!started)
+            {
+                message = messageManager.messageDeploy(dataManager.getPlayer(), int.Parse(tank), land);
+                view.updateLogEvent(messageManager.readDeploy(message));
+                view.updateTextPlayerData(dataManager.getPlayerData());
+                DataSender.SendPosizionamento(message);
+            }
+            else
+            {
+                countStartDeploy -= int.Parse(tank);
+                if (countStartDeploy != 0)
+                {
+                    view.updateDeployRemain("" + countStartDeploy);
+                }
+                else
+                {
+                    if(dataManager.isAllPlayerRunOutOfTanks())
+                    {
+                        started = false;
+                        //startRealGame();
+                    }
+                    else
+                    {
+                        //nextDeploy();
+                    }
+                }
+            }
         }
     }
 
@@ -74,7 +99,10 @@ public class ModelGameMap : MonoBehaviour
         message = messageManager.messagePhase(dataManager.getPlayer(), dataManager.getCurrentPhase());
         view.updatePhase(messageManager.readPhase(message));
         //un metodo che invii message agli altri utenti
+        firstland = null;
+        secondland = null;
     }
+
     public void NomiPlayer()  // prende  i nomi e i colori
     {
 
@@ -146,9 +174,13 @@ public class ModelGameMap : MonoBehaviour
 
         view.updateTextPlayerData(dataManager.getPlayer());
 
-        string phase = dataManager.getCurrentPhase();
-        view.updatePhase(phase);
+        string phase = dataManager.getCurrentPhase() + System.Environment.NewLine + dataManager.getPlayer();
+        countStartDeploy = INITIAL_TANKS_DEPLOY;
+
         view.changeCanvasOption(phase);
+        view.updatePhase(phase + System.Environment.NewLine + dataManager.getPlayer());
+        view.updateDeployRemain( "" + countStartDeploy);
+        view.updateSingleSelected("Select a State !!!");
         player = dataManager.getPlayer();
     }
 
@@ -242,6 +274,16 @@ public class ModelGameMap : MonoBehaviour
     {
         view.updateLogEvent(messageManager.readCard(data));
         
+    }
+
+    public void setClicked(string continent)
+    {
+        if(dataManager.getPlayer().Equals(dataManager.getPlayerByLand(continent)))
+            firstland = continent;
+        else 
+            secondland = continent;
+        view.updateLandText(dataManager.getLandData(continent));
+        view.updateTwoSelected(firstland, secondland);
     }
         
 }
