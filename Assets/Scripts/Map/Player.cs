@@ -12,10 +12,10 @@ public class Player
         si può usare List.Count createvi un metodo 
     */
     
-    private string nickname;
-    private List<Land> territoryOwned;
-    private List<LandCard> landCards;
-    private string color;
+    private readonly string nickname;
+    private readonly List<Land> territoryOwned;
+    private readonly List<LandCard> landCards;
+    private readonly string color;
     private int nTanks;
     private Goal goal;
    

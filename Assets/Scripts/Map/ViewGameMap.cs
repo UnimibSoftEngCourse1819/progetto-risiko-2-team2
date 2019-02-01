@@ -13,7 +13,7 @@ public class ViewGameMap : MonoBehaviour
     private const int MAX_LINES_ON_EVENT_LOG = 17;
     private readonly string[] PHASE = {"Attack phase", "Deployment phase", "Move phase", "Defend phase"};
     private const int ATTACK = 0, DEPLOY = 1, MOVE = 2, DEFEND = 3;
-    private List<string> logEvent = new List<string>();
+    private readonly List<string> logEvent = new List<string>();
 
     private CanvasGroup attack, defense, move, deploy, deployGaming, popup, error, quit, cards;
 	private Text eventLog, phase, selectedData, playerData, attackSelected, moveSelected, deployRemain, deploySelected, errorT;
@@ -184,7 +184,7 @@ public class ViewGameMap : MonoBehaviour
         if(phase.Equals(PHASE[MOVE], StringComparison.InvariantCultureIgnoreCase))
         {
             move.alpha = 1f;
-            move.interactable = true;;
+            move.interactable = true;
         }
         if(phase.Equals(PHASE[DEPLOY], StringComparison.InvariantCultureIgnoreCase))
         {
@@ -243,16 +243,10 @@ public class ViewGameMap : MonoBehaviour
     {
         foreach(StateData state in stateData)
         {
-            State newState = Instantiate(statePrefab) as State;
+            State newState = Instantiate(statePrefab);
 
             newState.SetState(state.texture, state.stateName);
             newState.transform.position = state.getVector();
-            /*
-            GameObject newButton = Instantiate(button) as GameObject;
-            newButton.GetComponent<Renderer>().material.mainTexture = state.getTexture();
-            newButton.transform.position = state.getVector();
-            setupButton(newButton, state.getName());
-            */
         }
     }
 

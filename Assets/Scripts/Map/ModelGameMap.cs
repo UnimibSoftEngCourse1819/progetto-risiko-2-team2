@@ -14,11 +14,16 @@ public class ModelGameMap : MonoBehaviour
 	public DataManager dataManager;
     public MessageManager messageManager;
     public MapLoader loader;
-	private string firstland = "", secondland = "";
+	private readonly string firstland = "", secondland = "";
     private int tankAttacker;
     private string message = "";
     private string player = "";
-    private bool started = true;
+    private readonly bool started = true;
+
+    public bool getStarted()
+    {
+        return started;
+    }
 
     public void deploy(string nTank)
     {
@@ -32,7 +37,6 @@ public class ModelGameMap : MonoBehaviour
             view.showError(error);
         else
         {
-            List<string> dataText = new List<string>();
             message = messageManager.messageDeploy(dataManager.getPlayer(), int.Parse(tank), land);
             view.updateLogEvent(messageManager.readDeploy(message));
             view.updateTextPlayerData(dataManager.getPlayerData());
