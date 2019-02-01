@@ -26,7 +26,7 @@ namespace RiskServer1
             {
                 case 1:
                     {
-                        playerList_Color.Add(ConnectionID, "rosso");// perche ross è figo
+                        playerList_Color.Add(ConnectionID, "rosso");// perche rosso è meglio
                         break;
                     }
                 case 2:
@@ -191,6 +191,7 @@ namespace RiskServer1
             {
                 foreach (KeyValuePair<int, Client> keyValue in ClientManager.client)
                 {
+                    if(keyValue.Key!=PlayerID)
                     DataSender.SendPosizionamento(keyValue.Key, msg, mod);
 
                 }
