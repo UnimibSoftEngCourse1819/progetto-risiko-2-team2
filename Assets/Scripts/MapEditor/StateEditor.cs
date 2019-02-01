@@ -92,6 +92,7 @@ public class StateEditor : MonoBehaviour
             if (connectionField.text != "" && GetState(connectionField.text) == null)
                 changeConnection = false;
         }
+
         if (changeConnection)
         {
             selectedState.connections = new List<string>();
@@ -100,7 +101,6 @@ public class StateEditor : MonoBehaviour
                 InputField connectionField = possibleConnections.transform.GetChild(i).GetComponent<InputField>();
                 if (connectionField.text != "")
                     selectedState.connections.Add(connectionField.text);
-
             }
         }
         else
@@ -108,10 +108,9 @@ public class StateEditor : MonoBehaviour
             int i = 0;
             foreach (string conn in selectedState.connections)
             {
-                if (i < possibleConnections.transform.childCount)
+                if (i < possibleConnections.transform.childCount && (conn != null || conn != ""))
                 {
-                    if (conn != null || conn != "")
-                        possibleConnections.transform.GetChild(i).GetComponent<InputField>().text = conn;
+                    possibleConnections.transform.GetChild(i).GetComponent<InputField>().text = conn;
                 }
                 i++;
             }
