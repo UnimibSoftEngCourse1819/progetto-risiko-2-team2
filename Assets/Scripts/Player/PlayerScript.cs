@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player_script : MonoBehaviour
+public class PlayerScript : MonoBehaviour
 {
     private string nome;
     private string color; // tipo "rosso","verde"....
-    private Player_script istanza;
+    private PlayerScript istanza;
     private int turno = 0;
 
     private void Awake()

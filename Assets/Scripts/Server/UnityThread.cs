@@ -20,7 +20,7 @@ public class UnityThread : MonoBehaviour
     private static List<System.Action> actionQueuesUpdateFunc = new List<Action>();
 
     //holds Actions copied from actionQueuesUpdateFunc to be executed
-    List<System.Action> actionCopiedQueueUpdateFunc = new List<System.Action>();
+   readonly List<System.Action> actionCopiedQueueUpdateFunc = new List<System.Action>();
 
     // Used to know if whe have new Action function to execute. This prevents the use of the lock keyword every frame
     private volatile static bool noActionQueueToExecuteUpdateFunc = true;
@@ -31,7 +31,7 @@ public class UnityThread : MonoBehaviour
     private static List<System.Action> actionQueuesLateUpdateFunc = new List<Action>();
 
     //holds Actions copied from actionQueuesLateUpdateFunc to be executed
-    List<System.Action> actionCopiedQueueLateUpdateFunc = new List<System.Action>();
+   readonly List<System.Action> actionCopiedQueueLateUpdateFunc = new List<System.Action>();
 
     // Used to know if whe have new Action function to execute. This prevents the use of the lock keyword every frame
     private volatile static bool noActionQueueToExecuteLateUpdateFunc = true;
@@ -43,7 +43,7 @@ public class UnityThread : MonoBehaviour
     private static List<System.Action> actionQueuesFixedUpdateFunc = new List<Action>();
 
     //holds Actions copied from actionQueuesFixedUpdateFunc to be executed
-    List<System.Action> actionCopiedQueueFixedUpdateFunc = new List<System.Action>();
+   readonly List<System.Action> actionCopiedQueueFixedUpdateFunc = new List<System.Action>();
 
     // Used to know if whe have new Action function to execute. This prevents the use of the lock keyword every frame
     private volatile static bool noActionQueueToExecuteFixedUpdateFunc = true;

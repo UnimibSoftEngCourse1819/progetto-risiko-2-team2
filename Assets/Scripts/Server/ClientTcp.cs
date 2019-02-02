@@ -27,11 +27,7 @@ namespace Assets.Scripts.Server
         private static void ClientConnectCallBack(IAsyncResult result)
         {
             clientSocket.EndConnect(result);
-            if (!clientSocket.Connected )
-            {
-                return;
-            }
-            else
+            if (clientSocket.Connected )
             {
                 clientSocket.NoDelay = true;
                 myStream = clientSocket.GetStream();
@@ -60,7 +56,6 @@ namespace Assets.Scripts.Server
             catch (Exception)
             {
 
-                return;
             }
         }
        public static void SendData(byte[] data)

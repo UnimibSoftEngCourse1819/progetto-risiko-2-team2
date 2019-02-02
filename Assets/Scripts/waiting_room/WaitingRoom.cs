@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class Waiting_room : MonoBehaviour
+public class WaitingRoom : MonoBehaviour
 {
     private Text text1;
     private Text text2;

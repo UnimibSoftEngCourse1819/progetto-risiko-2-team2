@@ -10,7 +10,7 @@ public class LobbyScript : MonoBehaviour
 
     private InputField input;
     private NetworkManager net;
-    private Player_script player;
+    private PlayerScript player;
   
 
     private void Awake()
@@ -18,7 +18,7 @@ public class LobbyScript : MonoBehaviour
         input = GameObject.Find("InputField").GetComponent<InputField>();
         input.ActivateInputField();
         net = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
-        player = GameObject.Find("Player").GetComponent<Player_script>();
+        player = GameObject.Find("Player").GetComponent<PlayerScript>();
     }
     public void GetNome(string nome)
     {
