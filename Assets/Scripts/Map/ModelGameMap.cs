@@ -170,6 +170,8 @@ public class ModelGameMap : MonoBehaviour
 
         List<Continent> world = loader.getWorld(data);
 
+        Debug.Log("Nea and the pussycats");
+
         dataManager = new DataManager(players, world, loader.getAllLands(world));
 
         view.updateTextPlayerData(dataManager.getPlayer());
@@ -177,11 +179,15 @@ public class ModelGameMap : MonoBehaviour
         string phase = dataManager.getCurrentPhase() + System.Environment.NewLine + dataManager.getPlayer();
         countStartDeploy = INITIAL_TANKS_DEPLOY;
 
+        Debug.Log("Initiate cloack mode");
+
         view.changeCanvasOption(phase);
         view.updatePhase(phase + System.Environment.NewLine + dataManager.getPlayer());
         view.updateDeployRemain( "" + countStartDeploy);
         view.updateSingleSelected("Select a State !!!");
         player = dataManager.getPlayer();
+
+        Debug.Log("The cool killers' club");
     }
 
     public void quit()

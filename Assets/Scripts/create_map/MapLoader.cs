@@ -77,12 +77,14 @@ public class MapLoader : MonoBehaviour
 		List<StateData> statesData = data.getWorldData();
 		List<Continent> realWorld = new List<Continent>();
 		List<string> continentData = data.getContinents();
-		//creating continents
-		foreach(string continentName in continentData)
+
+        //creating continents
+        foreach (string continentName in continentData)
 		{
 			Continent continentBuffer = new Continent(continentName);
 			realWorld.Add(continentBuffer);
-		}
+            Debug.Log("Continent added " + continentName);
+        }
 
 		//creating lands
 		foreach(StateData stateData in statesData)
@@ -90,9 +92,12 @@ public class MapLoader : MonoBehaviour
 			Land landBuffer = new Land(stateData.getName(), 1);
 			foreach(Continent continent in realWorld)
 			{
-				if(continent.getName().Equals(stateData.getContinent()))
-					continent.addLand(landBuffer);
-			} 
+                if (continent.getName().Equals(stateData.getContinent()))
+                {
+                    continent.addLand(landBuffer);
+                    Debug.Log("Land added " + continent.getName());
+                }
+            } 
 		}
 
 		//making the connection
@@ -103,7 +108,8 @@ public class MapLoader : MonoBehaviour
 			for(int i = 0; i < neighbors.Length; i++)
 			{
 				Land neighborBuffer = getLandFromWorld(realWorld, neighbors[i]);
-				landBuffer.addNeighbor(neighborBuffer);
+                Debug.Log("Test " + neighborBuffer.getName() + "-" + landBuffer.getName());
+                landBuffer.addNeighbor(neighborBuffer);
 			}
 		}
 		return realWorld;

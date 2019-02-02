@@ -27,28 +27,88 @@ public class DataManager
         currentPhase = DEPLOYMENT;
         dealer = new Dealer(lands);
 
+        Debug.Log("The killer!");
+
         gameManager.distributeTanksToPlayers(players);
         dealer.drawCards(players);
 
+        Debug.Log("Gnè!");
+
         foreach (Player player in players)
             dealer.assignGoal(players, player, world);
+
+        Debug.Log("Quello che vuoi");
     }
 
-    private Land findLandByName(string name)
+    public string getPlayerData()
     {
-        Land result = null;
-        foreach (Continent continent in world)
-        {
-            List<Land> lands = continent.getLands();
-            foreach (Land land in lands)
-            {
-                if (land.getName() == name)
-                {
-                    result = land;
-                }
-            }
+        return getPlayerData(currentPlayer.getName());
+    }
 
+
+    private Player getPlayerByName(string name)
+    {
+        Player searching = null;
+        foreach (Player player in players)
+        {
+            if (player.getName().Equals(name))
+                searching = player;
         }
+        return searching;
+    }
+
+    public string getPlayerData(string name)
+    {
+        Player searching = getPlayerByName(name);
+        string data = "";
+        List<Land> landsOwned = searching.getTerritoryOwned();
+        foreach (Land land in landsOwned)
+        {
+            data += land.getName() + " tank: " + land.getTanksOnLand() + " ";
+        }
+
+        return data;
+    }
+
+    public List<string> getListCard()
+    {
+        return currentPlayer.getListCard();
+    }
+
+    public string getPlayer()
+    {
+        return currentPlayer.getName();
+    }
+
+    public string getPlayerByLand(string land)
+    {
+        string result = "";
+        foreach (Player player in players)
+        {
+            if (player.hasLand(land))
+                result = player.getName();
+        }
+        return result;
+    }
+
+    public string getCurrentPhase()
+    {
+        return currentPhase;
+    }
+
+    public int getTankOfLand(string name)
+    {
+        return findLandByName(name).getTanksOnLand();
+    }
+
+    public int getPlayerTanksReinforcement(string name)
+    {
+        return getPlayerByName(name).getNTanks();
+    }
+
+    public string getLandData(string land)
+    {
+        string result = "";
         return result;
     }
 
@@ -72,132 +132,6 @@ public class DataManager
                 (currentAttackerTanks - MINIMUM_TANK_ON_LAND) >= nTankAttacker) &&
                 (nTankDefender >= MINIMUM_TANK_ATTACK_PER_TIME && nTankDefender <= MAX_TANK_ATTACK_PER_TIME &&
                 currentDefenderTanks >= nTankDefender));
-    }
-
-    public string attack(string attacker, string defender, int nTankAttacker, int nTankDefender)
-    {
-        Land attackerLand = findLandByName(attacker);
-        Land defenderLand = findLandByName(defender);
-
-        int currentAttackerTanks = attackerLand.getTanksOnLand();
-        int currentDefenderTanks = defenderLand.getTanksOnLand();
-
-        string result = null;
-        
-        if (checkedRispectiveOwners(attackerLand, defenderLand) && checkedTankNumbers(currentAttackerTanks, currentDefenderTanks, nTankAttacker, nTankDefender))
-        {
-            gameManager.attack(attackerLand, defenderLand, nTankAttacker, nTankDefender);
-
-            if (defenderLand.getTanksOnLand() == 0)
-            {
-                foreach (Player player in players)
-                {
-                    if (player.hasLand(defender))
-                    {
-                        gameManager.passLand(defenderLand, player, currentPlayer, nTankAttacker);
-                    }
-                }
-            }
-        }
-        else
-            result = "Land not belonging to their respective owners or tank number is not correct";
-
-        return result;
-    }
-
-    public void passTurn()
-    {
-        //cambia currentPlayer
-        int index = players.IndexOf(currentPlayer);
-        if (index == players.Count - 1)
-            currentPlayer = players[0];
-        else
-            currentPlayer = players[index + 1];
-        nextPhase();
-    }
-
-    // Cambia fase di gioco
-    public void nextPhase()
-    {
-        if (currentPhase.Equals(DEPLOYMENT))
-            currentPhase = ATTACK;
-        else if (currentPhase.Equals(ATTACK))
-            currentPhase = MOVE;
-        else
-            currentPhase = DEPLOYMENT;
-    }
-
-    public string moveTanks(string startLand, string endLand, int nTank)
-    {
-        Land firstLand = findLandByName(startLand);
-        Land secondLand = findLandByName(endLand);
-
-        string result = null;
-        
-        if (currentPlayer.hasLand(startLand) && currentPlayer.hasLand(endLand) &&
-            (firstLand.getTanksOnLand() - 1) >= nTank)
-            gameManager.moveTanks(firstLand, secondLand, nTank);
-        else
-            result = "One of the lands don't belong to the current player or the number of tanks you want to " +
-                "move is not allowed!";
-
-        return result;
-    }
-
-    public string addTanks(string land, int nTank)
-    {
-        string result = null;
-
-        if (currentPlayer.hasLand(land))
-            gameManager.addTanks(currentPlayer, findLandByName(land), nTank);
-        else
-            result = "This land doesn't belong to the player";
-
-        return result;
-    }
-
-    public string getPlayerData()
-    {
-        return getPlayerData(currentPlayer.getName());
-    }
-
-
-    private Player getPlayerByName(string name)
-    {
-        Player searching = null;
-        foreach(Player player in players)
-        {
-            if(player.getName().Equals(name))
-                searching = player;
-        }
-        return searching;
-    }
-
-    public string getPlayerData(string name)
-    {
-        Player searching = getPlayerByName(name);
-        string data = "";
-        List<Land> landsOwned = searching.getTerritoryOwned();
-        foreach (Land land in landsOwned)
-        {
-            data += land.getName() + " tank: " + land.getTanksOnLand() + " ";
-        }
-
-        return data;
-    }
-
-
-
-    // Assegna tanks all'inizio di ogni turno
-    public void giveTanks()
-    {
-        gameManager.giveTanks(currentPlayer, world);
-    }
-
-    // Assegna tanks ad ogni player una sola volta all'inizio del gioco
-    public void distributeTanksToPlayers()
-    {
-        gameManager.distributeTanksToPlayers(players);
     }
 
     // Controlla se c'è più di una carta jolly all'interno del tris
@@ -252,33 +186,57 @@ public class DataManager
         return result;
     }
 
-    // Restituisce il numero di tank addizionali nel caso possegga delle land raffigurate nell carte
-    private int hasLands(List<LandCard> cards)
+    public bool isAllPlayerRunOutOfTanks()
     {
-        int counter = 0;
-
-        foreach (LandCard card in cards)
+        foreach (Player player in players)
         {
-            if (!card.isJolly() && currentPlayer.hasLand(card.getLand().getName()))
-                counter += 2;
+            if (player.getNTanks() > 0)
+                return false;
         }
 
-        return counter;
+        return true;
+    }
+
+    public string attack(string attacker, string defender, int nTankAttacker, int nTankDefender)
+    {
+        Land attackerLand = findLandByName(attacker);
+        Land defenderLand = findLandByName(defender);
+
+        int currentAttackerTanks = attackerLand.getTanksOnLand();
+        int currentDefenderTanks = defenderLand.getTanksOnLand();
+
+        string result = null;
+
+        if (checkedRispectiveOwners(attackerLand, defenderLand) && checkedTankNumbers(currentAttackerTanks, currentDefenderTanks, nTankAttacker, nTankDefender))
+        {
+            gameManager.attack(attackerLand, defenderLand, nTankAttacker, nTankDefender);
+
+            if (defenderLand.getTanksOnLand() == 0)
+            {
+                foreach (Player player in players)
+                {
+                    if (player.hasLand(defender))
+                    {
+                        gameManager.passLand(defenderLand, player, currentPlayer, nTankAttacker);
+                    }
+                }
+            }
+        }
+        else
+            result = "Land not belonging to their respective owners or tank number is not correct";
+
+        return result;
     }
 
     public string useCards(string card1, string card2, string card3)
     {
-
         List<LandCard> choosed = new List<LandCard>();
+
         choosed.Add(currentPlayer.getCard(card1));
         choosed.Add(currentPlayer.getCard(card2));
         choosed.Add(currentPlayer.getCard(card3));
-        return useCards(choosed);
-    }
 
-    public List<string> getListCard()
-    {
-        return currentPlayer.getListCard();
+        return useCards(choosed);
     }
 
     private string useCards(List<LandCard> selectedCards)
@@ -314,46 +272,103 @@ public class DataManager
         return result;
     }
 
-    public string getPlayer()
+    public string moveTanks(string startLand, string endLand, int nTank)
     {
-        return currentPlayer.getName();
-    }
+        Land firstLand = findLandByName(startLand);
+        Land secondLand = findLandByName(endLand);
 
-    public string getPlayerByLand(string land)
-    {
-        string result = "";
-        foreach(Player player in players)
-        {
-            if(player.hasLand(land))
-                result = player.getName();
-        }
+        string result = null;
+
+        if (currentPlayer.hasLand(startLand) && currentPlayer.hasLand(endLand) &&
+            (firstLand.getTanksOnLand() - 1) >= nTank)
+            gameManager.moveTanks(firstLand, secondLand, nTank);
+        else
+            result = "One of the lands don't belong to the current player or the number of tanks you want to " +
+                "move is not allowed!";
+
         return result;
     }
 
-    public string getCurrentPhase()
+    public string addTanks(string land, int nTank)
     {
-        return currentPhase;
+        string result = null;
+
+        if (currentPlayer.hasLand(land))
+            gameManager.addTanks(currentPlayer, findLandByName(land), nTank);
+        else
+            result = "This land doesn't belong to the player";
+
+        return result;
     }
 
-    public int getTankOfLand(string name)
+    public void nextPlayer()
     {
-      return findLandByName(name).getTanksOnLand();
+        int index = players.IndexOf(currentPlayer);
+
+        if (index == players.Count - 1)
+            currentPlayer = players[0];
+        else
+            currentPlayer = players[index + 1];
     }
 
-    public int getPlayerTanksReinforcement(string name)
+    // Cambia fase di gioco
+    public void nextPhase()
     {
-        return getPlayerByName(name).getNTanks();
+        if (currentPhase.Equals(DEPLOYMENT))
+            currentPhase = ATTACK;
+        else if (currentPhase.Equals(ATTACK))
+            currentPhase = MOVE;
+        else
+            currentPhase = DEPLOYMENT;
     }
 
-    public bool isAllPlayerRunOutOfTanks()
+    public void passTurn()
     {
-       bool result = true;
-       return result;
+        nextPlayer();
+        nextPhase();
     }
 
-    public string getLandData(string land)
+    // Assegna tanks all'inizio di ogni turno
+    public void giveTanks()
     {
-        string result = "";
-       return result;
+        gameManager.giveTanks(currentPlayer, world);
+    }
+
+    // Assegna tanks ad ogni player una sola volta all'inizio del gioco
+    public void distributeTanksToPlayers()
+    {
+        gameManager.distributeTanksToPlayers(players);
+    }
+
+    // Restituisce il numero di tank addizionali nel caso possegga delle land raffigurate nell carte
+    private int hasLands(List<LandCard> cards)
+    {
+        int counter = 0;
+
+        foreach (LandCard card in cards)
+        {
+            if (!card.isJolly() && currentPlayer.hasLand(card.getLand().getName()))
+                counter += 2;
+        }
+
+        return counter;
+    }
+
+    private Land findLandByName(string name)
+    {
+        Land result = null;
+        foreach (Continent continent in world)
+        {
+            List<Land> lands = continent.getLands();
+            foreach (Land land in lands)
+            {
+                if (land.getName() == name)
+                {
+                    result = land;
+                }
+            }
+
+        }
+        return result;
     }
 }

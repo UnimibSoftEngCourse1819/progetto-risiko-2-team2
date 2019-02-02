@@ -38,10 +38,14 @@ public class Dealer
     {
         int index = Random.Range(0, goals.Count - 1);
 
+        Debug.Log("E te pareva! " + index);
+
         Goal goal = goals[index].getClone();
 
         goal.fixGoal(players, player, world);
         player.setGoal(goal);
+
+        Debug.Log("The end");
     }
 
     public void shuffleCards()
