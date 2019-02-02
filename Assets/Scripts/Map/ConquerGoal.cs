@@ -20,13 +20,19 @@ namespace Goals
 
         public override void fixGoal(List<Player> players, Player player, List<Continent> world)
         {
+            Debug.Log("Continents: " + world.Count);
             int index = Random.Range(0, world.Count - 1);
 
+            Debug.Log("Index " + index);
+
             Continent continent = world[index];
+            Debug.Log("Help me " + index);
             continentsToConquer.Add(continent);
 
             while (continentsToConquer.Contains(world[index]))
                 index = Random.Range(0, world.Count - 1);
+
+            Debug.Log("Puke " + index);
 
             continent = world[index];
             continentsToConquer.Add(continent);
