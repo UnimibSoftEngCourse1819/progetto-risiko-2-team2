@@ -62,12 +62,25 @@ public class ModelGameMap : MonoBehaviour
                     }
                     else
                     {
-                        //nextDeploy();
+                        nextDeploy();
                     }
                 }
             }
         }
     }
+
+    private void localMode()
+    {
+        player = data.getPlayer();
+    }
+
+    private void nextDeploy()
+    {
+        data.nextPlayer();
+        while(data.getPlayerTanksReinforcement() == 0)
+            data.nextPlayer;
+        localMode();
+    } 
 
     public void setTankAttacker(string tankAttacker)
     {
@@ -285,5 +298,40 @@ public class ModelGameMap : MonoBehaviour
         view.updateLandText(dataManager.getLandData(continent));
         view.updateTwoSelected(firstland, secondland);
     }
+
+    private void prepareViewDeployStart()
+    {
+        view.updateSingleSelected("Select a State !!");
+        int remainTanks = INITIAL_TANKS_DEPLOY;
+        if(data.getPlayerTanksReinforcement() < INITIAL_TANKS_DEPLOY)
+            remainTanks = data.getPlayerTanksReinforcement(player);
+        view.updateDeployRemain(remainTanks);
+    }
+
+    private void prepareViewDeploy()
+    {
+        view.updateSingleSelected("Select a State !!");
+        view.updateDeployRemain(data.getPlayerTanksReinforcement(player));
+    }
+
+    private void prepareViewAttack()
+    {
+        view.updateTwoSelected("" + "");
+    }
+
+    private void prepareViewDefense()
+    {
+
+    }
+
+    private void prepareViewMove()
+    {
+        view.updateTwoSelected("" + "");
+    }
+
+    private void prepareViewWaiting()
+    {
         
+    }
+ 
 }
