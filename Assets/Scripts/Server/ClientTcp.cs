@@ -27,7 +27,7 @@ namespace Assets.Scripts.Server
         private static void ClientConnectCallBack(IAsyncResult result)
         {
             clientSocket.EndConnect(result);
-            if (clientSocket.Connected == false)
+            if (!clientSocket.Connected )
             {
                 return;
             }

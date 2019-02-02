@@ -35,7 +35,7 @@ namespace Assets.Scripts.Server
 
             ByteBuffer buffer = new ByteBuffer();
 
-            // System.Threading.Thread.Sleep(1000);          
+                     
             buffer.WriteInteger((int)ClientPackets.cHelloServer);
             buffer.WriteString(a.ToString());
             ClientTcp.SendData(buffer.ToArray());

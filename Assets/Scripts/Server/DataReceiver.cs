@@ -14,7 +14,7 @@ namespace Assets.Scripts.Server
     }
 
 
-    class DataReceiver  // dovrebbe essere static ma mi serve che non lo sia
+   static class DataReceiver  
     {
 
 
@@ -77,22 +77,22 @@ namespace Assets.Scripts.Server
                         }
                     case "Attacco": // un player ha fatto un attacco devo aggionrare la mappa
                         {
-                            NetworkManager.setState(3);
+                            NetworkManager.setState(5);
                             break;
                         }
                     case "Spostamento":// un player ha fatto uno spostamento devo aggionrare la mappa
                         {
-                            NetworkManager.setState(4);
+                            NetworkManager.setState(6);
                             break;
                         }
                     case "Posizionamento":// un player ha fatto uno posizioanemtnopdevo aggionrare la mappa
                         {
-                            NetworkManager.setState(5);
+                            NetworkManager.setState(3);
                             break;
                         }
                     case "Combo Carte":// un player ha fatto uno posizioanemtnopdevo aggionrare la mappa
                         {
-                            NetworkManager.setState(6);
+                            NetworkManager.setState(4);
                             break;
                         }
                     case "Dichiaro Attacco":
@@ -115,41 +115,22 @@ namespace Assets.Scripts.Server
             else if (NetworkManager.getState() == 1) // salvo il numero di player
             {
                 NetworkManager.setNPlayer(int.Parse(msg));
-                // Debug.Log("msg");
+                
                 NetworkManager.setState(0);
-                //  Debug.Log(NetworkManager.state);
+               
             }
             else if (NetworkManager.getState() == 2) // indico che mappa caricare
             {
                 NetworkManager.setMap(int.Parse(msg));
                 Debug.Log("starting map " + msg);
                 NetworkManager.setState(0);
-                //  Debug.Log(NetworkManager.state);
+                
             }
-            else if (NetworkManager.getState() == 3) // fase di attcacco 
+            else if (NetworkManager.getState() >2 && NetworkManager.getState() <9) // fase di attcacco 
             {
-                NetworkManager.refresh(msg, 4);
+                NetworkManager.refresh(msg, NetworkManager.getState()-2);
             }
-            else if (NetworkManager.getState() == 4) // fase di spostamento 
-            {
-                NetworkManager.refresh(msg, 3);
-            }
-            else if (NetworkManager.getState() == 5) // fase di posizioanemnto 
-            {
-                NetworkManager.refresh(msg, 1);
-            }
-            else if (NetworkManager.getState() == 6) // usata combo carte 
-            {
-                NetworkManager.refresh(msg, 2);
-            }
-            else if (NetworkManager.getState() == 7) // attacco dichiarato
-            {
-                NetworkManager.refresh(msg, 5);
-            }
-            else if (NetworkManager.getState() == 8) // attacco dichiarato
-            {
-                NetworkManager.refresh(msg, 6);
-            }
+           
             else if(NetworkManager.getState() == 9) // caso lettura nomi 
             { 
                 if(msg=="Fine Nomi")

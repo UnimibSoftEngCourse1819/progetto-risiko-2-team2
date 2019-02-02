@@ -8,7 +8,7 @@ namespace Assets.Scripts.Server
 
     public class ByteBuffer : IDisposable
     {
-        private List<byte> buff; // buffer 
+        private readonly List<byte> buff; // buffer 
         private byte[] readbuffer;
         private int readPos;
         private bool buffUpdater = false; // indica se ho updatato il buffer
@@ -29,7 +29,7 @@ namespace Assets.Scripts.Server
         }
         public int Count()
         {
-            return buff.Count();
+            return buff.Count;
         }
         public int Length()
         {
@@ -230,10 +230,9 @@ namespace Assets.Scripts.Server
                     buffUpdater = false;
                 }
                 string value = Encoding.ASCII.GetString(readbuffer, readPos, length);
-                if (peek && buff.Count > readPos)
+                if (peek && buff.Count > readPos && value.Length > 0)
                 {
-                    if (value.Length > 0)
-                        readPos += length;
+                    readPos += length;
                 }
                 return value;
             }
@@ -248,7 +247,7 @@ namespace Assets.Scripts.Server
         private bool DisposeValue = false; 
         protected virtual void Dispose(bool disposing) // aggiunge uno spazio
         {
-            if (!disposing)
+            if (!DisposeValue)
             {
                 if (disposing)
                 {
@@ -257,6 +256,7 @@ namespace Assets.Scripts.Server
                 }
                 DisposeValue = true;
             }
+           
         }
 
         public void Dispose()
