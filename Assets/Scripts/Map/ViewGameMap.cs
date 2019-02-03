@@ -10,13 +10,13 @@ public class ViewGameMap : MonoBehaviour
 {
 
     private const string INITIAL_TEXT = "BUG";
-    private const int MAX_LINES_ON_EVENT_LOG = 17;
+    private const int MAX_LINES_ON_EVENT_LOG = 15;
     private readonly string[] PHASE = {"Initial Deploy phase", "Attack phase", "Deployment phase", "Move phase", "Defend phase"};
     private const int STARTDEPLOY = 0, ATTACK = 1, DEPLOY = 2, MOVE = 3, DEFEND = 4;
     private readonly List<string> logEvent = new List<string>();
 
-    private CanvasGroup attack, defense, move, deploy, deployGaming, popup, error, quit, cards;
-	private Text eventLog, phase, selectedData, playerData, attackSelected, moveSelected, deployRemain, deploySelected, errorT;
+    private CanvasGroup attack, defense, move, deploy, deployGaming, popup, message, quit, cards;
+	private Text eventLog, phase, selectedData, playerData, attackSelected, moveSelected, deployRemain, deploySelected, messagePopup, goal, cardList;
     private Dropdown card1, card2, card3;
     public State statePrefab;
 
@@ -31,7 +31,9 @@ public class ViewGameMap : MonoBehaviour
         moveSelected = GameObject.Find("TextMoveSelected").GetComponent<Text>(); 
         deployRemain = GameObject.Find("TextDeployRemain").GetComponent<Text>(); 
         deploySelected = GameObject.Find("TextDeploySelected").GetComponent<Text>();
-        errorT =  GameObject.Find("TextError").GetComponent<Text>();
+        messagePopup =  GameObject.Find("TextMessagePopup").GetComponent<Text>();
+        goal = GameObject.Find("TextGoal").GetComponent<Text>();
+        cardList = GameObject.Find("TextCardList").GetComponent<Text>();
 
         Debug.Log("Tacatà");
 
@@ -43,7 +45,9 @@ public class ViewGameMap : MonoBehaviour
         moveSelected.text = INITIAL_TEXT;
         deployRemain.text = INITIAL_TEXT;
         deploySelected.text = INITIAL_TEXT;
-        errorT.text = INITIAL_TEXT;
+        messagePopup.text = INITIAL_TEXT;
+        goal = INITIAL_TEXT;
+        cardList = INITIAL_TEXT;
 
         //CanvasGroup
         attack = GameObject.Find("CanvasAttack").GetComponent<CanvasGroup>();
@@ -52,7 +56,7 @@ public class ViewGameMap : MonoBehaviour
         deploy = GameObject.Find("CanvasDeploy").GetComponent<CanvasGroup>();
         deployGaming = GameObject.Find("CanvasDeployGaming").GetComponent<CanvasGroup>();
         popup = GameObject.Find("CanvasPopup").GetComponent<CanvasGroup>();
-        error = GameObject.Find("CanvasError").GetComponent<CanvasGroup>();
+        message = GameObject.Find("CanvasMessage").GetComponent<CanvasGroup>();
         quit = GameObject.Find("CanvasQuit").GetComponent<CanvasGroup>();
         cards = GameObject.Find("CanvasCards").GetComponent<CanvasGroup>();
 
@@ -77,9 +81,9 @@ public class ViewGameMap : MonoBehaviour
     public void showError(string message)
     {
         showPopup();
-        error.alpha = 1f;
-        error.interactable = true;
-        errorT.text = message;
+        message.alpha = 1f;
+        message.interactable = true;
+        messagePopup.text = message;
     }
 
     public void closeCard()
@@ -216,20 +220,20 @@ public class ViewGameMap : MonoBehaviour
         quit.interactable = true;
     }
 
-    public void errorPopup()
+    public void messagePopup()
     {
         showPopup();
-        error.alpha = 1f;
-        error.interactable = true;
+        message.alpha = 1f;
+        message.interactable = true;
     }
 
     public void closePopup()
     {
         popup.alpha = 0f;
-        error.alpha = 0f;
+        message.alpha = 0f;
         quit.alpha = 0f;
         popup.interactable = false;
-        error.interactable = false;
+        message.interactable = false;
         quit.interactable = false;
     }
 
