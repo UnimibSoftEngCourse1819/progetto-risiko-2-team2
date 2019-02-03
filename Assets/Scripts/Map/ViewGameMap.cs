@@ -175,6 +175,11 @@ public class ViewGameMap : MonoBehaviour
     public void changeCanvasOption(string phase)
     {
         hideAllCanvasOption();
+
+        Debug.Log(phase);
+
+        Debug.Log(PHASE[STARTDEPLOY]);
+
         if(phase.Equals(PHASE[STARTDEPLOY], StringComparison.InvariantCultureIgnoreCase))
         {
             deploy.alpha = 1f;

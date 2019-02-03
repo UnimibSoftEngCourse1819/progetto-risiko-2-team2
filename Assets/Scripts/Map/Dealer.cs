@@ -66,8 +66,11 @@ public class Dealer
     {
         int index = 0;
 
+        Debug.Log("Player " + players.Count);
+
         for (int i = 0; i < landCards.Count; i++)
         {
+            Debug.Log("Landcard " + landCards.Count);
             players[index].addLand(landCards[i].getLand());
 
             if (index == players.Count - 1)

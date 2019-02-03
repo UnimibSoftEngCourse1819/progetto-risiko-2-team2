@@ -77,7 +77,7 @@ public class ModelGameMap : MonoBehaviour
     private void startRealGame()
     {
         started = false;
-        dataManager.startGame();
+        //dataManager.startGame();
         localMode();
         prepareViewDeploy();
     }
@@ -197,7 +197,7 @@ public class ModelGameMap : MonoBehaviour
 
         view.updateTextPlayerData(dataManager.getPlayer());
 
-        string phase = dataManager.getCurrentPhase() + System.Environment.NewLine + dataManager.getPlayer();
+        string phase = dataManager.getCurrentPhase();
         countStartDeploy = INITIAL_TANKS_DEPLOY;
 
         Debug.Log("Initiate cloack mode");

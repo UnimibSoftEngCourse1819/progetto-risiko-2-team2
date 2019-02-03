@@ -24,7 +24,7 @@ public class DataManager
         this.players = players;
         this.world = world;
         currentPlayer = this.players[0];
-        currentPhase = DEPLOYMENT;
+        currentPhase = START_DEPLOYMENT;
         dealer = new Dealer(lands);
 
         Debug.Log("The killer!");

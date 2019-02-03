@@ -22,7 +22,7 @@ public class Player
     public Player()
     {
         nickname = null;
-        territoryOwned = null;
+        territoryOwned = new List<Land>();
         color = null;
         nTanks = 0;
         landCards = new List<LandCard>();
@@ -31,7 +31,7 @@ public class Player
     public Player(string username)
     {
         nickname = username;
-        territoryOwned = null;
+        territoryOwned = new List<Land>();
         color = null;
         nTanks = 0;
         landCards = new List<LandCard>();
