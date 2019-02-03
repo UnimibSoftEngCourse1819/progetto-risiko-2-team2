@@ -6,7 +6,7 @@ using System.IO;
 
 public class ControllGameMap : MonoBehaviour
 {
-
+    public ViewGameMap view;
     private InputField attackTank, defendTank, moveTank, deployTank;
     private Dropdown card1, card2, card3;
     public ModelGameMap model;
@@ -87,5 +87,10 @@ public class ControllGameMap : MonoBehaviour
     public void onClickCloseCard()
     {
         model.closeCard();
+    }
+
+    public void showError(string error)
+    {
+        view.showError(error);
     }
 }

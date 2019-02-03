@@ -10,8 +10,8 @@ public class ModelGameMap : MonoBehaviour
 	
 	private const string nameFile = "";
     private const int INITIAL_TANKS_DEPLOY = 3;
-	
-	public ViewGameMap view;
+
+    public ControllGameMap controller;
 	public DataManager dataManager;
     public MessageManager messageManager;
     public MapLoader loader;
@@ -36,7 +36,7 @@ public class ModelGameMap : MonoBehaviour
     {
     	string error = dataManager.addTanks(land, int.Parse(tank));
     	if(error != null)
-            view.showError(error);
+            controller.showError(error);
         else
         {
             if(!started)
