@@ -40,6 +40,11 @@ public class DataManager
         Debug.Log("Quello che vuoi");
     }
 
+    public Player getCurrentPlayer()
+    {
+        return currentPlayer;
+    }
+
     public string getPlayerData()
     {
         return getPlayerData(currentPlayer.getName());

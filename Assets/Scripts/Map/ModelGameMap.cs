@@ -15,12 +15,27 @@ public class ModelGameMap : MonoBehaviour
 	public DataManager dataManager;
     public MessageManager messageManager;
     public MapLoader loader;
-	private string firstland = "", secondland = "";
+	private string firstLand = "", secondLand = "";
     private int tankAttacker;
     private string message = "";
     private string player = "";
     private bool started = true;
     private int countStartDeploy;
+
+    public string getFirstLand()
+    {
+        return firstLand;
+    }
+
+    public string getSecondLand()
+    {
+        return secondLand;
+    }
+
+    public string getPlayer()
+    {
+        return player;
+    }
 
     public bool getStarted()
     {
@@ -29,7 +44,7 @@ public class ModelGameMap : MonoBehaviour
 
     public void deploy(string nTank)
     {
-        deploy(firstland, nTank);
+        deploy(firstLand, nTank);
     }
 
 	private void deploy(string land, string tank)
@@ -42,8 +57,8 @@ public class ModelGameMap : MonoBehaviour
             if(!started)
             {
                 message = messageManager.messageDeploy(dataManager.getPlayer(), int.Parse(tank), land);
-                view.updateLogEvent(messageManager.readDeploy(message));
-                view.updateTextPlayerData(dataManager.getPlayerData());
+                controller.updateLogEvent(messageManager.readDeploy(message));
+                controller.updateTextPlayerData(dataManager.getPlayerData());
                 DataSender.SendPosizionamento(message);
             }
             else
@@ -51,7 +66,7 @@ public class ModelGameMap : MonoBehaviour
                 countStartDeploy -= int.Parse(tank);
                 if (countStartDeploy != 0)
                 {
-                    view.updateDeployRemain("" + countStartDeploy);
+                    controller.updateDeployRemain(countStartDeploy);
                 }
                 else
                 {
@@ -93,23 +108,23 @@ public class ModelGameMap : MonoBehaviour
     public void setTankAttacker(string tankAttacker)
     {
         this.tankAttacker = int.Parse(tankAttacker);
-        message = messageManager.messageInitiateCombat(dataManager.getPlayer(), dataManager.getPlayerByLand(secondland), 
-                                                        firstland, secondland,
+        message = messageManager.messageInitiateCombat(dataManager.getPlayer(), dataManager.getPlayerByLand(secondLand), 
+                                                        firstLand, secondLand,
                                                         int.Parse(tankAttacker));
-        view.updateLogEvent (messageManager.readDeploy(message));
+        controller.updateLogEvent(messageManager.readDeploy(message));
         DataSender.SendAttackDeclared(message);
     }
 
     public void move(string tankDeploy)
     {
-    	string error = dataManager.moveTanks(firstland, secondland, int.Parse(tankDeploy));
+    	string error = dataManager.moveTanks(firstLand, secondLand, int.Parse(tankDeploy));
     	if(error != null)
-            view.showError(error);
+            controller.showError(error);
         else
         {
-           message = messageManager.messageMove(dataManager.getPlayer(), firstland, secondland, int.Parse(tankDeploy));
-           view.updateLogEvent(messageManager.readMove(message));
-           view.updateTextPlayerData(dataManager.getPlayerData());
+            message = messageManager.messageMove(dataManager.getPlayer(), firstLand, secondLand, int.Parse(tankDeploy));
+            controller.updateLogEvent(messageManager.readMove(message));
+            controller.updateTextPlayerData(dataManager.getPlayerData());
             DataSender.SendSpostamento(message);
         }
     }
@@ -118,13 +133,13 @@ public class ModelGameMap : MonoBehaviour
     {
         dataManager.nextPhase();
         message = messageManager.messagePhase(dataManager.getPlayer(), dataManager.getCurrentPhase());
-        view.updatePhase(messageManager.readPhase(message));
+        controller.updatePhase(messageManager.readPhase(message));
         //un metodo che invii message agli altri utenti
-        firstland = null;
-        secondland = null;
+        firstLand = null;
+        secondLand = null;
     }
 
-    public void NomiPlayer()  // prende  i nomi e i colori
+    public void nomiPlayer()  // prende  i nomi e i colori
     {
 
 
@@ -134,28 +149,29 @@ public class ModelGameMap : MonoBehaviour
     {
         int startAttack = 0, startDefense = 0;
         string defenseOwner = ""; 
-        if(firstland != null && secondland != null)
+        if(firstLand != null && secondLand != null)
         {
-            startAttack = dataManager.getTankOfLand(firstland);
-            startDefense = dataManager.getTankOfLand(secondland);
-            defenseOwner = dataManager.getPlayerByLand(secondland);
+            startAttack = dataManager.getTankOfLand(firstLand);
+            startDefense = dataManager.getTankOfLand(secondLand);
+            defenseOwner = dataManager.getPlayerByLand(secondLand);
         }
 
-        string error = dataManager.attack(firstland, secondland, tankAttacker, int.Parse(tankDefender));
+        string error = dataManager.attack(firstLand, secondLand, tankAttacker, int.Parse(tankDefender));
         if(error != null)
-            view.showError(error);
+            controller.showError(error);
         else
         {
-           string result = "";
-           if(dataManager.getPlayerByLand(firstland).Equals(dataManager.getPlayerByLand(secondland)))
+            string result = "";
+            if(dataManager.getPlayerByLand(firstLand).Equals(dataManager.getPlayerByLand(secondLand)))
                 result = "The Land has been conquered";
-           else
+            else
                 result = "The Land has not been conquered";
-           message = messageManager.messageDefend(dataManager.getPlayerByLand(secondland) , dataManager.getPlayer(), 
-                            secondland, firstland, startDefense - dataManager.getTankOfLand(secondland), startAttack - dataManager.getTankOfLand(firstland),
+            message = messageManager.messageDefend(dataManager.getPlayerByLand(secondLand) , dataManager.getPlayer(), 
+                            secondLand, firstLand, startDefense - dataManager.getTankOfLand(secondLand), startAttack - dataManager.getTankOfLand(firstLand),
                             tankDefender, result);
-           view.updateLogEvent(messageManager.readDefend(message));
-           view.updateTextPlayerData(dataManager.getPlayerData(defenseOwner));
+
+            controller.updateLogEvent(messageManager.readDefend(message));
+            controller.updateTextPlayerData(dataManager.getPlayerData(defenseOwner));
             DataSender.SendAttacco(message);
         }
     }
@@ -163,13 +179,13 @@ public class ModelGameMap : MonoBehaviour
     public void pass(){
         dataManager.passTurn();
         message = messageManager.messagePhase(dataManager.getPlayer(), dataManager.getCurrentPhase());
-        view.updatePhase(messageManager.readPhase(message));
+        controller.updatePhase(messageManager.readPhase(message));
         DataSender.SendPasso(message);
     }
 
 	private void Awake()
 	{
-        view.prepareView();
+        controller.prepareView();
 		loadData();
         NetworkManager.istance.InizializzaModel();        
 	}
@@ -179,7 +195,7 @@ public class ModelGameMap : MonoBehaviour
         Debug.Log("CIAONE");
 
         MapData data = loader.loadMap();
-        view.drawMap(data.actualStates);
+        controller.drawMap(data.actualStates);
 
         List<Player> players = new List<Player>();
 
@@ -195,17 +211,17 @@ public class ModelGameMap : MonoBehaviour
 
         dataManager = new DataManager(players, world, loader.getAllLands(world));
 
-        view.updateTextPlayerData(dataManager.getPlayer());
+        controller.updateTextPlayerData(dataManager.getPlayer());
 
         string phase = dataManager.getCurrentPhase();
         countStartDeploy = INITIAL_TANKS_DEPLOY;
 
         Debug.Log("Initiate cloack mode");
 
-        view.changeCanvasOption(phase);
-        view.updatePhase(phase + System.Environment.NewLine + dataManager.getPlayer());
-        view.updateDeployRemain( "" + countStartDeploy);
-        view.updateSingleSelected("Select a State !!!");
+        controller.changeCanvasOption(phase);
+        controller.updatePhase(phase + System.Environment.NewLine + dataManager.getPlayer());
+        controller.updateDeployRemain(countStartDeploy);
+        controller.updateSelected(1, "Select a State !!!", null);
         localMode();
 
         Debug.Log("The cool killers' club");
@@ -213,22 +229,22 @@ public class ModelGameMap : MonoBehaviour
 
     public void quit()
     {
-        view.showConfirmQuit();
+        controller.handleButtonClicked("Quit");
     }
 
     public void exit()
     {
-        //chiude il game
+        controller.handleButtonClicked("Exit");
     }
 
     public void closePopup()
     {
-        view.closePopup();
+        controller.handleButtonClicked("Popup");
     }
 
     public void closeCard()
     {
-        view.closeCard();
+        controller.handleButtonClicked("Card");
     }
 
     public void useCards(string card1, string card2, string card3)
@@ -236,11 +252,11 @@ public class ModelGameMap : MonoBehaviour
         int startTank = dataManager.getPlayerTanksReinforcement(dataManager.getPlayer());
         string error = dataManager.useCards(card1, card2, card3);
         if(error != null)
-            view.showError(error);
+            controller.showError(error);
         else
         {
          message = messageManager.messageCard( dataManager.getPlayer(), dataManager.getPlayerTanksReinforcement(dataManager.getPlayer()) - startTank);
-         view.updateLogEvent(messageManager.readCard(message));
+         controller.updateLogEvent(messageManager.readCard(message));
             DataSender.SendComboCarte(message);
         }
     }
@@ -248,89 +264,89 @@ public class ModelGameMap : MonoBehaviour
     public void showCards()
     {
         List<string> cards = dataManager.getListCard();
-        view.showCards(cards);
+        controller.showCards(cards);
     }
 
     public void updateDeploy(string data)
     {
-        view.updateLogEvent(messageManager.readDeploy(data));
+        controller.updateLogEvent(messageManager.readDeploy(data));
         dataManager.addTanks(messageManager.getPlayer1(), messageManager.getNTank1());
     }
 
     public void updateMove(string data)
     {       
-        view.updateLogEvent(messageManager.readMove(data));
+        controller.updateLogEvent(messageManager.readMove(data));
         dataManager.moveTanks(messageManager.getLandStart(), messageManager.getLandEnd(), messageManager.getNTank1());
     }
 
     public void updateAttack(string data)
     {       
-        view.updateLogEvent(messageManager.readInitiateCombat(data));
+        controller.updateLogEvent(messageManager.readInitiateCombat(data));
         if(messageManager.getPlayer2().Equals(player))
         {
-            view.changeCanvasOption("Defend phase");
-            view.updateTextPlayerData(dataManager.getPlayerData(player));
+            controller.changeCanvasOption("Defend phase");
+            controller.updateTextPlayerData(dataManager.getPlayerData(player));
         }
     }
 
     public void updateDefense(string data)
     {       
-        view.updateLogEvent(messageManager.readDefend(data));
+        controller.updateLogEvent(messageManager.readDefend(data));
         dataManager.attack(messageManager.getPlayer1(), messageManager.getPlayer2(), messageManager.getNTank1(), messageManager.getNTank2());
         if(messageManager.getPlayer1().Equals(player))
         {
-            view.changeCanvasOption("Attack phase");
-            view.updateTextPlayerData(dataManager.getPlayerData(player));
+            controller.changeCanvasOption("Attack phase");
+            controller.updateTextPlayerData(dataManager.getPlayerData(player));
         }
     }
 
     public void updateTurn(string data)
     {       
-        view.updatePhase(messageManager.readPhase(data));
+        controller.updatePhase(messageManager.readPhase(data));
         if(dataManager.getPlayer().Equals(messageManager.getPlayer1()))
             dataManager.nextPhase();
         else
             dataManager.passTurn();
         if(player.Equals(dataManager.getPlayer()))
         {
-            view.changeCanvasOption(dataManager.getCurrentPhase());
+            controller.changeCanvasOption(dataManager.getCurrentPhase());
         }
     }
 
     public void updateCards(string data)
     {
-        view.updateLogEvent(messageManager.readCard(data));
+        controller.updateLogEvent(messageManager.readCard(data));
         
     }
 
     public void setClicked(string continent)
     {
         if(dataManager.getPlayer().Equals(dataManager.getPlayerByLand(continent)))
-            firstland = continent;
+            firstLand = continent;
         else 
-            secondland = continent;
-        view.updateLandText(dataManager.getLandData(continent));
-        view.updateTwoSelected(firstland, secondland);
+            secondLand = continent;
+        controller.updateLandText(dataManager.getLandData(continent));
+        controller.updateSelected(2, firstLand, secondLand);
     }
 
     private void prepareViewDeployStart()
     {
-        view.updateSingleSelected("Select a State !!");
+        controller.updateSelected(1, "Select a State !!", null);
         int remainTanks = INITIAL_TANKS_DEPLOY;
         if(dataManager.getPlayerTanksReinforcement(dataManager.getPlayer()) < INITIAL_TANKS_DEPLOY)
             remainTanks = dataManager.getPlayerTanksReinforcement(player);
-        view.updateDeployRemain("" + remainTanks);
+        controller.updateDeployRemain(remainTanks);
     }
 
     private void prepareViewDeploy()
     {
-        view.updateSingleSelected("Select a State !!");
-        view.updateDeployRemain("" + dataManager.getPlayerTanksReinforcement(player));
+        controller.updateSelected(1, "Select a State !!", null);
+        controller.updateDeployRemain(dataManager.getPlayerTanksReinforcement(player));
     }
 
     private void prepareViewAttack()
     {
-        view.updateTwoSelected("", "");
+        controller.updateSelected(2, "", "");
     }
 
     private void prepareViewDefense()
@@ -340,12 +356,11 @@ public class ModelGameMap : MonoBehaviour
 
     private void prepareViewMove()
     {
-        view.updateTwoSelected("", "");
+        controller.updateSelected(2, "", "");
     }
 
     private void prepareViewWaiting()
     {
         
     }
- 
 }

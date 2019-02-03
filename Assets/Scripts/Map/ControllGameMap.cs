@@ -10,6 +10,7 @@ public class ControllGameMap : MonoBehaviour
     private InputField attackTank, defendTank, moveTank, deployTank;
     private Dropdown card1, card2, card3;
     public ModelGameMap model;
+    private StateControl state;
 
      private void Awake()//prepara i componenti da cui prendere gli input
     {
@@ -25,16 +26,44 @@ public class ControllGameMap : MonoBehaviour
         card3 = GameObject.Find("DropdownCard3").GetComponent<Dropdown>();
     }
 
+    public int getDeployTank()
+    {
+        return int.Parse(deployTank.text);
+    }
+
+    public int getAttackTank()
+    {
+        return int.Parse(attackTank.text);
+    }
+
     // metodi dei button
 
     public void onClickDeploy()
     {
-        model.deploy(deployTank.text);
+        List<string> error = state.getMissingData();
+
+        if (error.Count != 0)
+        {
+            // PopupError
+        }
+        else
+        {
+            string errorAction = state.action();
+            if(errorAction.Equals(""))
+            {
+                // Aggiorna i dati dell'interfaccia
+            }
+            else
+            {
+                // PopupError
+            }
+        }
     }
 
     public void onClickAttack()
     {
         model.setTankAttacker(attackTank.text);
+        state.action();
     }
 
     public void onClickMove()
@@ -44,7 +73,7 @@ public class ControllGameMap : MonoBehaviour
 
     public void onClickNextPhase()
     {
-        model.nextPhase();
+        state = state.nextPhase();
     }
 
     public void onClickDefend()
@@ -92,5 +121,75 @@ public class ControllGameMap : MonoBehaviour
     public void showError(string error)
     {
         view.showError(error);
+    }
+
+    public void updateLogEvent(List<string> message)
+    {
+        view.updateLogEvent(message);
+    }
+
+    public void updateTextPlayerData(string data)
+    {
+        view.updateTextPlayerData(data);
+    }
+
+    public void updateDeployRemain(int countStartDeploy)
+    {
+        view.updateDeployRemain("" + countStartDeploy);
+    }
+
+    public void updatePhase(string message)
+    {
+        view.updatePhase(message);
+    }
+
+    public void updateLandText(string data)
+    {
+        view.updateLandText(data);
+    }
+
+    public void updateSelected(int nSelected, string firstLand, string secondLand)
+    {
+        if (nSelected == 1)
+            view.updateSingleSelected(firstLand);
+        else if (nSelected == 2)
+            view.updateTwoSelected(firstLand, secondLand);
+        else
+            return;
+            
+    }
+
+    public void prepareView()
+    {
+        view.prepareView();
+    }
+
+    public void drawMap(List<StateData> data)
+    {
+        view.drawMap(data);
+    }
+
+    public void changeCanvasOption(string phase)
+    {
+        view.changeCanvasOption(phase);
+    }
+
+    public void showCards(List<string> cards)
+    {
+        view.showCards(cards);
+    }
+
+    public void handleButtonClicked(string buttonClicked)
+    {
+        if (buttonClicked.Equals("Quit"))
+            view.showConfirmQuit();
+        else if (buttonClicked.Equals("Exit"))
+            Debug.Log("Do something");
+        else if (buttonClicked.Equals("Popup"))
+            view.closePopup();
+        else if (buttonClicked.Equals("Card"))
+            view.closeCard();
+        else
+            return;
     }
 }
