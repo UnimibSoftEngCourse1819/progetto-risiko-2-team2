@@ -58,7 +58,7 @@ public class ModelGameMap : MonoBehaviour
                     if(dataManager.isAllPlayerRunOutOfTanks())
                     {
                         started = false;
-                        //startRealGame();
+                        startRealGame();
                     }
                     else
                     {
@@ -71,14 +71,22 @@ public class ModelGameMap : MonoBehaviour
 
     private void localMode()
     {
-        player = data.getPlayer();
+        player = dataManager.getPlayer();
+    }
+
+    private void startRealGame()
+    {
+        started = false;
+        dataManager.startGame();
+        localMode();
+        prepareViewDeploy();
     }
 
     private void nextDeploy()
     {
-        data.nextPlayer();
-        while(data.getPlayerTanksReinforcement() == 0)
-            data.nextPlayer;
+        dataManager.nextPlayer();
+        while(dataManager.getPlayerTanksReinforcement(dataManager.getPlayer()) == 0)
+            dataManager.nextPlayer();
         localMode();
     } 
 
@@ -198,7 +206,7 @@ public class ModelGameMap : MonoBehaviour
         view.updatePhase(phase + System.Environment.NewLine + dataManager.getPlayer());
         view.updateDeployRemain( "" + countStartDeploy);
         view.updateSingleSelected("Select a State !!!");
-        player = dataManager.getPlayer();
+        localMode();
 
         Debug.Log("The cool killers' club");
     }
@@ -309,20 +317,20 @@ public class ModelGameMap : MonoBehaviour
     {
         view.updateSingleSelected("Select a State !!");
         int remainTanks = INITIAL_TANKS_DEPLOY;
-        if(data.getPlayerTanksReinforcement() < INITIAL_TANKS_DEPLOY)
-            remainTanks = data.getPlayerTanksReinforcement(player);
-        view.updateDeployRemain(remainTanks);
+        if(dataManager.getPlayerTanksReinforcement(dataManager.getPlayer()) < INITIAL_TANKS_DEPLOY)
+            remainTanks = dataManager.getPlayerTanksReinforcement(player);
+        view.updateDeployRemain("" + remainTanks);
     }
 
     private void prepareViewDeploy()
     {
         view.updateSingleSelected("Select a State !!");
-        view.updateDeployRemain(data.getPlayerTanksReinforcement(player));
+        view.updateDeployRemain("" + dataManager.getPlayerTanksReinforcement(player));
     }
 
     private void prepareViewAttack()
     {
-        view.updateTwoSelected("" + "");
+        view.updateTwoSelected("", "");
     }
 
     private void prepareViewDefense()
@@ -332,7 +340,7 @@ public class ModelGameMap : MonoBehaviour
 
     private void prepareViewMove()
     {
-        view.updateTwoSelected("" + "");
+        view.updateTwoSelected("", "");
     }
 
     private void prepareViewWaiting()
