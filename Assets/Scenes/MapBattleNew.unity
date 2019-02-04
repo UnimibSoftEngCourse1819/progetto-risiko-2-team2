@@ -596,7 +596,7 @@ GameObject:
   - component: {fileID: 80386994}
   - component: {fileID: 80386993}
   m_Layer: 5
-  m_Name: TextDataPlayer
+  m_Name: TextPlayerData
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -855,7 +855,7 @@ RectTransform:
   m_Children:
   - {fileID: 1440110512}
   m_Father: {fileID: 199335960}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1022,6 +1022,7 @@ RectTransform:
   m_Children:
   - {fileID: 80386992}
   - {fileID: 66107106}
+  - {fileID: 1448737722}
   - {fileID: 275469806}
   - {fileID: 146257945}
   - {fileID: 1730322049}
@@ -1378,7 +1379,7 @@ RectTransform:
   m_Children:
   - {fileID: 1102032888}
   m_Father: {fileID: 199335960}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1858,9 +1859,8 @@ RectTransform:
   - {fileID: 1646718569}
   - {fileID: 345621964}
   - {fileID: 199335960}
-  - {fileID: 1448737722}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3154,7 +3154,7 @@ GameObject:
   - component: {fileID: 562793816}
   - component: {fileID: 562793815}
   m_Layer: 5
-  m_Name: InputField
+  m_Name: InputFieldDefendTank
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4084,7 +4084,7 @@ GameObject:
   - component: {fileID: 656787282}
   - component: {fileID: 656787281}
   m_Layer: 5
-  m_Name: TextCards
+  m_Name: TextCardList
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4462,7 +4462,7 @@ GameObject:
   - component: {fileID: 882138018}
   - component: {fileID: 882138017}
   m_Layer: 5
-  m_Name: Text
+  m_Name: TextMoveSelected
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4480,7 +4480,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1105473290}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -5336,8 +5336,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.9999656, y: 0.9999656, z: 0.9999656}
   m_Children:
-  - {fileID: 882138016}
   - {fileID: 1348697644}
+  - {fileID: 882138016}
   - {fileID: 1483629856}
   - {fileID: 637232725}
   - {fileID: 884282006}
@@ -5357,7 +5357,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1105473289}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -5677,7 +5677,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1124347848
 GameObject:
@@ -6914,7 +6914,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1105473290}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -7416,16 +7416,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1448737721}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 349745855}
-  m_RootOrder: 4
+  m_Father: {fileID: 199335960}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -280.75, y: -214.5}
+  m_AnchoredPosition: {x: -351.026, y: 7.9799957}
   m_SizeDelta: {x: 282.4, y: 37.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1448737723
@@ -7549,13 +7549,13 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1483629858}
   m_TextComponent: {fileID: 930219945}
   m_Placeholder: {fileID: 344183595}
-  m_ContentType: 0
+  m_ContentType: 2
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 4
   m_LineType: 0
   m_HideMobileInput: 0
-  m_CharacterValidation: 0
+  m_CharacterValidation: 1
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:
@@ -8270,7 +8270,7 @@ Transform:
   m_LocalScale: {x: 1, y: 0, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1623330454
 MonoBehaviour:
@@ -9295,7 +9295,7 @@ RectTransform:
   m_Children:
   - {fileID: 562744978}
   m_Father: {fileID: 199335960}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -10103,7 +10103,7 @@ GameObject:
   - component: {fileID: 1897207389}
   - component: {fileID: 1897207388}
   m_Layer: 5
-  m_Name: TextLogData
+  m_Name: TextEventLog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10573,7 +10573,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2022927613}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0

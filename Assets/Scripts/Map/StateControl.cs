@@ -6,5 +6,7 @@ public abstract class StateControl
 {
     public abstract string action();
     public abstract StateControl nextPhase();
+    public abstract StateControl nextPhaseForced();
     public abstract List<string> getMissingData();
+
 }

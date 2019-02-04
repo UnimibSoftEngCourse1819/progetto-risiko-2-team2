@@ -71,14 +71,9 @@ public class ViewGameMap : MonoBehaviour
         closeCard();
     }
 
-    private void clearOptions()
-    {
-        card1.ClearOptions(); 
-        card2.ClearOptions(); 
-        card3.ClearOptions(); 
-    }
+    //****METHODS THAT CHANGE A TEXT
 
-    public void showError(string message)
+    public void showMessage(string message)
     {
         showPopup();
         message.alpha = 1f;
@@ -86,37 +81,19 @@ public class ViewGameMap : MonoBehaviour
         messagePopup.text = message;
     }
 
-    public void closeCard()
-    {
-        cards.alpha = 0f;
-        cards.interactable = false;
-    }
-
-    private void showPopup()
-    {
-        popup.alpha = 1f;
-        popup.interactable = true;
-    }
-
-    private void hideAllCanvasOption()
-    {
-        attack.alpha = 0f;
-        attack.interactable = false;
-        defense.alpha = 0f;
-        defense.interactable = false;
-        move.alpha = 0f;
-        move.interactable = false;
-        deploy.alpha = 0f;
-        deploy.interactable = false;
-        deployGaming.alpha = 0f;
-        deployGaming.interactable = false;
-    }
-
     public void updateTextPlayerData(string data)
     {
         Debug.Log(data);
         Debug.Log(playerData);
         playerData.text = data;
+    }
+
+    public void updateLogEvent(List<string> messages)
+    {
+        foreach(string message in messages)
+        {
+            updateLogEvent(message);
+        }
     }
 
     public void updateLogEvent(string message)
@@ -128,14 +105,6 @@ public class ViewGameMap : MonoBehaviour
         foreach(string lineEvent in logEvent)
         {
             eventLog.text += lineEvent + System.Environment.NewLine; 
-        }
-    }
-
-    public void updateLogEvent(List<string> messages)
-    {
-        foreach(string message in messages)
-        {
-            updateLogEvent(message);
         }
     }
 
@@ -159,7 +128,7 @@ public class ViewGameMap : MonoBehaviour
         moveSelected.text = landStart + System.Environment.NewLine + "to" + System.Environment.NewLine + landEnd; 
     }
 
-    public void updateSingleSelected(string land)
+    public void updateDeploySelected(string land)
     {
         deploySelected.text = land;
     }
@@ -174,6 +143,23 @@ public class ViewGameMap : MonoBehaviour
         updatePhase(data[0], INITIAL_TEXT);
         playerData.text = data[1];
         updateLogEvent(data[2]);
+    }
+
+    public void updateLandText(string text)
+    {
+        selectedData.text = text;
+    }
+
+    //METHODS THAT SHOW A UI COMPONENTS
+
+    public void drawMap(List<StateData> stateData)
+    {
+        foreach(StateData state in stateData)
+        {
+            State newState = Instantiate(statePrefab);
+            newState.SetState(state.texture, state.stateName);
+            newState.transform.position = state.getVector();
+        }
     }
 
     public void changeCanvasOption(string phase)
@@ -219,22 +205,12 @@ public class ViewGameMap : MonoBehaviour
         quit.alpha = 1f;
         quit.interactable = true;
     }
+    
 
-    public void messagePopup()
+    private void showPopup()
     {
-        showPopup();
-        message.alpha = 1f;
-        message.interactable = true;
-    }
-
-    public void closePopup()
-    {
-        popup.alpha = 0f;
-        message.alpha = 0f;
-        quit.alpha = 0f;
-        popup.interactable = false;
-        message.interactable = false;
-        quit.interactable = false;
+        popup.alpha = 1f;
+        popup.interactable = true;
     }
 
     public void showCards(List<string> options)
@@ -248,6 +224,47 @@ public class ViewGameMap : MonoBehaviour
         }
     }
 
+    //METHODS THAT CLOSE A UI COMPONENTS
+
+    public void closeCard()
+    {
+        cards.alpha = 0f;
+        cards.interactable = false;
+    }
+
+    public void closePopup()
+    {
+        popup.alpha = 0f;
+        message.alpha = 0f;
+        quit.alpha = 0f;
+        popup.interactable = false;
+        message.interactable = false;
+        quit.interactable = false;
+    }
+
+    //PRIVATE METHODS
+
+    private void clearOptions()
+    {
+        card1.ClearOptions(); 
+        card2.ClearOptions(); 
+        card3.ClearOptions(); 
+    }
+
+    private void hideAllCanvasOption()
+    {
+        attack.alpha = 0f;
+        attack.interactable = false;
+        defense.alpha = 0f;
+        defense.interactable = false;
+        move.alpha = 0f;
+        move.interactable = false;
+        deploy.alpha = 0f;
+        deploy.interactable = false;
+        deployGaming.alpha = 0f;
+        deployGaming.interactable = false;
+    } 
+
     private void addOption(string option)
     {
         Dropdown.OptionData temp = new Dropdown.OptionData();
@@ -257,19 +274,5 @@ public class ViewGameMap : MonoBehaviour
         card3.options.Add(temp);
     }
 
-    public void drawMap(List<StateData> stateData)
-    {
-        foreach(StateData state in stateData)
-        {
-            State newState = Instantiate(statePrefab);
-            newState.SetState(state.texture, state.stateName);
-            newState.transform.position = state.getVector();
-        }
-    }
-
-    public void updateLandText(string text)
-    {
-        selectedData.text = text;
-    }
-
+    
 }

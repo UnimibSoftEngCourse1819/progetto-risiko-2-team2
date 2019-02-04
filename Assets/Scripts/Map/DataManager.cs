@@ -306,10 +306,16 @@ public class DataManager
         return result;
     }
 
+    public void nextDeploy()
+    {
+        nextPlayer();
+        while(currentPlayer.getNTanks() == 0)
+            nextPlayer();
+    }
+
     public void nextPlayer()
     {
         int index = players.IndexOf(currentPlayer);
-
         if (index == players.Count - 1)
             currentPlayer = players[0];
         else

@@ -6,13 +6,30 @@ using System.IO;
 
 public class ControllGameMap : MonoBehaviour
 {
-    public ViewGameMap view;
+    
     private InputField attackTank, defendTank, moveTank, deployTank;
     private Dropdown card1, card2, card3;
-    public ModelGameMap model;
-    private StateControl state;
 
-     private void Awake()//prepara i componenti da cui prendere gli input
+    public MessageManager messageManager;
+    public DataManager model;
+    public ViewGameMap view;
+    public MapLoader loader;
+
+    private StateControl state;
+    private string firstLand, secondLand;
+    private int tank1, tank2;
+
+    private void Awake()//prepara i componenti da cui prendere gli input
+    {
+
+        InizializeComponents();
+        loadData();
+        NetworkManager.istance.InizializeController();
+    }
+
+    //Private Methods for inizializing
+
+    private void InizializeComponents()
     {
         //InputField
         attackTank = GameObject.Find("InputFieldAttackTank").GetComponent<InputField>();
@@ -26,6 +43,44 @@ public class ControllGameMap : MonoBehaviour
         card3 = GameObject.Find("DropdownCard3").GetComponent<Dropdown>();
     }
 
+    private void loadData()//inizializza i dei dati su cui ci si può testare la parte logica
+    {
+        Debug.Log("CIAONE");
+
+        MapData data = loader.loadMap();
+        view.drawMap(data.actualStates);
+
+        List<Player> players = new List<Player>();
+
+        players.Add(new Player("Pippo"));
+
+        players.Add(new Player("Paperino"));
+
+        players.Add(new Player("Topolino"));
+
+        List<Continent> world = loader.getWorld(data);
+
+        Debug.Log("Nea and the pussycats");
+
+        model = new DataManager(players, world, loader.getAllLands(world));
+
+        view.updateTextPlayerData(model.getPlayer());
+
+        string phase = model.getCurrentPhase();
+
+        Debug.Log("Initiate cloack mode");
+
+        view.changeCanvasOption(phase);
+        view.updatePhase(phase + System.Environment.NewLine + model.getPlayer());
+        view.updateDeployRemain(countStartDeploy);
+        view.updateSelected(1, "Select a State !!!", null);
+        localMode();
+
+        Debug.Log("The cool killers' club");
+    }
+
+    //Methods that return value from UI components
+
     public int getDeployTank()
     {
         return int.Parse(deployTank.text);
@@ -36,74 +91,31 @@ public class ControllGameMap : MonoBehaviour
         return int.Parse(attackTank.text);
     }
 
-    // metodi dei button
+    // Button methods
 
-    public void onClickDeploy()
+    public void onClickAction()
     {
         List<string> error = state.getMissingData();
-
         if (error.Count != 0)
         {
-            // PopupError
+            int count = 0;
+            string message = "You can't do that action because are missing some data : ";
+            foreach(string missing in error)
+            {
+                message += missing;
+                if(count != error.Count)
+                    message += ", " ;
+            }
+            view.showMessage(message);
         }
         else
         {
             string errorAction = state.action();
-            if(errorAction.Equals(""))
-            {
-                // Aggiorna i dati dell'interfaccia
-            }
+            if(errorAction.Equals("FORCE_NEXT_PHASE"))
+                state = state.nextPhaseForced();
             else
-            {
-                // PopupError
-            }
+                view.showMessage(errorAction);
         }
-    }
-
-    public void onClickAttack()
-    {
-        model.setTankAttacker(attackTank.text);
-        state.action();
-    }
-
-    public void onClickMove()
-    {
-        model.move(moveTank.text);
-    }
-
-    public void onClickNextPhase()
-    {
-        state = state.nextPhase();
-    }
-
-    public void onClickDefend()
-    {
-        model.startBattle(defendTank.text);
-    }
-
-    public void onClickPassTurn()
-    {
-        model.pass();
-    }
-
-    public void onClickQuit()
-    {
-        model.quit();
-    }
-
-    public void onClickExit()
-    {
-        model.exit();
-    }
-
-    public void onClickClosePopup()
-    {
-        model.closePopup();
-    }
-
-    public void onClickShowCards()
-    {
-        model.showCards();
     }
 
     public void onClickUseCard()
@@ -113,83 +125,30 @@ public class ControllGameMap : MonoBehaviour
                         card3.options[card3.value].text);
     }
 
+    public void onClickExit()
+    {
+        //esce dal game
+    }
+
+    public void onClickQuit()
+    {
+         view.showConfirmQuit();
+    }
+
+    public void onClickShowCards()
+    {
+        //showCards(List<string> options)
+    }
+
+    public void onClickClosePopup()
+    {
+        view.closePopup();
+    }
+
     public void onClickCloseCard()
     {
-        model.closeCard();
+        view.closeCard();
     }
 
-    public void showError(string error)
-    {
-        view.showError(error);
-    }
-
-    public void updateLogEvent(List<string> message)
-    {
-        view.updateLogEvent(message);
-    }
-
-    public void updateTextPlayerData(string data)
-    {
-        view.updateTextPlayerData(data);
-    }
-
-    public void updateDeployRemain(int countStartDeploy)
-    {
-        view.updateDeployRemain("" + countStartDeploy);
-    }
-
-    public void updatePhase(string message)
-    {
-        view.updatePhase(message);
-    }
-
-    public void updateLandText(string data)
-    {
-        view.updateLandText(data);
-    }
-
-    public void updateSelected(int nSelected, string firstLand, string secondLand)
-    {
-        if (nSelected == 1)
-            view.updateSingleSelected(firstLand);
-        else if (nSelected == 2)
-            view.updateTwoSelected(firstLand, secondLand);
-        else
-            return;
-            
-    }
-
-    public void prepareView()
-    {
-        view.prepareView();
-    }
-
-    public void drawMap(List<StateData> data)
-    {
-        view.drawMap(data);
-    }
-
-    public void changeCanvasOption(string phase)
-    {
-        view.changeCanvasOption(phase);
-    }
-
-    public void showCards(List<string> cards)
-    {
-        view.showCards(cards);
-    }
-
-    public void handleButtonClicked(string buttonClicked)
-    {
-        if (buttonClicked.Equals("Quit"))
-            view.showConfirmQuit();
-        else if (buttonClicked.Equals("Exit"))
-            Debug.Log("Do something");
-        else if (buttonClicked.Equals("Popup"))
-            view.closePopup();
-        else if (buttonClicked.Equals("Card"))
-            view.closeCard();
-        else
-            return;
-    }
+    
 }

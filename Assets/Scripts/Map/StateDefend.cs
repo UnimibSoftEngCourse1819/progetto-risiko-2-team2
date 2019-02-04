@@ -1,55 +1,75 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class StateDefend : StateControl
 {
     private ControllGameMap controller;
-    private ModelGameMap model;
     private DataManager data;
-    private string firstLand, secondLand, player;
-    private int nTanks, nTanksRemain;
+    private string firstLand, secondLand;
+    private int nTanksAttacker, nTanksDefender;
 
-    public StateDefend(ControllGameMap controller, ModelGameMap model, DataManager data)
+    public StateDefend(ControllGameMap controller, DataManager data)
     {
         this.controller = controller;
-        this.model = model;
         this.data = data;
         firstLand = null;
         secondLand = null;
-        player = null;
-        nTanks = -1;
-        nTanksRemain = -1;
-    }
-
-    private void loadNecessaryData()
-    {
-        firstLand = model.getFirstLand();
-        secondLand = model.getSecondLand();
-        nTanks = controller.getAttackTank;
+        nTanksAttacker = -1;
+        nTanksDefender = -1;
     }
 
     public override string action()
     {
+        string error = "";
         loadNecessaryData();
+        int lossTanksAttacker = data.getTanks(firstLand);
+        int lossTanksDefender = data.getTanks(secondLand);
+        error = data.attack(firstLand, secondLand, nTanksAttacker, nTanksDefender);
+        if(error.Equals(""))
+        {
+            error = "FORCE_NEXT_PHASE";
+            view.hideAllCanvasOption();
+            data.setAttackPhase(firstLand);
+            lossTanksAttacker -= data.getTanks(firstLand);
+            lossTanksDefender -= data.getTanks(secondLand);
+            view.updatePhase(data.getPlayer(), data.getCurrentPhase());
+            string message = manageMessage.messageDefend(secondLand,  firstLand, lossTanksAttacker, lossTanksDefender, nTanksDefender, result);
+            DataSender.SendAttacco(message);
+        }
+        return error;
+    }
 
-        return data.addTanks(land, nTanks);
+    private void loadNecessaryData()
+    {
+        firstLand = controller.getFirstLand();
+        secondLand = controller.getSecondLand();
+        nTanksAttacker = controller.getTank1();
+        nTanksDefender = controller.getDefendTank();
+    }
+
+    public override StateControl nextPhaseForced()
+    {
+        return (new StateWait(controller, data));
     }
 
     public override StateControl nextPhase()
     {
-        return (new StateDefend(controller, model, data));
+        return null;
     }
 
     public override List<string> getMissingData()
     {
         List<string> missingData = new List<string>();
 
-        if (model.getFirstLand() == null)
-            missingData.Add("Land selected ");
-        if (controller.getDeployTank() == -1)
-            missingData.Add("Number of Tanks");
-
+        if (controller.getFirstLand() == null)
+            missingData.Add("Land attacker ");
+        if (controller.getSecondLand() == null)
+            missingData.Add("Land defender ");
+        if (controller.getTank1() <= 0)
+            missingData.Add("Number tank of attacker");
+        if (controller.getDefendTank() <= 0)
+            missingData.Add("Numer tank of defender");
         return missingData;
     }
 }

@@ -68,12 +68,12 @@ public class MessageManager : MonoBehaviour
         return card3;
     }
 
-    public string messageInitiateCombat(string playerAttacker, string playerDefender, string landAttacker, string landDefender, int nTank)
+    public string messageInitiateCombat(string landAttacker, string landDefender, int nTank)
     {
    	    message = "";
-   	    message += playerAttacker + ": " + landAttacker + " has engaged " + landDefender + " of " + playerDefender + " with " + nTank + "." + System.Environment.NewLine;
-   	    message += playerAttacker + " " + landAttacker + " " + nTank + System.Environment.NewLine;
-   	    message += playerDefender + " " + landDefender;
+   	    message += landAttacker + " has engaged " + landDefender + " with " + nTank + "." + System.Environment.NewLine;
+   	    message += landAttacker + " " + nTank + System.Environment.NewLine;
+   	    message += landDefender;
 
    	    return message;
     }
@@ -85,29 +85,26 @@ public class MessageManager : MonoBehaviour
    	    messageLog.Add(data[0]);
 
    	    string[] dataLogic = data[1].Split(' ');
-   	    player1 = dataLogic[0];
-   	    landStart = dataLogic[1];
-   	    nTank1 = int.Parse(dataLogic[2]);
+   	    landStart = dataLogic[0];
+   	    nTank1 = int.Parse(dataLogic[1]);
 
    	    dataLogic = data[2].Split(' ');
-   	    player2 = dataLogic[0];
-   	    landEnd = dataLogic[1];
+   	    landEnd = dataLogic[0];
 
    	    return messageLog;
     }
 
-    public string messageDefend(string playerDefender, string playerAttacker,
-   							    string landDefender,  string landAttacker,
+    public string messageDefend(string landDefender,  string landAttacker,
    							    int nTankDenderLost, int nTankAttackerLost , 
    							    string nTankDefend, string result)
     {
    	    message = "";
-   	    message += playerDefender + ": " + landDefender + " defended with "+ nTankDefend + System.Environment.NewLine;
-   	    message += "Result battle : " + playerAttacker + " has lost " + nTankAttackerLost + System.Environment.NewLine;
-   	    message += "Result battle : " + playerDefender + " has lost" + nTankDenderLost + System.Environment.NewLine;
+   	    message += landDefender + " defended with "+ nTankDefend + System.Environment.NewLine;
+   	    message += "Result battle : " + landAttacker + " has lost " + nTankAttackerLost + System.Environment.NewLine;
+   	    message += "Result battle : " + landDefender + " has lost" + nTankDenderLost + System.Environment.NewLine;
    	    message += result + System.Environment.NewLine;
-   	    message += playerAttacker + " " + landAttacker + " " + nTankAttackerLost + System.Environment.NewLine;
-   	    message += playerDefender + " " + landDefender + " " + nTankDenderLost + System.Environment.NewLine;
+   	    message += landAttacker + " " + nTankAttackerLost + System.Environment.NewLine;
+   	    message += landDefender + " " + nTankDenderLost + System.Environment.NewLine;
 
    	    return message;
     }
@@ -122,15 +119,13 @@ public class MessageManager : MonoBehaviour
    	    messageLog.Add(data[3]);
 
    	    string[] dataLogic = data[4].Split(' ');
-   	    player1 = dataLogic[0];
-   	    landStart = dataLogic[1];
-   	    nTank1 = int.Parse(dataLogic[2]);
+   	    landStart = dataLogic[0];
+   	    nTank1 = int.Parse(dataLogic[1]);
 
    	    dataLogic = data[5].Split(' ');
-   	    player2 = dataLogic[0];
-   	    landEnd = dataLogic[1];
-   	    nTank2 = int.Parse(dataLogic[2]);
-   	    resultBattle = data[3];
+   	    landEnd = dataLogic[0];
+   	    nTank2 = int.Parse(dataLogic[1]);
+   	    resultBattle = data[2];
 
    	    return messageLog;
     }
@@ -158,11 +153,11 @@ public class MessageManager : MonoBehaviour
    	    return messageLog;
     }
 
-    public string messageMove(string player, string landStart, string landEnd, int nTank)
+    public string messageMove(string landStart, string landEnd, int nTank)
     {
         message = "";
-        message += player + ": " + nTank + " tanks has moved from " + landStart + " to " + landEnd + System.Environment.NewLine;
-        message += player + " " + nTank + " " + landStart + " " + landEnd;
+        message += nTank + " tanks has moved from " + landStart + " to " + landEnd + System.Environment.NewLine;
+        message += nTank + " " + landStart + " " + landEnd;
 
         return message;
     }
@@ -174,10 +169,9 @@ public class MessageManager : MonoBehaviour
    	    messageLog.Add(data[0]);
 
    	    string[] dataLogic = data[1].Split(' ');
-   	    player1 = dataLogic[0];
-   	    nTank1 = int.Parse(dataLogic[1]);
-   	    landStart = dataLogic[2];
-   	    landEnd = dataLogic[3];
+   	    nTank1 = int.Parse(dataLogic[0]);
+   	    landStart = dataLogic[1];
+   	    landEnd = dataLogic[2];
 
    	    return messageLog;
     }

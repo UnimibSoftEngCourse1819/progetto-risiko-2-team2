@@ -5,51 +5,62 @@ using UnityEngine;
 public class StateDeploy : StateControl
 {
     private ControllGameMap controller;
-    private ModelGameMap model;
     private DataManager data;
-    private string land, player;
-    private int nTanks, nTanksRemain;
+    private string land;
+    private int nTanks;
 
-    public StateDeploy(ControllGameMap controller, ModelGameMap model, DataManager data)
+    public StateDeploy(ControllGameMap controller, DataManager data)
     {
         this.controller = controller;
         this.data = data;
-        this.model = model;
         land = null;
-        player = null;
         nTanks = -1;
-        nTanksRemain = -1;
-    }
-
-    private void loadNecessaryData()
-    {
-        land = model.getFirstLand();
-        player = model.getPlayer();
-        nTanks = controller.getDeployTank();
-        nTanksRemain = data.getPlayerTanksReinforcement(player);
     }
 
     public override string action()
     {
+        string error = "";
         loadNecessaryData();
+        error = data.addTanks(land, nTanks);
+        if(error.Equals(""))
+        {
+            string message = manageMessage.messageDeploy(controller.getPlayer(), nTanks, land);
+            view.updateDeploySelected("Select a Land !!!");
+            view.updateRemainTank(nTanksRemain);
+            view.updateLogEvent(manageMessage.readDeploy());
+            DataSender.sendPosizionamento(message);
+        }
+        return error;
+    }
 
-        return data.addTanks(land, nTanks);
+    private void loadNecessaryData()
+    {
+        land = controller.getFirstLand();
+        nTanks = controller.getDeployTank();
     }
 
     public override StateControl nextPhase()
     {
-        return (new StateAttack(controller, model, data));
+        data.nextPhase();
+        string message = manageMessage.messagePhase(data.getPlayer(), data.getCurrentPhase());
+        DataSender.sendNextPhase(message);
+        return (new StateAttack(controller,data));
     }
 
     public override List<string> getMissingData()
     {
         List<string> missingData = new List<string>();
 
-        if (model.getFirstLand() == null)
+        if (controller.getFirstLand() == null)
             missingData.Add("Land selected ");
-        if (controller.getDeployTank() == -1)
-            missingData.Add("Number of Tanks");
-
+        if (controller.getDeployTank() <= 0)
+            missingData.Add("Valid Number of Tanks");
         return missingData;
     }
+
+    public override StateControl nextPhaseForced()
+    {
+        return null;
+    }
+
 }

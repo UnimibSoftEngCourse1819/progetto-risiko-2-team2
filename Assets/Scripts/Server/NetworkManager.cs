@@ -13,7 +13,7 @@ public class NetworkManager : MonoBehaviour
     private static int state = 0; // stato generale per la lettura
     private static int map = -1; // mappa scelta
     private static int turnState = 0; // stato del turno
-    private static ModelGameMap model;
+    private static ControllGameMap controller;
     private static string[] playerName=new string [6];
     private static string[] playerColor= new string [6];
     private static int countName=0;
@@ -27,9 +27,9 @@ public class NetworkManager : MonoBehaviour
        
     }
 
-   public void InizializzaModel()
+   public void InizializeController()
     {
-        model = GameObject.Find("CanvasMain").GetComponent<ModelGameMap>();
+        controller = GameObject.Find("CanvasMain").GetComponent<ControllGameMap>();
     }
         
     
@@ -57,32 +57,32 @@ public class NetworkManager : MonoBehaviour
         {
             case 1:
                 {
-                    model.updateDeploy(s);
+                   controller.updateDeploy(s);
                     break;
                 }
             case 2:
                 {
-                    model.updateCards(s);
+                   controller.updateCards(s);
                     break;
                 }
             case 3:
                 {
-                    model.updateMove(s);
+                   controller.updateMove(s);
                     break;
                 }
                 case 4:
                 {
-                    model.updateDefense(s);
+                   controller.updateDefense(s);
                     break;
                 }
             case 5:
                 {
-                    model.updateAttack(s);
+                   controller.updateAttack(s);
                     break;
                 }
             case 6:
                 {
-                    model.updateTurn(s);
+                   controller.updateTurn(s);
                     break;
                 }
         }
