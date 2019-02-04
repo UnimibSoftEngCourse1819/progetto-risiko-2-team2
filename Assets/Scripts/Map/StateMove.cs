@@ -110,4 +110,27 @@ public class StateMove : StateControl
             missingData.Add("Number tank");
         return missingData;
     }
+
+    public override string needSaving(string land)
+    {
+        string field = "";
+        if(data.getPlayerByLand(land).Equals(data.getPlayer()))
+        {
+            if(controller.getFirstLand().Equals("") || controller.getFirstLand().Equals(land) || controller.getSecondLand().Equals(land))
+                {
+                    /* from left to right check
+                    -the first field is empty
+                    -the player already selected the state as start
+                    -the player already seleceted the state as end
+                    */
+                    field = "firstLand";
+                }
+            else
+            {
+                if(controller.getSecondLand().Equals("") || data.areNeighbor(controller.getFirstLand(), land))
+                    field = "secondLand";
+            }
+        }
+        return field;
+    }
 }

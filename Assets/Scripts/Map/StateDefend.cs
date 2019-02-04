@@ -94,4 +94,9 @@ public class StateDefend : StateControl
             missingData.Add("Numer tank of defender");
         return missingData;
     }
+
+    public override string needSaving(string land)
+    {
+        return "";
+    }
 }

@@ -204,6 +204,17 @@ public class ControllGameMap : MonoBehaviour
         state = state.nextPhase();
     }
 
+    public void onClickLand(string land)
+    {
+        model.getLandData(land);
+        view.updateLandText(model.getLandData(land));
+        string field = state.needSaving(land);
+        if(field.Equals("firstLand"))
+            firstLand = land;
+        else if (field.Equals("secondLand"))
+            secondLand = land;
+
+    }
     //local mode methods
 
     public void setLocalMode()

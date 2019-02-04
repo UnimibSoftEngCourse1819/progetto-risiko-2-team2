@@ -68,4 +68,12 @@ public class StateDeploy : StateControl
         return null;
     }
 
+    public override string needSaving(string land)
+    {
+        string field = "";
+        if(data.getPlayerByLand(land).Equals(data.getPlayer()))
+            field = "firstLand";
+        return field;
+    }
+
 }

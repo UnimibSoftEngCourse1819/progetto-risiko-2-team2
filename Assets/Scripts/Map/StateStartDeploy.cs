@@ -121,4 +121,12 @@ public class StateStartDeploy : StateControl
             missingData.Add("Valid Number of Tanks");
         return missingData;
     }
+
+    public override string needSaving(string land)
+    {
+        string field = "";
+        if(data.getPlayerByLand(land).Equals(data.getPlayer()))
+            field = "firstLand";
+        return field;
+    }
 }

@@ -63,7 +63,7 @@ public class StateAttack : StateControl
         data.nextPhase();
         string message = manageMessage.messagePhase(data.getPlayer(), data.getPhase());
         DataSender.SendNextPhase(message);
-        return (new StateMove(controller, data, manageMessage, view));
+        return new StateMove(controller, data, manageMessage, view);
     }
 
     public override StateControl nextPhaseForced()
@@ -87,5 +87,15 @@ public class StateAttack : StateControl
         if (controller.getDeployTank() <= 0)
             missingData.Add("Number tank");
         return missingData;
+    }
+
+    public override string needSaving(string land)
+    {
+        string field = "";
+        if(data.getPlayerByLand(land).Equals(data.getPlayer()))
+            field = "firstLand";
+        else
+            field = "secondLand";
+        return field;
     }
 }

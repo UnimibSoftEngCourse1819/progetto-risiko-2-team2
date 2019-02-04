@@ -14,6 +14,7 @@ public class ViewGameMap : MonoBehaviour
     private readonly string[] PHASE = {"Initial Deploy phase", "Attack phase", "Deployment phase", "Move phase", "Defend phase", "Wait"};
     private const int STARTDEPLOY = 0, ATTACK = 1, DEPLOY = 2, MOVE = 3, DEFEND = 4, WAIT = 5;
     private readonly List<string> logEvent = new List<string>();
+    public ControllGameMap controller;
 
     private CanvasGroup attack, defense, move, deploy, deployGaming, popup, message, quit, cards;
 	private Text eventLog, phase, selectedData, playerData, attackSelected, moveSelected, deployRemain, deploySelected, messagePopup, goal, cardList;
@@ -154,11 +155,17 @@ public class ViewGameMap : MonoBehaviour
 
     public void drawMap(List<StateData> stateData)
     {
-        foreach(StateData state in stateData)
+        List<StateData>  banana = stateData;
+        foreach(StateData state in banana)
         {
-            State newState = Instantiate(statePrefab);
+            State newState = Instantiate(statePrefab, state.getVector(), Quaternion.identity) as State;
             newState.SetState(state.texture, state.stateName);
-            newState.transform.position = state.getVector();
+            newState.Click.AddListener((State land) =>
+                {
+                    controller.onClickLand(land.idName);
+                    //other thing to add when clicked;
+                }
+            );
         }
     }
 

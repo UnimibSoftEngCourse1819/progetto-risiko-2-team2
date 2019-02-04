@@ -109,7 +109,7 @@ public class DataManager
 
     public string getLandData(string land)
     {
-        string result = "";
+        string result = "IMPLEMENTAMI !!!!";
         return result;
     }
 
@@ -205,6 +205,12 @@ public class DataManager
             && getTankOfLand(firstLand) > nTank)
             result = true;
         return result;
+    }
+
+    public bool areNeighbor(string firstLand, string secondLand)
+    {
+        Land start = findLandByName(firstLand);
+        return start.isNeighbor(secondLand);
     }
 
     public void startGame()

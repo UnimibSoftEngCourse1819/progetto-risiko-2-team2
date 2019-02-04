@@ -145,7 +145,7 @@ public class StateWait : StateControl
             {
                 view.changeCanvasOption("Initial Deploy phase");
                 view.updateDeploySelected("select a Land !!!");
-               nextPhaseLoad = new StateStartDeploy(controller, data, manageMessage, view);
+                nextPhaseLoad = new StateStartDeploy(controller, data, manageMessage, view);
             }
         }
     }
@@ -169,5 +169,10 @@ public class StateWait : StateControl
     public override StateControl nextPhaseForced()
     {
         return nextPhaseLoad;
+    }
+
+    public override string needSaving(string land)
+    {
+        return "";
     }
 }
