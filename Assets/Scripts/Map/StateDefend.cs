@@ -34,7 +34,6 @@ public class StateDefend : StateControl
         if(error.Equals(""))
         {
             error = "FORCE_NEXT_PHASE";
-            view.changeCanvasOption("Wait");
             data.setAttackPhase(firstLand);
             lossTanksAttacker -= data.getTankOfLand(firstLand);
             lossTanksDefender -= data.getTankOfLand(secondLand);
@@ -46,6 +45,14 @@ public class StateDefend : StateControl
                 result = "The land has not been conquered";
             string message = manageMessage.messageDefend(secondLand,  firstLand, lossTanksAttacker, lossTanksDefender, "" + nTanksDefender, result);
             DataSender.SendAttacco(message);
+            if(!controller.isLocalMode())
+                view.changeCanvasOption("Wait");
+            else
+            {
+                controller.setLocalMode();
+                view.changeCanvasOption("Attack phase");
+                view.updateTwoSelected(null, null);
+            }
         }
         return error;
     }
@@ -54,13 +61,18 @@ public class StateDefend : StateControl
     {
         firstLand = controller.getFirstLand();
         secondLand = controller.getSecondLand();
-        nTanksAttacker = controller.getAttackTank();
+        nTanksAttacker = controller.getDefendTank();
         nTanksDefender = controller.getTank1();
     }
 
     public override StateControl nextPhaseForced()
     {
-        return (new StateWait(controller, data, manageMessage, view));
+        StateControl stateResult = null;
+        if(controller.isLocalMode())
+            stateResult = new StateAttack(controller, data, manageMessage, view);
+        else
+            stateResult = new StateWait(controller, data, manageMessage, view);
+        return stateResult;
     }
 
     public override StateControl nextPhase()

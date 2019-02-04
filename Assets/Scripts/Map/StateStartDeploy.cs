@@ -68,16 +68,23 @@ public class StateStartDeploy : StateControl
             if(!data.isAllPlayerRunOutOfTanks())
             {
                 data.nextDeploy();
-                view.changeCanvasOption("Wait");
                 view.updatePhase(data.getPlayer(), data.getPhase());
-                nextPhase = new StateWait(controller, data, manageMessage, view);
-                string message = manageMessage.messagePhase(data.getPlayer(), data.getPhase());
-                DataSender.SendNextPhase(message);
+                if(!data.getPlayer().Equals(controller.getPlayer()) && !controller.isLocalMode())
+                {
+                    view.changeCanvasOption("Wait");
+                    nextPhase = new StateWait(controller, data, manageMessage, view);
+                    string message = manageMessage.messagePhase(data.getPlayer(), data.getPhase());
+                    DataSender.SendNextPhase(message);
+                }
+                else
+                {
+                    view.updateDeployRemain(nTanksRemain);
+                }
             }
             else
             {
                 data.startGame();
-                if(data.getPlayer().Equals(controller.getPlayer()))
+                if(data.getPlayer().Equals(controller.getPlayer()) || controller.isLocalMode())//cheking if the player the the one who start
                 {
                     view.updatePhase(data.getPlayer(), data.getPhase());
                     data.giveTanks();
@@ -87,6 +94,7 @@ public class StateStartDeploy : StateControl
                     nextPhase = new StateDeploy(controller, data, manageMessage, view);
                     string message = manageMessage.messagePhase(data.getPlayer(), data.getPhase());
                     DataSender.SendNextPhase(message);
+
                 }
                 else
                 {
@@ -98,6 +106,8 @@ public class StateStartDeploy : StateControl
                 }
             }
         }
+        if(controller.isLocalMode())
+            controller.setLocalMode();
         return nextPhase;
     }
 

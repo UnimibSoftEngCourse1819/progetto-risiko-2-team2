@@ -201,7 +201,7 @@ public class ControllGameMap : MonoBehaviour
 
     //local mode methods
 
-    private void setLocalMode()
+    public void setLocalMode()
     {
         player = model.getPlayer();
     }
@@ -209,6 +209,26 @@ public class ControllGameMap : MonoBehaviour
     public bool isLocalMode()
     {
         return localMode;
+    }
+
+    public void setFirstLand(string land)
+    {
+        firstLand = land;
+    }
+
+    public void setSecondLand(string land)
+    {
+        secondLand = land;
+    }
+
+    public void setTank1(int n)
+    {
+        tank1 = n;
+    }
+
+    public void setTank2(int n)
+    {
+        tank2 = n;
     }
 
     // methods for networks

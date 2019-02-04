@@ -35,14 +35,24 @@ public class StateMove : StateControl
             string message = manageMessage.messageMove(firstLand, secondLand, nTanks);
             view.updateLogEvent(manageMessage.readMove(message));
             DataSender.SendSpostamento(message);
+
         }
         return error;
     }
 
     private void next()
     {
-        view.changeCanvasOption("Wait");
         view.updatePhase(data.getPlayer(), data.getPhase());
+        
+        if(!controller.isLocalMode())
+            view.changeCanvasOption("Wait");
+        else
+        {
+            controller.setLocalMode();
+            view.changeCanvasOption("Deployment phase");
+        }
+                
+        
     }
 
     private void notifyPassTurn()
@@ -63,13 +73,29 @@ public class StateMove : StateControl
         data.passTurn();
         next();
         notifyPassTurn();
-        return (new StateWait(controller, data, manageMessage, view));
+        StateControl stateReturn = null;
+        if(controller.isLocalMode())
+        {
+            stateReturn = new StateDeploy(controller, data, manageMessage, view);
+            view.changeCanvasOption("Deployment phase");
+        }
+        else
+        {
+            stateReturn = new StateWait(controller, data, manageMessage, view);
+            view.changeCanvasOption("Wait");
+        }
+        return stateReturn;
     }
 
     public override StateControl nextPhaseForced()
     {
         notifyPassTurn();
-        return (new StateWait(controller, data, manageMessage, view));
+        StateControl stateReturn = null;
+        if(controller.isLocalMode())
+            stateReturn = new StateDeploy(controller, data, manageMessage, view);
+        else
+            stateReturn = new StateWait(controller, data, manageMessage, view);
+        return stateReturn;
     }
 
     public override List<string> getMissingData()

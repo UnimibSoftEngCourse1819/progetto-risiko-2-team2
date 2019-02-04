@@ -53,14 +53,14 @@ public class StateWait : StateControl
     {
         view.updateLogEvent(manageMessage.readCard(messageData));
         data.useCards(manageMessage.getCard1(), manageMessage.getCard2(), manageMessage.getCard3());
-       nextPhaseLoad = this;
+        nextPhaseLoad = this;
     }
 
     private void DeployMessage()
     {
         view.updateLogEvent(manageMessage.readDeploy(messageData));
         data.addTanks(manageMessage.getLandStart(), manageMessage.getNTank1());
-       nextPhaseLoad = this;
+        nextPhaseLoad = this;
     }
 
     private void AttackMessage()
@@ -75,7 +75,7 @@ public class StateWait : StateControl
         else
         {
             view.changeCanvasOption("Defend phase");
-           nextPhaseLoad = new StateDefend(controller, data, manageMessage, view);
+            nextPhaseLoad = new StateDefend(controller, data, manageMessage, view);
         }
     }
 
@@ -90,19 +90,18 @@ public class StateWait : StateControl
         }
         else
         {
-            
             if(manageMessage.getResultBattle().Equals("The land has been conquered"))
             {
                 // da modificare in modo che chiede all'utente se vuole trasferire altri tank !!! Bisogna fare l'interfaccia !!!!
                 view.changeCanvasOption("Attack phase");
                 view.updateTwoSelected(null, null);
-               nextPhaseLoad = new StateAttack(controller, data, manageMessage, view);
+                nextPhaseLoad = new StateAttack(controller, data, manageMessage, view);
             }
             else
             {
                 view.changeCanvasOption("Attack phase");
                 view.updateTwoSelected(null, null);
-               nextPhaseLoad = new StateAttack(controller, data, manageMessage, view);
+                nextPhaseLoad = new StateAttack(controller, data, manageMessage, view);
             }
         }
     }

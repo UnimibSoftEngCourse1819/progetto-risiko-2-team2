@@ -28,16 +28,25 @@ public class StateAttack : StateControl
         string error = "";
         loadNecessaryData();
         if(!data.isValidAttack(firstLand, secondLand, nTanks))
-            error = "some data are not corrected";
+            error = "some data are not correct";
         if(error.Equals(""))
         {
             error = "FORCE_NEXT_PHASE";
-            view.changeCanvasOption("Wait");
             data.setDefendPhase(secondLand);
             view.updatePhase(data.getPlayer(), data.getPhase());
             string message = manageMessage.messageInitiateCombat(firstLand, secondLand, nTanks);
             view.updateLogEvent(manageMessage.readInitiateCombat(message));
             DataSender.SendAttackDeclared(message);
+            if(!controller.isLocalMode())
+                view.changeCanvasOption("Wait");
+            else
+            {
+                controller.setLocalMode();
+                controller.setFirstLand(firstLand);
+                controller.setSecondLand(secondLand);
+                controller.setTank1(nTanks);
+                view.changeCanvasOption("Defend phase");
+            }
         }
         return error;
     }
@@ -59,7 +68,12 @@ public class StateAttack : StateControl
 
     public override StateControl nextPhaseForced()
     {
-        return (new StateWait(controller, data, manageMessage, view));
+        StateControl stateResult = null;
+        if(controller.isLocalMode())
+            stateResult = new StateDefend(controller, data, manageMessage, view);
+        else
+            stateResult = new StateWait(controller, data, manageMessage, view);
+        return stateResult;
     } 
 
     public override List<string> getMissingData()
