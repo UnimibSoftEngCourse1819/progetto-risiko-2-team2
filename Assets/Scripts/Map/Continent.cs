@@ -69,4 +69,9 @@ public class Continent
         }
         return found;
     }
+
+    public bool hasLand(Land land)
+    { 
+       return lands.Contains(land);
+    }
 }

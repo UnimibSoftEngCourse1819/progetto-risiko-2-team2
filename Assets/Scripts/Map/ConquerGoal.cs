@@ -2,73 +2,84 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Goals
+public class ConquerGoal : Goal
 {
-    public class ConquerGoal : Goal
+    private readonly List<Continent> continentsToConquer;
+    private const string TEXT = "Conquer the following continents: ";
+
+    public ConquerGoal()
     {
-        private readonly List<Continent> continentsToConquer;
+        continentsToConquer = new List<Continent>();
+    }
 
-        public ConquerGoal()
+    private ConquerGoal(ConquerGoal goal)
+    {
+        continentsToConquer = goal.getContinentsToConquer();
+    }
+
+    public override void fixGoal(List<Player> players, Player player, List<Continent> world)
+    {
+        Debug.Log("Continents: " + world.Count);
+        int index = Random.Range(0, world.Count - 1);
+
+        Debug.Log("Index " + index);
+
+        Continent continent = world[index];
+        Debug.Log("Help me " + index);
+        continentsToConquer.Add(continent);
+
+        while (continentsToConquer.Contains(world[index]))
+            index = Random.Range(0, world.Count - 1);
+
+        Debug.Log("Puke " + index);
+
+        continent = world[index];
+        continentsToConquer.Add(continent);
+    }
+
+    public override bool isAccomplished(List<Player> players, Player player, List<Continent> world)
+    {
+        int nLands = 0;
+        int nLandsOwned;
+
+        foreach (Continent continent in continentsToConquer)
         {
-            continentsToConquer = new List<Continent>();
-        }
+            nLands = continent.getLands().Count;
+            nLandsOwned = 0;
 
-        private ConquerGoal(ConquerGoal goal)
-        {
-            continentsToConquer = goal.getContinentsToConquer();
-        }
-
-        public override void fixGoal(List<Player> players, Player player, List<Continent> world)
-        {
-            Debug.Log("Continents: " + world.Count);
-            int index = Random.Range(0, world.Count - 1);
-
-            Debug.Log("Index " + index);
-
-            Continent continent = world[index];
-            Debug.Log("Help me " + index);
-            continentsToConquer.Add(continent);
-
-            while (continentsToConquer.Contains(world[index]))
-                index = Random.Range(0, world.Count - 1);
-
-            Debug.Log("Puke " + index);
-
-            continent = world[index];
-            continentsToConquer.Add(continent);
-        }
-
-        public override bool isAccomplished(List<Player> players, Player player, List<Continent> world)
-        {
-            int nLands = 0;
-            int nLandsOwned;
-
-            foreach (Continent continent in continentsToConquer)
+            foreach (Land land in continent.getLands())
             {
-                nLands = continent.getLands().Count;
-                nLandsOwned = 0;
-
-                foreach (Land land in continent.getLands())
-                {
-                    if (player.hasLand(land.getName()))
-                        nLandsOwned += 1;
-                }
-
-                if (nLands != nLandsOwned)
-                    return false;
+                if (player.hasLand(land.getName()))
+                    nLandsOwned += 1;
             }
 
-            return true;
+            if (nLands != nLandsOwned)
+                return false;
         }
 
-        public List<Continent> getContinentsToConquer()
+        return true;
+    }
+
+    public List<Continent> getContinentsToConquer()
+    {
+        return continentsToConquer;
+    }
+
+    public override Goal getClone()
+    {
+        return new ConquerGoal(this);
+    }
+
+    public override string getText()
+    {
+        string txt = TEXT + " ";
+
+        foreach(Continent continent in continentsToConquer)
         {
-            return continentsToConquer;
+            txt += continent.getName() + " ";
         }
 
-        public override Goal getClone()
-        {
-            return new ConquerGoal(this);
-        }
+        return txt;
     }
 }
+

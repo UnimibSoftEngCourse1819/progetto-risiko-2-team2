@@ -17,9 +17,10 @@ public class ViewGameMap : MonoBehaviour
     public ControllGameMap controller;
 
     private CanvasGroup attack, defense, move, deploy, deployGaming, popup, message, quit, cards;
-	private Text eventLog, phase, selectedData, playerData, attackSelected, moveSelected, deployRemain, deploySelected, messagePopup, goal, cardList;
+    private Text eventLog, phase, selectedData, playerData, attackSelected, moveSelected, deployRemain, deploySelected, messagePopup, goal, cardList;
     private Dropdown card1, card2, card3;
     public State statePrefab;
+    public GameObject stateHolder;
 
     public void prepareView()//prepara l'interfaccia
     {
@@ -79,6 +80,7 @@ public class ViewGameMap : MonoBehaviour
         showPopup();
         message.alpha = 1f;
         message.interactable = true;
+        message.blocksRaycasts = true;
         messagePopup.text = messageString;
     }
 
@@ -151,15 +153,20 @@ public class ViewGameMap : MonoBehaviour
         selectedData.text = text;
     }
 
+    public void updateGoal(string textGoal)
+    {
+        goal.text = textGoal;
+    }
+
     //METHODS THAT SHOW A UI COMPONENTS
 
     public void drawMap(List<StateData> stateData)
     {
-        List<StateData>  banana = stateData;
-        foreach(StateData state in banana)
+        foreach(StateData state in stateData)
         {
             State newState = Instantiate(statePrefab, state.getVector(), Quaternion.identity) as State;
             newState.SetState(state.texture, state.stateName);
+            newState.transform.SetParent(stateHolder.transform);
             newState.Click.AddListener((State land) =>
                 {
                     controller.onClickLand(land.idName);
@@ -181,21 +188,25 @@ public class ViewGameMap : MonoBehaviour
         {
             deploy.alpha = 1f;
             deploy.interactable = true;
+            deploy.blocksRaycasts = true;
         }
         if(phase.Equals(PHASE[ATTACK], StringComparison.InvariantCultureIgnoreCase))
         {
             attack.alpha = 1f;
             attack.interactable = true;
+            attack.blocksRaycasts = true;
         }
         if(phase.Equals(PHASE[DEFEND], StringComparison.InvariantCultureIgnoreCase))
         {
             defense.alpha = 1f;
             defense.interactable = true;
+            defense.blocksRaycasts = true;
         }
         if(phase.Equals(PHASE[MOVE], StringComparison.InvariantCultureIgnoreCase))
         {
             move.alpha = 1f;
             move.interactable = true;
+            move.blocksRaycasts = true;
         }
         if(phase.Equals(PHASE[DEPLOY], StringComparison.InvariantCultureIgnoreCase))
         {
@@ -203,6 +214,7 @@ public class ViewGameMap : MonoBehaviour
             deploy.interactable = true;
             deployGaming.alpha = 1f;
             deployGaming.interactable = true;
+            deployGaming.blocksRaycasts = true;
         }
     }
 
@@ -211,6 +223,7 @@ public class ViewGameMap : MonoBehaviour
         showPopup();
         quit.alpha = 1f;
         quit.interactable = true;
+        quit.blocksRaycasts = true;
     }
     
 
@@ -218,12 +231,14 @@ public class ViewGameMap : MonoBehaviour
     {
         popup.alpha = 1f;
         popup.interactable = true;
+        popup.blocksRaycasts = true;
     }
 
     public void showCards(List<string> options)
     {
         cards.alpha = 0f;
         cards.interactable = true;
+        cards.blocksRaycasts = true;
         clearOptions();
         foreach(string option in options)
         {
@@ -237,6 +252,7 @@ public class ViewGameMap : MonoBehaviour
     {
         cards.alpha = 0f;
         cards.interactable = false;
+        cards.blocksRaycasts = false;
     }
 
     public void closePopup()
@@ -246,7 +262,10 @@ public class ViewGameMap : MonoBehaviour
         quit.alpha = 0f;
         popup.interactable = false;
         message.interactable = false;
-        quit.interactable = false;
+        quit.interactable = false;     
+        popup.blocksRaycasts = false;
+        message.blocksRaycasts = false;
+        quit.blocksRaycasts = false;
     }
 
     //PRIVATE METHODS
@@ -262,14 +281,19 @@ public class ViewGameMap : MonoBehaviour
     {
         attack.alpha = 0f;
         attack.interactable = false;
+        attack.blocksRaycasts = false;
         defense.alpha = 0f;
         defense.interactable = false;
+        defense.blocksRaycasts = false;
         move.alpha = 0f;
         move.interactable = false;
+        move.blocksRaycasts = false;
         deploy.alpha = 0f;
         deploy.interactable = false;
+        deploy.blocksRaycasts = false;
         deployGaming.alpha = 0f;
         deployGaming.interactable = false;
+        deployGaming.blocksRaycasts = false;
     } 
 
     private void addOption(string option)

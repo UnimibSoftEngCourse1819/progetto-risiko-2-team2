@@ -55,6 +55,11 @@ public class Player
         this.goal = goal;
     }
 
+    public Goal getGoal()
+    {
+        return goal;
+    }
+
     public void addCard(LandCard card)
     {
         landCards.Add(card);

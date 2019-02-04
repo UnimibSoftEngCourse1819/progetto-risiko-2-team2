@@ -6,6 +6,7 @@ public class MainGoal : Goal
 {
     private int nTerritoryGoal;
     private const int PERCENTAGE = 58;
+    private const string TEXT = "Conquer this number of territories: ";
 
     public MainGoal()
     {
@@ -45,5 +46,10 @@ public class MainGoal : Goal
     public override Goal getClone()
     {
         return new MainGoal(this);
+    }
+
+    public override string getText()
+    {
+        return TEXT + nTerritoryGoal;
     }
 }

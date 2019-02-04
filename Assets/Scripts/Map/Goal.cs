@@ -9,4 +9,6 @@ public abstract class Goal
     public abstract void fixGoal(List<Player> players, Player player, List<Continent> world);
 
     public abstract Goal getClone();
+
+    public abstract string getText();
 }

@@ -109,8 +109,24 @@ public class DataManager
 
     public string getLandData(string land)
     {
-        string result = "IMPLEMENTAMI !!!!";
+        string result = "";
+        Land selectedLand = findLandByName(land);
+
+        result += land + System.Environment.NewLine;
+        result += findContinentByLand(selectedLand).getName() + System.Environment.NewLine;
+        result += getPlayerByLand(land) + System.Environment.NewLine;
+        result += selectedLand.getTanksOnLand() + System.Environment.NewLine;
+        foreach(Land neighbor in selectedLand.getNeighbors())
+        {
+            result += neighbor.getName() + System.Environment.NewLine;
+        }
+
         return result;
+    }
+
+    public string getGoalData(string player)
+    {
+        return getPlayerByName(player).getGoal().getText(); 
     }
 
     private bool checkedRispectiveOwners(Land attacker, Land defender)//controlla che lo stato attacante è di sua proprietà e quello difensivo non sia suo
@@ -227,7 +243,7 @@ public class DataManager
         int currentAttackerTanks = attackerLand.getTanksOnLand();
         int currentDefenderTanks = defenderLand.getTanksOnLand();
 
-        string result = null;
+        string result = "";
 
         if (checkedRispectiveOwners(attackerLand, defenderLand) && checkedTankNumbers(currentAttackerTanks, currentDefenderTanks, nTankAttacker, nTankDefender))
         {
@@ -263,7 +279,7 @@ public class DataManager
 
     private string useCards(List<LandCard> selectedCards)
     {
-        string result = null;
+        string result = "";
         int additionalTanks = 0;
 
         if (selectedCards.Count != 3)
@@ -299,7 +315,7 @@ public class DataManager
         Land firstLand = findLandByName(startLand);
         Land secondLand = findLandByName(endLand);
 
-        string result = null;
+        string result = "";
 
         if (currentPlayer.hasLand(startLand) && currentPlayer.hasLand(endLand) &&
             (firstLand.getTanksOnLand() - 1) >= nTank)
@@ -313,7 +329,7 @@ public class DataManager
 
     public string addTanks(string land, int nTank)
     {
-        string result = null;
+        string result = "";
 
         if (currentPlayer.hasLand(land))
             gameManager.addTanks(currentPlayer, findLandByName(land), nTank);
@@ -417,5 +433,18 @@ public class DataManager
 
         }
         return result;
+    }
+
+    private Continent findContinentByLand(Land land)
+    {
+        Continent c = null;
+
+        foreach(Continent continent in world)
+        {
+            if (continent.hasLand(land))
+                c = continent;
+        }
+
+        return c;
     }
 }

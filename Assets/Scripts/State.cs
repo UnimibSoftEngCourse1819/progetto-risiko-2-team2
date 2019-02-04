@@ -7,13 +7,13 @@ using UnityEngine.Events;
 
 public class State : MonoBehaviour, IPointerClickHandler
 {
-    public float unitPerPixels = 320f / 16.13f;
+    public float unitPerPixels = 320f;
     
     public string idName;
     public List<string> connections;
     public string continent;
     public Texture2D text;
-    
+
     private void Awake()
     {
         Click = new Pressed();
@@ -35,13 +35,15 @@ public class State : MonoBehaviour, IPointerClickHandler
         this.text = text;
         Vector2 pivot = new Vector2(0.5f, 0.5f);
         
-        Sprite s = Sprite.Create(text, new Rect(0, 0, text.width, text.height), pivot, unitPerPixels);
+        Sprite s = Sprite.Create(text, new Rect(0, 0, text.width, text.height), pivot, 320f);
         GetComponent<SpriteRenderer>().sprite = s;
 
         Destroy(GetComponent<PolygonCollider2D>());
         PolygonCollider2D coll = gameObject.AddComponent<PolygonCollider2D>();
 
         coll.isTrigger = true;
+
+        Debug.Log("Valore " + s.pixelsPerUnit);
     }
 
     public void Erase()

@@ -5,6 +5,7 @@ using UnityEngine;
 public class DestroyEnemyGoal : Goal
 {
     private string target;
+    private const string TEXT = "Eliminate the player: ";
 
     public DestroyEnemyGoal()
     {
@@ -50,5 +51,10 @@ public class DestroyEnemyGoal : Goal
     public override Goal getClone()
     {
         return new DestroyEnemyGoal(this);
+    }
+
+    public override string getText()
+    {
+        return TEXT + target;
     }
 }

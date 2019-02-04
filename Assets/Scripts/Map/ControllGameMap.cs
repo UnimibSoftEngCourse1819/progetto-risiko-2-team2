@@ -25,11 +25,25 @@ public class ControllGameMap : MonoBehaviour
     {
 
         InizializeComponents();
+        view.prepareView();
         loadData();
         NetworkManager.istance.InizializeController();
+        initializeText();
+        initializeController();
     }
 
     //Private Methods for inizializing
+
+    private void initializeText()
+    {
+        view.updateTextPlayerData(model.getPlayerData(player));
+        view.updateGoal(model.getGoalData(player));
+    }
+
+    private void initializeController()
+    {
+        state = new StateStartDeploy(this, model, messageManager, view);
+    }
 
     private void InizializeComponents()
     {
@@ -61,8 +75,6 @@ public class ControllGameMap : MonoBehaviour
         players.Add(new Player("Topolino"));
 
         List<Continent> world = loader.getWorld(data);
-
-        Debug.Log("Nea and the pussycats");
 
         model = new DataManager(players, world, loader.getAllLands(world));
 
