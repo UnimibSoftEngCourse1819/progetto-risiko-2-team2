@@ -34,9 +34,9 @@ public class StateStartDeploy : StateControl
         {
             string message = manageMessage.messageDeploy(controller.getPlayer(), nTanks, land);
             view.updateDeploySelected("Select a Land !!!");
-            view.updateRemainTank(nTanksRemain);
-            view.updateLogEvent(manageMessage.readDeploy());
-            DataSender.sendPosizionamento(message);
+            view.updateDeployRemain(nTanksRemain);
+            view.updateLogEvent(manageMessage.readDeploy(message));
+            DataSender.SendPosizionamento(message);
             if(nTanksRemain == 0)
                 error = "FORCE_NEXT_PHASE";
         }
@@ -68,33 +68,33 @@ public class StateStartDeploy : StateControl
             if(!data.isAllPlayerRunOutOfTanks())
             {
                 data.nextDeploy();
-                view.hideAllCanvasOption();
-                view.updatePhase(data.getPlayer(), data.getCurrentPhase());
-                nextPhase = new StateWait(controller, data);
-                string message = manageMessage.messagePhase(data.getPlayer(), data.getCurrentPhase());
-                DataSender.sendNextPhase(message);
+                view.changeCanvasOption("Wait");
+                view.updatePhase(data.getPlayer(), data.getPhase());
+                nextPhase = new StateWait(controller, data, manageMessage, view);
+                string message = manageMessage.messagePhase(data.getPlayer(), data.getPhase());
+                DataSender.SendNextPhase(message);
             }
             else
             {
                 data.startGame();
                 if(data.getPlayer().Equals(controller.getPlayer()))
                 {
-                    view.updatePhase(data.getPlayer(), data.getCurrentPhase());
+                    view.updatePhase(data.getPlayer(), data.getPhase());
                     data.giveTanks();
                     view.updateDeploySelected("Select a Land !!!");
-                    view.updateRemainTank(data.getPlayerTanksReinforcement(controller.getPlayer()));
+                    view.updateDeployRemain(data.getPlayerTanksReinforcement(controller.getPlayer()));
                     view.changeCanvasOption(VIEW_OPTION);
-                    nextPhase = new StateDeploy(controller, data);
-                    string message = manageMessage.messagePhase(data.getPlayer(), data.getCurrentPhase());
-                    DataSender.sendNextPhase(message);
+                    nextPhase = new StateDeploy(controller, data, manageMessage, view);
+                    string message = manageMessage.messagePhase(data.getPlayer(), data.getPhase());
+                    DataSender.SendNextPhase(message);
                 }
                 else
                 {
-                    view.hideAllCanvasOption();
-                    view.updatePhase(data.getPlayer(), data.getCurrentPhase());
-                    nextPhase = new StateWait(controller, data);
-                    string message = manageMessage.messagePhase(data.getPlayer(), data.getCurrentPhase());
-                    DataSender.sendNextPhase(message);
+                    view.changeCanvasOption("Wait");
+                    view.updatePhase(data.getPlayer(), data.getPhase());
+                    nextPhase = new StateWait(controller, data, manageMessage, view);
+                    string message = manageMessage.messagePhase(data.getPlayer(), data.getPhase());
+                    DataSender.SendNextPhase(message);
                 }
             }
         }

@@ -1,18 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Assets.Scripts.Server;
 
 public class StateDeploy : StateControl
 {
     private ControllGameMap controller;
     private DataManager data;
+    private MessageManager manageMessage;
+    private ViewGameMap view;
     private string land;
     private int nTanks;
 
-    public StateDeploy(ControllGameMap controller, DataManager data)
+    public StateDeploy(ControllGameMap controller,  DataManager data, MessageManager manageMessage, ViewGameMap view)
     {
         this.controller = controller;
         this.data = data;
+        this.manageMessage = manageMessage;
+        this.view = view;
         land = null;
         nTanks = -1;
     }
@@ -26,9 +31,9 @@ public class StateDeploy : StateControl
         {
             string message = manageMessage.messageDeploy(controller.getPlayer(), nTanks, land);
             view.updateDeploySelected("Select a Land !!!");
-            view.updateRemainTank(nTanksRemain);
-            view.updateLogEvent(manageMessage.readDeploy());
-            DataSender.sendPosizionamento(message);
+            view.updateDeployRemain(data.getPlayerTanksReinforcement(controller.getPlayer()));
+            view.updateLogEvent(manageMessage.readDeploy(message));
+            DataSender.SendPosizionamento(message);
         }
         return error;
     }
@@ -42,9 +47,9 @@ public class StateDeploy : StateControl
     public override StateControl nextPhase()
     {
         data.nextPhase();
-        string message = manageMessage.messagePhase(data.getPlayer(), data.getCurrentPhase());
-        DataSender.sendNextPhase(message);
-        return (new StateAttack(controller,data));
+        string message = manageMessage.messagePhase(data.getPlayer(), data.getPhase());
+        DataSender.SendNextPhase(message);
+        return (new StateAttack(controller,data, manageMessage, view));
     }
 
     public override List<string> getMissingData()

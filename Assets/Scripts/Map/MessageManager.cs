@@ -187,7 +187,7 @@ public class MessageManager : MonoBehaviour
     public string readPhase(string message)
     {
         string[] data =  message.Split(' ');
-
+        player1 = data[0];
         return data[0] + System.Environment.NewLine + data[1];
     }
 

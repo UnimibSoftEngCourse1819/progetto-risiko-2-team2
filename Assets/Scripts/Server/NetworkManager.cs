@@ -53,39 +53,41 @@ public class NetworkManager : MonoBehaviour
     //uso questa classe si aper il posizionamento che per la combo carte
     public static void refresh(string s, int mod)
     {
+        string type = "";
         switch (mod)
         {
             case 1:
                 {
-                   controller.updateDeploy(s);
+                   type ="Deploy";
                     break;
                 }
             case 2:
                 {
-                   controller.updateCards(s);
+                    type = "Cards";
                     break;
                 }
             case 3:
                 {
-                   controller.updateMove(s);
+                    type = "Move";
                     break;
                 }
                 case 4:
                 {
-                   controller.updateDefense(s);
+                    type = "Defend";
                     break;
                 }
             case 5:
                 {
-                   controller.updateAttack(s);
+                    type = "Attack";
                     break;
                 }
             case 6:
                 {
-                   controller.updateTurn(s);
+                    type = "nextTurn";
                     break;
                 }
         }
+     controller.receiveMessage(type, s);
      state = 0; // rimetto lo stato a 0
     }
     

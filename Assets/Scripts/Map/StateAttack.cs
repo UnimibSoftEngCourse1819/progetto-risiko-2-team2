@@ -1,18 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Assets.Scripts.Server;
 
 public class StateAttack : StateControl
 {
     private ControllGameMap controller;
     private DataManager data;
+    private MessageManager manageMessage;
+    private ViewGameMap view;
     private string firstLand, secondLand;
     private int nTanks;
 
-    public StateAttack(ControllGameMap controller, DataManager data)
+    public StateAttack(ControllGameMap controller, DataManager data, MessageManager manageMessage, ViewGameMap view)
     {
         this.controller = controller;
         this.data = data;
+        this.view = view;
+        this.manageMessage = manageMessage;
         firstLand = null;
         secondLand = null;
         nTanks = -1;
@@ -22,15 +27,16 @@ public class StateAttack : StateControl
     {
         string error = "";
         loadNecessaryData();
-        error = data.isValidAttack(firstLand, secondLand, nTanks);
+        if(!data.isValidAttack(firstLand, secondLand, nTanks))
+            error = "some data are not corrected";
         if(error.Equals(""))
         {
             error = "FORCE_NEXT_PHASE";
-            view.hideAllCanvasOption();
+            view.changeCanvasOption("Wait");
             data.setDefendPhase(secondLand);
-            view.updatePhase(data.getPlayer(), data.getCurrentPhase());
-            string message = manageMessage.messageInitiateCombat(landAttacker, landDefender, nTank);
-            view.updateEventLog(manageMessage.readInitiateCombat(message));
+            view.updatePhase(data.getPlayer(), data.getPhase());
+            string message = manageMessage.messageInitiateCombat(firstLand, secondLand, nTanks);
+            view.updateLogEvent(manageMessage.readInitiateCombat(message));
             DataSender.SendAttackDeclared(message);
         }
         return error;
@@ -46,14 +52,14 @@ public class StateAttack : StateControl
     public override StateControl nextPhase()
     {
         data.nextPhase();
-        string message = manageMessage.messagePhase(data.getPlayer(), data.getCurrentPhase());
-        DataSender.sendNextPhase(message);
-        return (new StateMove(controller, data));
+        string message = manageMessage.messagePhase(data.getPlayer(), data.getPhase());
+        DataSender.SendNextPhase(message);
+        return (new StateMove(controller, data, manageMessage, view));
     }
 
     public override StateControl nextPhaseForced()
     {
-        return (new StateWait(controller, data));
+        return (new StateWait(controller, data, manageMessage, view));
     } 
 
     public override List<string> getMissingData()

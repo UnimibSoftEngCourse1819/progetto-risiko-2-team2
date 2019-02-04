@@ -8,6 +8,7 @@ public class DataManager
     private const string DEPLOYMENT = "Deployment phase";
     private const string ATTACK = "Attack phase";
     private const string MOVE = "Move phase";
+    private const string DEFEND = "Defend phase";
     private const int MINIMUM_TANK_ON_LAND = 1;
     private const int MINIMUM_TANK_ATTACK_PER_TIME = 1, MAX_TANK_ATTACK_PER_TIME = 3;
 
@@ -38,11 +39,6 @@ public class DataManager
             dealer.assignGoal(players, player, world);
 
         Debug.Log("Quello che vuoi");
-    }
-
-    public Player getCurrentPlayer()
-    {
-        return currentPlayer;
     }
 
     public string getPlayerData()
@@ -96,7 +92,7 @@ public class DataManager
         return result;
     }
 
-    public string getCurrentPhase()
+    public string getPhase()
     {
         return currentPhase;
     }
@@ -200,6 +196,21 @@ public class DataManager
         }
 
         return true;
+    }
+
+    public bool isValidAttack(string firstLand, string secondLand,int nTank)
+    {
+        bool result = false;
+        if(getPlayerByLand(firstLand).Equals(currentPlayer) && !(getPlayerByLand(secondLand).Equals(currentPlayer))
+            && getTankOfLand(firstLand) > nTank)
+            result = true;
+        return result;
+    }
+
+    public void startGame()
+    {
+        currentPhase = DEPLOYMENT;
+        currentPlayer = players[0];
     }
 
     public string attack(string attacker, string defender, int nTankAttacker, int nTankDefender)
@@ -337,6 +348,25 @@ public class DataManager
     {
         nextPlayer();
         nextPhase();
+    }
+
+    public void setAttackPhase(string landAttacker)
+    {
+        currentPlayer = getPlayerByName(getPlayerByLand(landAttacker));
+        currentPhase = ATTACK;
+    }
+
+    public void setDefendPhase(string landDefender)
+    {
+        currentPlayer = getPlayerByName(getPlayerByLand(landDefender));
+        currentPhase = DEFEND;
+    }
+
+    public void setPhaseByMessage(string message)
+    {
+        string[] info =  message.Split(new[] { System.Environment.NewLine },System.StringSplitOptions.None);
+        currentPlayer = getPlayerByName(info[0]);
+        currentPhase = info[1];
     }
 
     // Assegna tanks all'inizio di ogni turno

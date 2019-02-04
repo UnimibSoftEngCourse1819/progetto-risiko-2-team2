@@ -16,8 +16,10 @@ public class ControllGameMap : MonoBehaviour
     public MapLoader loader;
 
     private StateControl state;
-    private string firstLand, secondLand;
+    private string firstLand, secondLand, player;
     private int tank1, tank2;
+    private string message, typeMessage;
+    private bool localMode = true;
 
     private void Awake()//prepara i componenti da cui prendere gli input
     {
@@ -66,15 +68,15 @@ public class ControllGameMap : MonoBehaviour
 
         view.updateTextPlayerData(model.getPlayer());
 
-        string phase = model.getCurrentPhase();
+        string phase = model.getPhase();
 
         Debug.Log("Initiate cloack mode");
 
         view.changeCanvasOption(phase);
         view.updatePhase(phase + System.Environment.NewLine + model.getPlayer());
-        view.updateDeployRemain(countStartDeploy);
-        view.updateSelected(1, "Select a State !!!", null);
-        localMode();
+        view.updateDeploySelected("Select a Land !!!");
+        view.updateDeployRemain(3);
+        setLocalMode();    
 
         Debug.Log("The cool killers' club");
     }
@@ -89,6 +91,53 @@ public class ControllGameMap : MonoBehaviour
     public int getAttackTank()
     {
         return int.Parse(attackTank.text);
+    }
+
+    public int getMoveTank()
+    {
+        return int.Parse(moveTank.text);
+    }
+
+    public int getDefendTank()
+    {
+        return int.Parse(defendTank.text);
+    }
+
+    //Methods get
+
+    public string getFirstLand()
+    {
+        return firstLand;
+    }
+
+    public string getSecondLand()
+    {
+        return secondLand;
+    }
+
+    public int getTank1()
+    {
+        return tank1;
+    }
+
+    public int getTank2()
+    {
+        return tank2;
+    }
+
+    public string getPlayer()
+    {
+        return player;
+    }
+
+    public string getMessage()
+    {
+        return message;
+    }
+
+    public string getTypeMessage()
+    {
+        return typeMessage;
     }
 
     // Button methods
@@ -150,5 +199,23 @@ public class ControllGameMap : MonoBehaviour
         view.closeCard();
     }
 
-    
+    //local mode methods
+
+    private void setLocalMode()
+    {
+        player = model.getPlayer();
+    }
+
+    public bool isLocalMode()
+    {
+        return localMode;
+    }
+
+    // methods for networks
+    public void receiveMessage(string type, string message)
+    {
+        typeMessage = type;
+        this.message = message;
+        onClickAction();
+    }
 }

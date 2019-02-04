@@ -11,8 +11,8 @@ public class ViewGameMap : MonoBehaviour
 
     private const string INITIAL_TEXT = "BUG";
     private const int MAX_LINES_ON_EVENT_LOG = 15;
-    private readonly string[] PHASE = {"Initial Deploy phase", "Attack phase", "Deployment phase", "Move phase", "Defend phase"};
-    private const int STARTDEPLOY = 0, ATTACK = 1, DEPLOY = 2, MOVE = 3, DEFEND = 4;
+    private readonly string[] PHASE = {"Initial Deploy phase", "Attack phase", "Deployment phase", "Move phase", "Defend phase", "Wait"};
+    private const int STARTDEPLOY = 0, ATTACK = 1, DEPLOY = 2, MOVE = 3, DEFEND = 4, WAIT = 5;
     private readonly List<string> logEvent = new List<string>();
 
     private CanvasGroup attack, defense, move, deploy, deployGaming, popup, message, quit, cards;
@@ -35,7 +35,7 @@ public class ViewGameMap : MonoBehaviour
         goal = GameObject.Find("TextGoal").GetComponent<Text>();
         cardList = GameObject.Find("TextCardList").GetComponent<Text>();
 
-        Debug.Log("Tacat‡");
+        Debug.Log("Tacat√†");
 
         eventLog.text = INITIAL_TEXT;
         phase.text = INITIAL_TEXT;
@@ -46,8 +46,8 @@ public class ViewGameMap : MonoBehaviour
         deployRemain.text = INITIAL_TEXT;
         deploySelected.text = INITIAL_TEXT;
         messagePopup.text = INITIAL_TEXT;
-        goal = INITIAL_TEXT;
-        cardList = INITIAL_TEXT;
+        goal.text = INITIAL_TEXT;
+        cardList.text = INITIAL_TEXT;
 
         //CanvasGroup
         attack = GameObject.Find("CanvasAttack").GetComponent<CanvasGroup>();
@@ -73,12 +73,12 @@ public class ViewGameMap : MonoBehaviour
 
     //****METHODS THAT CHANGE A TEXT
 
-    public void showMessage(string message)
+    public void showMessage(string messageString)
     {
         showPopup();
         message.alpha = 1f;
         message.interactable = true;
-        messagePopup.text = message;
+        messagePopup.text = messageString;
     }
 
     public void updateTextPlayerData(string data)
@@ -133,7 +133,7 @@ public class ViewGameMap : MonoBehaviour
         deploySelected.text = land;
     }
 
-    public void updateDeployRemain(string n)
+    public void updateDeployRemain(int n)
     {
         deployRemain.text = "Tank remaining : " + n;
     }
@@ -274,5 +274,4 @@ public class ViewGameMap : MonoBehaviour
         card3.options.Add(temp);
     }
 
-    
 }
