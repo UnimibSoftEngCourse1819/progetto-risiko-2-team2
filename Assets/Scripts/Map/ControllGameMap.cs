@@ -199,6 +199,11 @@ public class ControllGameMap : MonoBehaviour
         view.closeCard();
     }
 
+    public void onClickNextPhase()
+    {
+        state = state.nextPhase();
+    }
+
     //local mode methods
 
     public void setLocalMode()
