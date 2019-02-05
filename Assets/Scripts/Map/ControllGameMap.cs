@@ -77,6 +77,15 @@ public class ControllGameMap : MonoBehaviour
         List<Continent> world = loader.getWorld(data);
         model = new DataManager(players, world, loader.getAllLands(world));
         
+        foreach(Player player in players)
+        {
+            foreach(Land land in player.getTerritoryOwned())
+            {
+                view.setColorState(land.getName(), player.getColor());
+                view.setNumberLands(land.getName(), 1);
+            }
+        }
+
         view.updateTextPlayerData(model.getPlayer());
         if(localMode)
             setLocalMode();    

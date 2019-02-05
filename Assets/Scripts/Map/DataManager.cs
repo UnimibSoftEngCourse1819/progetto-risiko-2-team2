@@ -125,7 +125,7 @@ public class DataManager
 
     private bool checkedRispectiveOwners(Land attacker, Land defender)//controlla che lo stato attacante è di sua proprietà e quello difensivo non sia suo
     {
-        return (currentPlayer.hasLand(attacker.getName()) && !currentPlayer.hasLand(defender.getName()));
+        return (currentPlayer.hasLand(defender.getName()) && !currentPlayer.hasLand(attacker.getName()));
     }
 
     private bool checkedTankNumbers(int currentAttackerTanks, int currentDefenderTanks, int nTankAttacker, int nTankDefender)

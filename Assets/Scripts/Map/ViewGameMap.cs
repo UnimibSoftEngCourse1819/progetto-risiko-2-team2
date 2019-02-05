@@ -22,6 +22,9 @@ public class ViewGameMap : MonoBehaviour
     private List<StateBattle> stateUI;
     public StateBattle statePrefab;
     public GameObject stateHolder;
+    public Camera mainCamera;
+    public BattleStateUI stateUIPrefab;
+    public GameObject battleUI;
 
     public void prepareView()//prepara l'interfaccia
     {
@@ -74,7 +77,7 @@ public class ViewGameMap : MonoBehaviour
         hideAllCanvasOption();
         closePopup();
         closeCard();
-        stateUI = new StateBattle();
+        stateUI = new List<StateBattle>();
     }
 
     //****METHODS THAT CHANGE A TEXT
@@ -187,6 +190,7 @@ public class ViewGameMap : MonoBehaviour
         foreach(StateData state in stateData)
         {
             StateBattle newState = Instantiate(statePrefab, state.getVector(), Quaternion.identity) as StateBattle;
+
             newState.SetState(state.texture, state.stateName);
             newState.transform.SetParent(stateHolder.transform);
             newState.Click.AddListener((State land) =>
@@ -195,6 +199,9 @@ public class ViewGameMap : MonoBehaviour
                     //other thing to add when clicked;
                 }
             );
+
+            BattleStateUI uiState = Instantiate(stateUIPrefab, state.getVector(), Quaternion.identity) as BattleStateUI;
+            uiState.transform.SetParent(battleUI.transform);
             stateUI.Add(newState);
         }
     }

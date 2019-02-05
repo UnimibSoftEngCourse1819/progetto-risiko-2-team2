@@ -21,7 +21,7 @@ public class Player
         landCards = new List<LandCard>();
     }
 
-    public Player(string username, string color) : this(username, new List<Land>(), color, nTanks, null)
+    public Player(string username, string color) : this(username, new List<Land>(), color, 0, null)
     {
     }
 
