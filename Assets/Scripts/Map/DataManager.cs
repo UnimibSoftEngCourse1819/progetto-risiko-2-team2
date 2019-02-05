@@ -331,10 +331,12 @@ public class DataManager
     {
         string result = "";
 
-        if (currentPlayer.hasLand(land))
-            gameManager.addTanks(currentPlayer, findLandByName(land), nTank);
-        else
+        if (!currentPlayer.hasLand(land))
             result = "This land doesn't belong to the player";
+        else if(getPlayerTanksReinforcement(currentPlayer.getName()) < nTank)
+            result = "You dont have enough tanks to do that ";
+        else
+            gameManager.addTanks(currentPlayer, findLandByName(land), nTank);
 
         return result;
     }

@@ -12,7 +12,8 @@ public class StateStartDeploy : StateControl
     private string land;
     private int nTanks, nTanksRemain;
 
-    private  const string VIEW_OPTION = "Deployment phase";
+    private const string VIEW_OPTION = "Deployment phase";
+    private const int MAX_TANKS_PER_TIME = 3;
 
     public StateStartDeploy(ControllGameMap controller,  DataManager data, MessageManager manageMessage, ViewGameMap view)
     {
@@ -22,14 +23,21 @@ public class StateStartDeploy : StateControl
         this.manageMessage = manageMessage;
         land = null;
         nTanks = -1;
-        nTanksRemain = -1;
+        if(data.getPlayerTanksReinforcement(data.getPlayer()) < MAX_TANKS_PER_TIME)
+        	nTanksRemain = data.getPlayerTanksReinforcement(data.getPlayer());
+        else
+        	nTanksRemain = MAX_TANKS_PER_TIME;
+         view.updateDeployRemain(nTanksRemain);
     }
 
     public override string action()
     {
         string error = "";
         loadNecessaryData();
-        error = data.addTanks(land, nTanks);
+        if(nTanks > nTanksRemain)
+        	error = "Insufficient tanks : you have " + nTanksRemain + " but you want to deploy " + nTanks;
+       	else
+        	error = data.addTanks(land, nTanks);
         if(error.Equals(""))
         {
             string message = manageMessage.messageDeploy(controller.getPlayer(), nTanks, land);
@@ -37,6 +45,7 @@ public class StateStartDeploy : StateControl
             view.updateDeployRemain(nTanksRemain);
             view.updateLogEvent(manageMessage.readDeploy(message));
             DataSender.SendPosizionamento(message);
+            nTanksRemain -= nTanks;
             if(nTanksRemain == 0)
                 error = "FORCE_NEXT_PHASE";
         }
@@ -47,7 +56,6 @@ public class StateStartDeploy : StateControl
     {
         land = controller.getFirstLand();
         nTanks = controller.getDeployTank();
-        nTanksRemain -= nTanks;
     }
 
     public override StateControl nextPhase()
@@ -58,7 +66,7 @@ public class StateStartDeploy : StateControl
     public override StateControl nextPhaseForced()
     {
         StateControl nextPhase = null;
-        if(nTanks > 0)
+        if(nTanksRemain > 0)
         {
             nextPhase = this;
             view.showMessage("You have to deploy ALL your tanks !!!");
@@ -78,7 +86,7 @@ public class StateStartDeploy : StateControl
                 }
                 else
                 {
-                    view.updateDeployRemain(nTanksRemain);
+                    nextPhase = new StateStartDeploy(controller, data, manageMessage, view);
                 }
             }
             else
@@ -91,6 +99,7 @@ public class StateStartDeploy : StateControl
                     view.updateDeploySelected("Select a Land !!!");
                     view.updateDeployRemain(data.getPlayerTanksReinforcement(controller.getPlayer()));
                     view.changeCanvasOption(VIEW_OPTION);
+                    Debug.Log("STATE CONFIRMED");
                     nextPhase = new StateDeploy(controller, data, manageMessage, view);
                     string message = manageMessage.messagePhase(data.getPlayer(), data.getPhase());
                     DataSender.SendNextPhase(message);
@@ -126,7 +135,10 @@ public class StateStartDeploy : StateControl
     {
         string field = "";
         if(data.getPlayerByLand(land).Equals(data.getPlayer()))
+        {
             field = "firstLand";
+            view.updateDeploySelected(land);
+        }
         return field;
     }
 }

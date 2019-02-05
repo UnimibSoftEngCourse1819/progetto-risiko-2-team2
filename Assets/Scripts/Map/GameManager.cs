@@ -96,7 +96,7 @@ public class GameManager
         int nPlayers = players.Count;
 
         if (nPlayers == 3)
-            nTanks = 35;
+            nTanks = 8; //modificami
         else if (nPlayers == 4)
             nTanks = 30;
         else if (nPlayers == 5)

@@ -181,9 +181,6 @@ public class ViewGameMap : MonoBehaviour
         hideAllCanvasOption();
 
         Debug.Log(phase);
-
-        Debug.Log(PHASE[STARTDEPLOY]);
-
         if(phase.Equals(PHASE[STARTDEPLOY], StringComparison.InvariantCultureIgnoreCase))
         {
             deploy.alpha = 1f;
@@ -212,6 +209,7 @@ public class ViewGameMap : MonoBehaviour
         {
             deploy.alpha = 1f;
             deploy.interactable = true;
+            deploy.blocksRaycasts = true;
             deployGaming.alpha = 1f;
             deployGaming.interactable = true;
             deployGaming.blocksRaycasts = true;

@@ -72,7 +72,8 @@ public class MessageManager : MonoBehaviour
     {
    	    message = "";
    	    message += landAttacker + " has engaged " + landDefender + " with " + nTank + "." + System.Environment.NewLine;
-   	    message += landAttacker + " " + nTank + System.Environment.NewLine;
+   	    message += landAttacker + System.Environment.NewLine;
+        message += nTank + System.Environment.NewLine;
    	    message += landDefender;
 
    	    return message;
@@ -84,13 +85,9 @@ public class MessageManager : MonoBehaviour
    	    List<string> messageLog = new List<string>();
    	    messageLog.Add(data[0]);
 
-   	    string[] dataLogic = data[1].Split(' ');
-   	    landStart = dataLogic[0];
-   	    nTank1 = int.Parse(dataLogic[1]);
-
-   	    dataLogic = data[2].Split(' ');
-   	    landEnd = dataLogic[0];
-
+   	    landStart = data[1];
+   	    nTank1 = int.Parse(data[2]);
+   	    landEnd = data[3];
    	    return messageLog;
     }
 
@@ -103,9 +100,10 @@ public class MessageManager : MonoBehaviour
    	    message += "Result battle : " + landAttacker + " has lost " + nTankAttackerLost + System.Environment.NewLine;
    	    message += "Result battle : " + landDefender + " has lost" + nTankDenderLost + System.Environment.NewLine;
    	    message += result + System.Environment.NewLine;
-   	    message += landAttacker + " " + nTankAttackerLost + System.Environment.NewLine;
-   	    message += landDefender + " " + nTankDenderLost + System.Environment.NewLine;
-
+   	    message += landAttacker + System.Environment.NewLine;
+        message += nTankAttackerLost + System.Environment.NewLine;
+   	    message += landDefender + System.Environment.NewLine;
+        message += nTankDenderLost + System.Environment.NewLine;
    	    return message;
     }
 
@@ -118,14 +116,11 @@ public class MessageManager : MonoBehaviour
    	    messageLog.Add(data[2]);
    	    messageLog.Add(data[3]);
 
-   	    string[] dataLogic = data[4].Split(' ');
-   	    landStart = dataLogic[0];
-   	    nTank1 = int.Parse(dataLogic[1]);
-
-   	    dataLogic = data[5].Split(' ');
-   	    landEnd = dataLogic[0];
-   	    nTank2 = int.Parse(dataLogic[1]);
-   	    resultBattle = data[2];
+   	    landStart = data[4];
+   	    nTank1 = int.Parse(data[5]);
+   	    landEnd = data[6];
+   	    nTank2 = int.Parse(data[7]);
+   	    resultBattle = data[3];
 
    	    return messageLog;
     }
@@ -133,8 +128,10 @@ public class MessageManager : MonoBehaviour
     public string messageDeploy(string player, int nTank, string land)
     {
    	    message = "";
-   	    message += player + ": " + land + "received " + nTank + "tanks as reinforcements." + System.Environment.NewLine;
-   	    message += player + " " + land + " " + nTank;
+   	    message += player + ": " + land + " received " + nTank + " tanks as reinforcements." + System.Environment.NewLine;
+   	    message += player + System.Environment.NewLine;
+        message += land + System.Environment.NewLine;
+        message += nTank + System.Environment.NewLine;
 
    	    return message;
     }
@@ -145,10 +142,9 @@ public class MessageManager : MonoBehaviour
    	    List<string> messageLog = new List<string>();
    	    messageLog.Add(data[0]);
 
-   	    string[] dataLogic = data[1].Split(' ');
-   	    player1 = dataLogic[0];
-   	    landStart = dataLogic[1];
-   	    nTank1 = int.Parse(dataLogic[2]);
+   	    player1 = data[1];
+   	    landStart = data[2];
+   	    nTank1 = int.Parse(data[3]);
 
    	    return messageLog;
     }
@@ -157,8 +153,9 @@ public class MessageManager : MonoBehaviour
     {
         message = "";
         message += nTank + " tanks has moved from " + landStart + " to " + landEnd + System.Environment.NewLine;
-        message += nTank + " " + landStart + " " + landEnd;
-
+        message += nTank  + System.Environment.NewLine;
+        message += landStart  + System.Environment.NewLine;
+        message += landEnd + System.Environment.NewLine;
         return message;
     }
 
@@ -168,10 +165,9 @@ public class MessageManager : MonoBehaviour
    	    List<string> messageLog = new List<string>();
    	    messageLog.Add(data[0]);
 
-   	    string[] dataLogic = data[1].Split(' ');
-   	    nTank1 = int.Parse(dataLogic[0]);
-   	    landStart = dataLogic[1];
-   	    landEnd = dataLogic[2];
+   	    nTank1 = int.Parse(data[1]);
+   	    landStart = data[2];
+   	    landEnd = data[3];
 
    	    return messageLog;
     }
@@ -179,44 +175,27 @@ public class MessageManager : MonoBehaviour
     public string messagePhase(string player, string phase)
     {
         message = "";
-        message += player + " " + phase;
+        message += player + System.Environment.NewLine;
+        message += phase;
 
         return message;
     }
 
     public string readPhase(string message)
     {
-        string[] data =  message.Split(' ');
+        string[] data =  message.Split(new[] { System.Environment.NewLine },System.StringSplitOptions.None);
         player1 = data[0];
         return data[0] + System.Environment.NewLine + data[1];
-    }
-
-    public string messageCard(string player, int nTank)
-    {
-        message = "";
-        message += player + ": has used cards and get " + nTank + " as bonus reinforcements" + System.Environment.NewLine;
-        message += player + " " + nTank;
-
-        return message;
-    }
-
-    public List<string> readCard(string message)
-    {
-        string[] data =  message.Split(new[] { System.Environment.NewLine },System.StringSplitOptions.None);
-        string[] dataLogic = data[1].Split(' ');
-        player1 = dataLogic[0];
-        nTank1 = int.Parse(dataLogic[1]);
-        List<string> eventLog = new List<string>();
-        eventLog.Add(data[0]);
-
-        return eventLog;
     }
 
     public string messageUsedCards(string player, string card1, string card2, string card3)
     {
         message = "";
         message += player + ": has used " + card1 + ", " + card2 + " and " + card3 + System.Environment.NewLine;
-        message += player + " " + card1 + " " + card2 + " " + card3;
+        message += player + System.Environment.NewLine;
+        message += card1 + System.Environment.NewLine;
+        message += card2 + System.Environment.NewLine;
+        message += card3;
 
         return message;
     }
@@ -225,12 +204,11 @@ public class MessageManager : MonoBehaviour
     {
         List<string> eventLog = new List<string>();
         string[] data = message.Split(new[] { System.Environment.NewLine }, System.StringSplitOptions.None);
-        string[] dataLogic = data[1].Split(' ');
 
-        player1 = dataLogic[0];
-        card1 = dataLogic[1];
-        card2 = dataLogic[2];
-        card3 = dataLogic[3];
+        player1 = data[1];
+        card1 = data[2];
+        card2 = data[3];
+        card3 = data[4];
         eventLog.Add(data[0]);
 
         return eventLog;

@@ -51,7 +51,7 @@ public class StateWait : StateControl
 
     private void CardMessage()
     {
-        view.updateLogEvent(manageMessage.readCard(messageData));
+        view.updateLogEvent(manageMessage.readUsedCards(messageData));
         data.useCards(manageMessage.getCard1(), manageMessage.getCard2(), manageMessage.getCard3());
         nextPhaseLoad = this;
     }

@@ -20,12 +20,15 @@ public class StateDeploy : StateControl
         this.view = view;
         land = null;
         nTanks = -1;
+        data.giveTanks();
+        view.updateDeployRemain(data.getPlayerTanksReinforcement(data.getPlayer()));
     }
 
     public override string action()
     {
         string error = "";
         loadNecessaryData();
+
         error = data.addTanks(land, nTanks);
         if(error.Equals(""))
         {
@@ -48,6 +51,7 @@ public class StateDeploy : StateControl
     {
         data.nextPhase();
         string message = manageMessage.messagePhase(data.getPlayer(), data.getPhase());
+        view.changeCanvasOption("Attack phase");
         DataSender.SendNextPhase(message);
         return (new StateAttack(controller,data, manageMessage, view));
     }
@@ -72,7 +76,10 @@ public class StateDeploy : StateControl
     {
         string field = "";
         if(data.getPlayerByLand(land).Equals(data.getPlayer()))
+        {
             field = "firstLand";
+            view.updateDeploySelected(land);
+        }
         return field;
     }
 

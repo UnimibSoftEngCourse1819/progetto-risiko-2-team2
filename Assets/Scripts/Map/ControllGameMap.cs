@@ -156,6 +156,7 @@ public class ControllGameMap : MonoBehaviour
 
     public void onClickAction()
     {
+        Debug.Log("state : " + state);
         List<string> error = state.getMissingData();
         if (error.Count != 0)
         {
@@ -174,7 +175,7 @@ public class ControllGameMap : MonoBehaviour
             string errorAction = state.action();
             if(errorAction.Equals("FORCE_NEXT_PHASE"))
                 state = state.nextPhaseForced();
-            else
+            else if (!errorAction.Equals(""))
                 view.showMessage(errorAction);
         }
     }
