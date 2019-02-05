@@ -60,14 +60,7 @@ public class DataManager
 
     public string getPlayerData(string name)
     {
-        Player searching = getPlayerByName(name);
-        string data = "";
-        List<Land> landsOwned = searching.getTerritoryOwned();
-        foreach (Land land in landsOwned)
-        {
-            data += land.getName() + " tank: " + land.getTanksOnLand() + " ";
-        }
-
+        string data = name + " reserve tanks: " + getPlayerTanksReinforcement(name);
         return data;
     }
 
@@ -111,16 +104,17 @@ public class DataManager
     {
         string result = "";
         Land selectedLand = findLandByName(land);
-
-        result += land + System.Environment.NewLine;
-        result += findContinentByLand(selectedLand).getName() + System.Environment.NewLine;
-        result += getPlayerByLand(land) + System.Environment.NewLine;
-        result += selectedLand.getTanksOnLand() + System.Environment.NewLine;
-        foreach(Land neighbor in selectedLand.getNeighbors())
+        if(selectedLand == null)
         {
-            result += neighbor.getName() + System.Environment.NewLine;
+        	result += land + System.Environment.NewLine;
+        	result += findContinentByLand(selectedLand).getName() + System.Environment.NewLine;
+	        result += getPlayerByLand(land) + System.Environment.NewLine;
+	        result += selectedLand.getTanksOnLand() + System.Environment.NewLine;
+	        foreach(Land neighbor in selectedLand.getNeighbors())
+	        {
+	            result += neighbor.getName() + System.Environment.NewLine;
+	        }
         }
-
         return result;
     }
 

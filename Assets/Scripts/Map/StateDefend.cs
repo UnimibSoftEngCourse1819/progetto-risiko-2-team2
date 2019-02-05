@@ -11,6 +11,7 @@ public class StateDefend : StateControl
     private ViewGameMap view;
     private string firstLand, secondLand;
     private int nTanksAttacker, nTanksDefender;
+    private StateControl nextPhaseLoad;
 
     public StateDefend(ControllGameMap controller,  DataManager data, MessageManager manageMessage, ViewGameMap view)
     {
@@ -20,8 +21,13 @@ public class StateDefend : StateControl
         this.view = view;
         firstLand = null;
         secondLand = null;
+        nextPhaseLoad = this;
         nTanksAttacker = -1;
         nTanksDefender = -1;
+        controller.resetMemoryBuffer();
+        view.changeCanvasOption("Defend phase");
+        view.updatePhase(data.getPlayer(), data.getPhase());
+        view.updateTanksRemain(data.getTankOfLand(controller.getSecondLand()));
     }
 
     public override string action()
@@ -37,21 +43,20 @@ public class StateDefend : StateControl
             data.setAttackPhase(firstLand);
             lossTanksAttacker -= data.getTankOfLand(firstLand);
             lossTanksDefender -= data.getTankOfLand(secondLand);
-            view.updatePhase(data.getPlayer(), data.getPhase());
             string result = "";
             if(data.getPlayerByLand(secondLand).Equals(data.getPlayerByLand(firstLand)))
                 result = "The land has been conquered";
             else
                 result = "The land has not been conquered";
             string message = manageMessage.messageDefend(secondLand,  firstLand, lossTanksAttacker, lossTanksDefender, "" + nTanksDefender, result);
+            view.updateLogEvent(manageMessage.readDefend(message));
             DataSender.SendAttacco(message);
             if(!controller.isLocalMode())
-                view.changeCanvasOption("Wait");
+                nextPhaseLoad = new StateWait(controller, data, manageMessage, view);
             else
             {
                 controller.setLocalMode();
-                view.changeCanvasOption("Attack phase");
-                view.updateTwoSelected(null, null);
+                nextPhaseLoad = new StateAttack(controller, data, manageMessage, view);
             }
         }
         return error;
@@ -67,12 +72,7 @@ public class StateDefend : StateControl
 
     public override StateControl nextPhaseForced()
     {
-        StateControl stateResult = null;
-        if(controller.isLocalMode())
-            stateResult = new StateAttack(controller, data, manageMessage, view);
-        else
-            stateResult = new StateWait(controller, data, manageMessage, view);
-        return stateResult;
+        return nextPhaseLoad;
     }
 
     public override StateControl nextPhase()

@@ -75,22 +75,19 @@ public class ControllGameMap : MonoBehaviour
         players.Add(new Player("Topolino"));
 
         List<Continent> world = loader.getWorld(data);
-
         model = new DataManager(players, world, loader.getAllLands(world));
 
         view.updateTextPlayerData(model.getPlayer());
+        if(localMode)
+            setLocalMode();    
+    }
 
-        string phase = model.getPhase();
-
-        Debug.Log("Initiate cloack mode");
-
-        view.changeCanvasOption(phase);
-        view.updatePhase(phase + System.Environment.NewLine + model.getPlayer());
-        view.updateDeploySelected("Select a Land !!!");
-        view.updateDeployRemain(3);
-        setLocalMode();    
-
-        Debug.Log("The cool killers' club");
+    public void resetMemoryBuffer()
+    {
+        firstLand = null;
+        secondLand = null;
+        tank1 = -1;
+        tank2 = -1;
     }
 
     //Methods that return value from UI components
@@ -178,6 +175,9 @@ public class ControllGameMap : MonoBehaviour
             else if (!errorAction.Equals(""))
                 view.showMessage(errorAction);
         }
+        view.updateTextPlayerData(model.getPlayerData(player));
+        if(firstLand != null && !firstLand.Equals(""));
+            view.updateLandText(model.getLandData(firstLand));
     }
 
     public void onClickUseCard()
@@ -233,6 +233,7 @@ public class ControllGameMap : MonoBehaviour
     public void setLocalMode()
     {
         player = model.getPlayer();
+        view.updateTextPlayerData(model.getPlayerData(player));
     }
 
     public bool isLocalMode()

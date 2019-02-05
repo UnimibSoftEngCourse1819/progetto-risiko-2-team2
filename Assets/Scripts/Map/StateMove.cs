@@ -11,6 +11,7 @@ public class StateMove : StateControl
     private ViewGameMap view;
     private string firstLand, secondLand;
     private int nTanks;
+    private StateControl nextPhaseLoad;
 
     public StateMove(ControllGameMap controller, DataManager data, MessageManager manageMessage, ViewGameMap view)
     {
@@ -18,9 +19,14 @@ public class StateMove : StateControl
         this.data = data;
         this.view = view;
         this.manageMessage = manageMessage;
+        nextPhaseLoad = this;
         firstLand = null;
         secondLand = null;
         nTanks = -1;
+        controller.resetMemoryBuffer();
+        view.updatePhase(data.getPlayer(), data.getPhase());
+        view.changeCanvasOption("Move phase");
+        view.updateTwoSelected("", "");
     }
 
     public override string action()
@@ -43,13 +49,12 @@ public class StateMove : StateControl
     private void next()
     {
         view.updatePhase(data.getPlayer(), data.getPhase());
-        
         if(!controller.isLocalMode())
-            view.changeCanvasOption("Wait");
+            nextPhaseLoad = new StateWait(controller, data, manageMessage, view);
         else
         {
             controller.setLocalMode();
-            view.changeCanvasOption("Deployment phase");
+            nextPhaseLoad = new StateDeploy(controller, data, manageMessage, view);
         }
                 
         
@@ -73,29 +78,13 @@ public class StateMove : StateControl
         data.passTurn();
         next();
         notifyPassTurn();
-        StateControl stateReturn = null;
-        if(controller.isLocalMode())
-        {
-            stateReturn = new StateDeploy(controller, data, manageMessage, view);
-            view.changeCanvasOption("Deployment phase");
-        }
-        else
-        {
-            stateReturn = new StateWait(controller, data, manageMessage, view);
-            view.changeCanvasOption("Wait");
-        }
-        return stateReturn;
+        return nextPhaseLoad;
     }
 
     public override StateControl nextPhaseForced()
     {
         notifyPassTurn();
-        StateControl stateReturn = null;
-        if(controller.isLocalMode())
-            stateReturn = new StateDeploy(controller, data, manageMessage, view);
-        else
-            stateReturn = new StateWait(controller, data, manageMessage, view);
-        return stateReturn;
+        return nextPhaseLoad;
     }
 
     public override List<string> getMissingData()
@@ -117,18 +106,22 @@ public class StateMove : StateControl
         if(data.getPlayerByLand(land).Equals(data.getPlayer()))
         {
             if(controller.getFirstLand().Equals("") || controller.getFirstLand().Equals(land) || controller.getSecondLand().Equals(land))
-                {
-                    /* from left to right check
-                    -the first field is empty
-                    -the player already selected the state as start
-                    -the player already seleceted the state as end
-                    */
-                    field = "firstLand";
-                }
+            {
+                /* from left to right check
+                -the first field is empty
+                -the player already selected the state as start
+                -the player already seleceted the state as end
+                */
+                field = "firstLand";
+                view.updateTwoSelected(land, controller.getSecondLand());
+            }
             else
             {
                 if(controller.getSecondLand().Equals("") || data.areNeighbor(controller.getFirstLand(), land))
+                {
                     field = "secondLand";
+                    view.updateTwoSelected(controller.getFirstLand(), land);
+                }
             }
         }
         return field;

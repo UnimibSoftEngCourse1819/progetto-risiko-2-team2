@@ -11,6 +11,7 @@ public class StateAttack : StateControl
     private ViewGameMap view;
     private string firstLand, secondLand;
     private int nTanks;
+    private StateControl nextPhaseLoad;
 
     public StateAttack(ControllGameMap controller, DataManager data, MessageManager manageMessage, ViewGameMap view)
     {
@@ -18,9 +19,14 @@ public class StateAttack : StateControl
         this.data = data;
         this.view = view;
         this.manageMessage = manageMessage;
-        firstLand = null;
-        secondLand = null;
+        nextPhaseLoad = this;
+        firstLand = "";
+        secondLand = "";
         nTanks = -1;
+        controller.resetMemoryBuffer();
+        view.updatePhase(data.getPlayer(), data.getPhase());
+        view.changeCanvasOption("Attack phase");
+        view.updateTwoSelected("", "");
     }
 
     public override string action()
@@ -33,19 +39,20 @@ public class StateAttack : StateControl
         {
             error = "FORCE_NEXT_PHASE";
             data.setDefendPhase(secondLand);
-            view.updatePhase(data.getPlayer(), data.getPhase());
             string message = manageMessage.messageInitiateCombat(firstLand, secondLand, nTanks);
             view.updateLogEvent(manageMessage.readInitiateCombat(message));
             DataSender.SendAttackDeclared(message);
             if(!controller.isLocalMode())
-                view.changeCanvasOption("Wait");
+            {
+                nextPhaseLoad = new StateWait(controller, data, manageMessage, view);
+            }
             else
             {
+                nextPhaseLoad = new StateDefend(controller, data, manageMessage, view);
                 controller.setLocalMode();
                 controller.setFirstLand(firstLand);
                 controller.setSecondLand(secondLand);
                 controller.setTank1(nTanks);
-                view.changeCanvasOption("Defend phase");
             }
         }
         return error;
@@ -68,12 +75,7 @@ public class StateAttack : StateControl
 
     public override StateControl nextPhaseForced()
     {
-        StateControl stateResult = null;
-        if(controller.isLocalMode())
-            stateResult = new StateDefend(controller, data, manageMessage, view);
-        else
-            stateResult = new StateWait(controller, data, manageMessage, view);
-        return stateResult;
+        return nextPhaseLoad;
     } 
 
     public override List<string> getMissingData()
@@ -93,9 +95,15 @@ public class StateAttack : StateControl
     {
         string field = "";
         if(data.getPlayerByLand(land).Equals(data.getPlayer()))
+        {
             field = "firstLand";
+            view.updateTwoSelected(land, controller.getSecondLand());
+        }
         else
+        {
             field = "secondLand";
+            view.updateTwoSelected(controller.getSecondLand(), land);
+        }
         return field;
     }
 }

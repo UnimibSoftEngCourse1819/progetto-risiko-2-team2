@@ -27,7 +27,10 @@ public class StateStartDeploy : StateControl
         	nTanksRemain = data.getPlayerTanksReinforcement(data.getPlayer());
         else
         	nTanksRemain = MAX_TANKS_PER_TIME;
-         view.updateDeployRemain(nTanksRemain);
+        view.updatePhase(data.getPlayer(), data.getPhase());
+        view.changeCanvasOption("Initial Deploy phase");
+        view.updateTanksRemain(nTanksRemain);
+        view.updateDeploySelected("Select a state !!!");
     }
 
     public override string action()
@@ -41,13 +44,16 @@ public class StateStartDeploy : StateControl
         if(error.Equals(""))
         {
             string message = manageMessage.messageDeploy(controller.getPlayer(), nTanks, land);
-            view.updateDeploySelected("Select a Land !!!");
-            view.updateDeployRemain(nTanksRemain);
             view.updateLogEvent(manageMessage.readDeploy(message));
             DataSender.SendPosizionamento(message);
             nTanksRemain -= nTanks;
             if(nTanksRemain == 0)
                 error = "FORCE_NEXT_PHASE";
+            else
+            {
+                view.updateDeploySelected("Select a Land !!!");
+                view.updateTanksRemain(nTanksRemain);
+            }
         }
         return error;
     }
@@ -76,10 +82,8 @@ public class StateStartDeploy : StateControl
             if(!data.isAllPlayerRunOutOfTanks())
             {
                 data.nextDeploy();
-                view.updatePhase(data.getPlayer(), data.getPhase());
                 if(!data.getPlayer().Equals(controller.getPlayer()) && !controller.isLocalMode())
                 {
-                    view.changeCanvasOption("Wait");
                     nextPhase = new StateWait(controller, data, manageMessage, view);
                     string message = manageMessage.messagePhase(data.getPlayer(), data.getPhase());
                     DataSender.SendNextPhase(message);
@@ -94,11 +98,7 @@ public class StateStartDeploy : StateControl
                 data.startGame();
                 if(data.getPlayer().Equals(controller.getPlayer()) || controller.isLocalMode())//cheking if the player the the one who start
                 {
-                    view.updatePhase(data.getPlayer(), data.getPhase());
                     data.giveTanks();
-                    view.updateDeploySelected("Select a Land !!!");
-                    view.updateDeployRemain(data.getPlayerTanksReinforcement(controller.getPlayer()));
-                    view.changeCanvasOption(VIEW_OPTION);
                     Debug.Log("STATE CONFIRMED");
                     nextPhase = new StateDeploy(controller, data, manageMessage, view);
                     string message = manageMessage.messagePhase(data.getPlayer(), data.getPhase());
@@ -107,8 +107,6 @@ public class StateStartDeploy : StateControl
                 }
                 else
                 {
-                    view.changeCanvasOption("Wait");
-                    view.updatePhase(data.getPlayer(), data.getPhase());
                     nextPhase = new StateWait(controller, data, manageMessage, view);
                     string message = manageMessage.messagePhase(data.getPlayer(), data.getPhase());
                     DataSender.SendNextPhase(message);

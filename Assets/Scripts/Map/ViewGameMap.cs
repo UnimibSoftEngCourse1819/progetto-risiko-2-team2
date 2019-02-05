@@ -17,7 +17,7 @@ public class ViewGameMap : MonoBehaviour
     public ControllGameMap controller;
 
     private CanvasGroup attack, defense, move, deploy, deployGaming, popup, message, quit, cards;
-    private Text eventLog, phase, selectedData, playerData, attackSelected, moveSelected, deployRemain, deploySelected, messagePopup, goal, cardList;
+    private Text eventLog, phase, selectedData, playerData, attackSelected, moveSelected, deployRemain, deploySelected, messagePopup, goal, cardList, defenseTanks;
     private Dropdown card1, card2, card3;
     public State statePrefab;
     public GameObject stateHolder;
@@ -36,6 +36,7 @@ public class ViewGameMap : MonoBehaviour
         messagePopup =  GameObject.Find("TextMessagePopup").GetComponent<Text>();
         goal = GameObject.Find("TextGoal").GetComponent<Text>();
         cardList = GameObject.Find("TextCardList").GetComponent<Text>();
+        defenseTanks = GameObject.Find("TextDefenseTank").GetComponent<Text>();
 
         Debug.Log("Tacatà");
 
@@ -50,6 +51,7 @@ public class ViewGameMap : MonoBehaviour
         messagePopup.text = INITIAL_TEXT;
         goal.text = INITIAL_TEXT;
         cardList.text = INITIAL_TEXT;
+        defenseTanks.text = INITIAL_TEXT;
 
         //CanvasGroup
         attack = GameObject.Find("CanvasAttack").GetComponent<CanvasGroup>();
@@ -86,8 +88,6 @@ public class ViewGameMap : MonoBehaviour
 
     public void updateTextPlayerData(string data)
     {
-        Debug.Log(data);
-        Debug.Log(playerData);
         playerData.text = data;
     }
 
@@ -136,9 +136,10 @@ public class ViewGameMap : MonoBehaviour
         deploySelected.text = land;
     }
 
-    public void updateDeployRemain(int n)
+    public void updateTanksRemain(int n)
     {
         deployRemain.text = "Tank remaining : " + n;
+        defenseTanks.text = "You have: "+ n + " tanks";
     }
 
     public void updateText(List<string> data)

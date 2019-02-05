@@ -20,21 +20,23 @@ public class StateDeploy : StateControl
         this.view = view;
         land = null;
         nTanks = -1;
+        controller.resetMemoryBuffer();
         data.giveTanks();
-        view.updateDeployRemain(data.getPlayerTanksReinforcement(data.getPlayer()));
+        view.updateDeploySelected("Selecet a state !!!");
+        view.changeCanvasOption("Initial Deploy phase");
+        view.updateTanksRemain(data.getPlayerTanksReinforcement(data.getPlayer()));
     }
 
     public override string action()
     {
         string error = "";
         loadNecessaryData();
-
         error = data.addTanks(land, nTanks);
         if(error.Equals(""))
         {
             string message = manageMessage.messageDeploy(controller.getPlayer(), nTanks, land);
             view.updateDeploySelected("Select a Land !!!");
-            view.updateDeployRemain(data.getPlayerTanksReinforcement(controller.getPlayer()));
+            view.updateTanksRemain(data.getPlayerTanksReinforcement(controller.getPlayer()));
             view.updateLogEvent(manageMessage.readDeploy(message));
             DataSender.SendPosizionamento(message);
         }
@@ -51,7 +53,6 @@ public class StateDeploy : StateControl
     {
         data.nextPhase();
         string message = manageMessage.messagePhase(data.getPlayer(), data.getPhase());
-        view.changeCanvasOption("Attack phase");
         DataSender.SendNextPhase(message);
         return (new StateAttack(controller,data, manageMessage, view));
     }
