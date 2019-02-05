@@ -24,10 +24,10 @@ public class StateDefend : StateControl
         nextPhaseLoad = this;
         nTanksAttacker = -1;
         nTanksDefender = -1;
-        controller.resetMemoryBuffer();
         view.changeCanvasOption("Defend phase");
         view.updatePhase(data.getPlayer(), data.getPhase());
         view.updateTanksRemain(data.getTankOfLand(controller.getSecondLand()));
+        Debug.Log("Data phase: " + data.getPhase() + " - State : Defense Deploy");
     }
 
     public override string action()

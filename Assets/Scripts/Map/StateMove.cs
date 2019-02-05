@@ -27,6 +27,7 @@ public class StateMove : StateControl
         view.updatePhase(data.getPlayer(), data.getPhase());
         view.changeCanvasOption("Move phase");
         view.updateTwoSelected("", "");
+        Debug.Log("Data phase: " + data.getPhase() + " - State : Move");
     }
 
     public override string action()
@@ -48,9 +49,12 @@ public class StateMove : StateControl
 
     private void next()
     {
-        view.updatePhase(data.getPlayer(), data.getPhase());
         if(!controller.isLocalMode())
+        {
+            view.updatePhase(data.getPlayer(), data.getPhase());
             nextPhaseLoad = new StateWait(controller, data, manageMessage, view);
+        }
+            
         else
         {
             controller.setLocalMode();
@@ -105,23 +109,18 @@ public class StateMove : StateControl
         string field = "";
         if(data.getPlayerByLand(land).Equals(data.getPlayer()))
         {
-            if(controller.getFirstLand().Equals("") || controller.getFirstLand().Equals(land) || controller.getSecondLand().Equals(land))
+            if(controller.getFirstLand() == null || //there is no land selected 
+               controller.getFirstLand().Equals(land) || //the first land is the same selected
+               controller.getSecondLand() != null && controller.getSecondLand().Equals(land))//the second land is the same selected
             {
-                /* from left to right check
-                -the first field is empty
-                -the player already selected the state as start
-                -the player already seleceted the state as end
-                */
+                controller.resetMemoryBuffer();
                 field = "firstLand";
-                view.updateTwoSelected(land, controller.getSecondLand());
+                view.updateTwoSelected(land, "Selected a state !!!");
             }
-            else
+            else if(data.areNeighbor(controller.getFirstLand(), land))
             {
-                if(controller.getSecondLand().Equals("") || data.areNeighbor(controller.getFirstLand(), land))
-                {
-                    field = "secondLand";
-                    view.updateTwoSelected(controller.getFirstLand(), land);
-                }
+                field = "secondLand";
+                view.updateTwoSelected(controller.getFirstLand(), land);
             }
         }
         return field;

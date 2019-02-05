@@ -31,6 +31,7 @@ public class StateStartDeploy : StateControl
         view.changeCanvasOption("Initial Deploy phase");
         view.updateTanksRemain(nTanksRemain);
         view.updateDeploySelected("Select a state !!!");
+        Debug.Log("Data phase: " + data.getPhase() + " - State : Intial Deploy");
     }
 
     public override string action()

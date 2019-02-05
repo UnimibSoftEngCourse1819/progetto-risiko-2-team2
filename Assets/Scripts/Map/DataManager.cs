@@ -104,7 +104,7 @@ public class DataManager
     {
         string result = "";
         Land selectedLand = findLandByName(land);
-        if(selectedLand == null)
+        if(selectedLand != null)
         {
         	result += land + System.Environment.NewLine;
         	result += findContinentByLand(selectedLand).getName() + System.Environment.NewLine;
@@ -211,7 +211,7 @@ public class DataManager
     public bool isValidAttack(string firstLand, string secondLand,int nTank)
     {
         bool result = false;
-        if(getPlayerByLand(firstLand).Equals(currentPlayer) && !(getPlayerByLand(secondLand).Equals(currentPlayer))
+        if(getPlayerByLand(firstLand).Equals(currentPlayer.getName()) && !(getPlayerByLand(secondLand).Equals(currentPlayer.getName()))
             && getTankOfLand(firstLand) > nTank)
             result = true;
         return result;

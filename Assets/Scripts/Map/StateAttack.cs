@@ -27,6 +27,7 @@ public class StateAttack : StateControl
         view.updatePhase(data.getPlayer(), data.getPhase());
         view.changeCanvasOption("Attack phase");
         view.updateTwoSelected("", "");
+        Debug.Log("Data phase: " + data.getPhase() + " - State : Attack");
     }
 
     public override string action()
@@ -94,15 +95,18 @@ public class StateAttack : StateControl
     public override string needSaving(string land)
     {
         string field = "";
-        if(data.getPlayerByLand(land).Equals(data.getPlayer()))
+        Debug.Log(controller.getPlayer() + " == " + data.getPlayer());
+        if(data.getPlayerByLand(land).Equals(data.getPlayer()))//checking if the player owned that land
         {
+            controller.resetMemoryBuffer();
             field = "firstLand";
-            view.updateTwoSelected(land, controller.getSecondLand());
+            view.updateTwoSelected(land, "Select a state !!!");
         }
         else
         {
+            if(controller.getFirstLand() != null && data.areNeighbor(controller.getFirstLand(), land))// checking the lands are neghbor
             field = "secondLand";
-            view.updateTwoSelected(controller.getSecondLand(), land);
+            view.updateTwoSelected(controller.getFirstLand(), land);
         }
         return field;
     }

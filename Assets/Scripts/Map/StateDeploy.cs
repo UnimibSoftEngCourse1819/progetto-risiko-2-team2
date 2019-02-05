@@ -22,9 +22,11 @@ public class StateDeploy : StateControl
         nTanks = -1;
         controller.resetMemoryBuffer();
         data.giveTanks();
+        view.updatePhase(data.getPlayer(), data.getPhase());
         view.updateDeploySelected("Selecet a state !!!");
-        view.changeCanvasOption("Initial Deploy phase");
+        view.changeCanvasOption("Deployment phase");
         view.updateTanksRemain(data.getPlayerTanksReinforcement(data.getPlayer()));
+        Debug.Log("Data phase: " + data.getPhase() + " - State : Deploy");
     }
 
     public override string action()
