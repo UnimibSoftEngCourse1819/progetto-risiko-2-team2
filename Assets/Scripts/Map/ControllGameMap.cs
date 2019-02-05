@@ -68,15 +68,15 @@ public class ControllGameMap : MonoBehaviour
 
         List<Player> players = new List<Player>();
 
-        players.Add(new Player("Pippo"));
+        players.Add(new Player("Pippo", "red"));
 
-        players.Add(new Player("Paperino"));
+        players.Add(new Player("Paperino", "blue"));
 
-        players.Add(new Player("Topolino"));
+        players.Add(new Player("Topolino", "green"));
 
         List<Continent> world = loader.getWorld(data);
         model = new DataManager(players, world, loader.getAllLands(world));
-
+        
         view.updateTextPlayerData(model.getPlayer());
         if(localMode)
             setLocalMode();    

@@ -17,7 +17,7 @@ public class StateBattle : State
 
     public void Awake()
     {
-        base.Awake();
+        base.Awake(); 
         
         possibleColors = new Dictionary<string, Color>();
 

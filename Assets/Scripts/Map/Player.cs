@@ -4,13 +4,6 @@ using UnityEngine;
 
 public class Player 
 {
-    /*
-    MODIFICHE DA EFFETTUARE:
-        -Adattare la classe quando viene implementato il game vero e proprio
-
-        Note: NON METTETE VARIABILI CALCOLABILI come numero totale di ect; se vi serve e non 
-        si può usare List.Count createvi un metodo 
-    */
     
     private readonly string nickname;
     private readonly List<Land> territoryOwned;
@@ -26,6 +19,10 @@ public class Player
         color = null;
         nTanks = 0;
         landCards = new List<LandCard>();
+    }
+
+    public Player(string username, string color) : this(username, new List<Land>(), color, nTanks, null)
+    {
     }
 
     public Player(string username)

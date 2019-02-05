@@ -19,7 +19,8 @@ public class ViewGameMap : MonoBehaviour
     private CanvasGroup attack, defense, move, deploy, deployGaming, popup, message, quit, cards;
     private Text eventLog, phase, selectedData, playerData, attackSelected, moveSelected, deployRemain, deploySelected, messagePopup, goal, cardList, defenseTanks;
     private Dropdown card1, card2, card3;
-    public State statePrefab;
+    private List<StateBattle> stateUI;
+    public StateBattle statePrefab;
     public GameObject stateHolder;
 
     public void prepareView()//prepara l'interfaccia
@@ -73,6 +74,7 @@ public class ViewGameMap : MonoBehaviour
         hideAllCanvasOption();
         closePopup();
         closeCard();
+        stateUI = new StateBattle();
     }
 
     //****METHODS THAT CHANGE A TEXT
@@ -159,13 +161,32 @@ public class ViewGameMap : MonoBehaviour
         goal.text = textGoal;
     }
 
+    public void setColorState(string land, string color)
+    {
+        foreach(StateBattle state in stateUI)
+        {
+            if(land.Equals(state.idName))
+                state.ChangePlayerColor(color);
+        }
+
+    }
+
+    public void setNumberLands(string land, int tank)
+    {
+        foreach(StateBattle state in stateUI)
+        {
+            if(land.Equals(state.idName))
+                state.SetNumberOfTanks(tank);
+        }
+    }
+
     //METHODS THAT SHOW A UI COMPONENTS
 
     public void drawMap(List<StateData> stateData)
     {
         foreach(StateData state in stateData)
         {
-            State newState = Instantiate(statePrefab, state.getVector(), Quaternion.identity) as State;
+            StateBattle newState = Instantiate(statePrefab, state.getVector(), Quaternion.identity) as StateBattle;
             newState.SetState(state.texture, state.stateName);
             newState.transform.SetParent(stateHolder.transform);
             newState.Click.AddListener((State land) =>
@@ -174,6 +195,7 @@ public class ViewGameMap : MonoBehaviour
                     //other thing to add when clicked;
                 }
             );
+            stateUI.Add(newState);
         }
     }
 

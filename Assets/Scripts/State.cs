@@ -14,7 +14,7 @@ public class State : MonoBehaviour, IPointerClickHandler
     public string continent;
     public Texture2D text;
 
-    private void Awake()
+    protected void Awake()
     {
         Click = new Pressed();
     }
