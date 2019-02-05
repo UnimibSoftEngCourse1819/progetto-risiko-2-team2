@@ -50,6 +50,8 @@ namespace RiskServer1
                         {
                             Console.WriteLine("addio "+connectionID);
                             ClientManager.DeleteRecord(connectionID);
+                            GameManager.DeleteRecord(connectionID);
+                           
                             // se accade in game setto il player a inattivo
                             foreach (KeyValuePair<int, Client> keyValue in ClientManager.client)
                             {

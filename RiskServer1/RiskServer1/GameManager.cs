@@ -57,6 +57,11 @@ namespace RiskServer1
             }
 
         }
+        public static void DeleteRecord(int player) // elimino un record quando si disconnette
+        {
+            playerList_Name.Remove(player);
+            playerList_Color.Remove(player);
+        }
 
         public static void StartGame()
         {
