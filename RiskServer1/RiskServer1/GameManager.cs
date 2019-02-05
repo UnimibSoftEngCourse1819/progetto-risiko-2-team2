@@ -26,32 +26,32 @@ namespace RiskServer1
             {
                 case 1:
                     {
-                        playerList_Color.Add(ConnectionID, "rosso");// perche rosso è meglio
+                        playerList_Color.Add(ConnectionID, "black");// 
                         break;
                     }
                 case 2:
                     {
-                        playerList_Color.Add(ConnectionID, "nero");//
+                        playerList_Color.Add(ConnectionID, "blue");//
                         break;
                     }
                 case 3:
                     {
-                        playerList_Color.Add(ConnectionID, "blu");// 
+                        playerList_Color.Add(ConnectionID, "red");// 
                         break;
                     }
                 case 4:
                     {
-                        playerList_Color.Add(ConnectionID, "viola");// 
+                        playerList_Color.Add(ConnectionID, "green");// 
                         break;
                     }
                 case 5:
                     {
-                        playerList_Color.Add(ConnectionID, "verde");// 
+                        playerList_Color.Add(ConnectionID, "yellow");// 
                         break;
                     }
                 case 6:
                     {
-                        playerList_Color.Add(ConnectionID, "giallo");// perchè nessuno lo vuole
+                        playerList_Color.Add(ConnectionID, "purple");// perchè nessuno lo vuole
                         break;
                     }
             }
