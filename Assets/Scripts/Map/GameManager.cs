@@ -28,6 +28,8 @@ public class GameManager
         oldOwner.removeLand(landDefender);
         newOwner.addLand(landDefender);
         moveTanks(landAttacker, landDefender, tanks);
+        if (!newOwner.getConqueredLand())
+            newOwner.setConqueredLand(true);
     }
 
     public void moveTanks(Land startLand, Land endLand, int nTank)

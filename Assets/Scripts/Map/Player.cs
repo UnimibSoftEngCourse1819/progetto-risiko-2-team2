@@ -11,6 +11,7 @@ public class Player
     private readonly string color;
     private int nTanks;
     private Goal goal;
+    private bool conqueredLand;
    
     public Player()
     {
@@ -19,6 +20,7 @@ public class Player
         color = null;
         nTanks = 0;
         landCards = new List<LandCard>();
+        conqueredLand = false;
     }
 
     public Player(string username, string color) : this(username, new List<Land>(), color, 0, null)
@@ -32,6 +34,7 @@ public class Player
         color = null;
         nTanks = 0;
         landCards = new List<LandCard>();
+        conqueredLand = false;
     }
 
     public Player(string nickname, List<Land> territory, string color, int nTanks, Goal goal)//need to add Goal
@@ -42,10 +45,21 @@ public class Player
         this.nTanks = nTanks;
         this.goal = goal;
         this.landCards = new List<LandCard>();
+        conqueredLand = false;
     }
 
     public Player(string nickname, int nTanks) : this(nickname, new List<Land>(), null, nTanks, null)//need to add Goal
     {
+    }
+
+    public void setConqueredLand(bool value)
+    {
+        conqueredLand = value;
+    }
+
+    public bool getConqueredLand()
+    {
+        return conqueredLand;
     }
 
     public void setGoal(Goal goal)

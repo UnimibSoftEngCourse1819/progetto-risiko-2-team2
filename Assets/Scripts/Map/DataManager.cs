@@ -132,7 +132,7 @@ public class DataManager
         foreach(LandCard card in landCards)
         {
             if (card.isJolly())
-                result = i + ". Jolly" + System.Environment.NewLine;
+                result += i + ". Jolly" + System.Environment.NewLine;
             else
                 result += i + ". Land: " + card.getLand().getName() + System.Environment.NewLine + 
                     " Symbol: " + card.getSymbol() + System.Environment.NewLine;
@@ -394,6 +394,11 @@ public class DataManager
 
     public void passTurn()
     {
+        if (currentPlayer.getConqueredLand())
+        {
+            dealer.drawCard(currentPlayer);
+            currentPlayer.setConqueredLand(false);
+        }
         nextPlayer();
         nextPhase();
     }

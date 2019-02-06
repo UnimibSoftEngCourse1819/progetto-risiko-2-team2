@@ -91,8 +91,8 @@ public class ControllGameMap : MonoBehaviour
         if(localMode)
             setLocalMode();
         Debug.Log("*************************************" + player + "***************************");
-        for(int i = 0; i < 10 ; i++)
-            model.giveCard(player);    
+        /*for(int i = 0; i < 10 ; i++)
+            model.giveCard(player);    */
     }
 
     public void resetMemoryBuffer()
@@ -254,6 +254,7 @@ public class ControllGameMap : MonoBehaviour
     {
         player = model.getPlayer();
         view.updateTextPlayerData(model.getPlayerData(player));
+        view.updateCardList(model.getLandCardData(player));
     }
 
     public bool isLocalMode()
