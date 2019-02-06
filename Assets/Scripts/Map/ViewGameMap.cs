@@ -73,6 +73,10 @@ public class ViewGameMap : MonoBehaviour
         card2 = GameObject.Find("DropdownCard2").GetComponent<Dropdown>();
         card3 = GameObject.Find("DropdownCard3").GetComponent<Dropdown>();
 
+        card1.GetComponent<Image>().raycastTarget = false;
+        card2.GetComponent<Image>().raycastTarget = false;
+        card3.GetComponent<Image>().raycastTarget = false;
+
         panelCard = GameObject.Find("PanelCards").GetComponent<Image>();
         panelCard.raycastTarget = false;
 
