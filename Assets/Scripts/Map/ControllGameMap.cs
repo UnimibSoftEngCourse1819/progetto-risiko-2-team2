@@ -195,12 +195,20 @@ public class ControllGameMap : MonoBehaviour
 
     public void onClickUseCard()
     {
-        if(card1.value != card2.value &&  card2.value != card3.value && card1.value != card3.value)
-            model.useCards(card1.options[card1.value].text,
+        if (card1.value == card2.value || card2.value == card3.value || card1.value == card3.value)
+            view.showMessage("You can't select the same cards");
+
+        else
+        {
+            string error = "";
+            error += model.useCards(card1.options[card1.value].text,
                         card2.options[card2.value].text,
                         card3.options[card3.value].text);
-        else
-            view.showMessage("You can't select the same cards");
+            if (error.Equals(""))
+                onClickCloseCard();
+            else
+                view.showMessage(error);
+        }
     }
 
     public void onClickExit()
@@ -255,6 +263,7 @@ public class ControllGameMap : MonoBehaviour
         player = model.getPlayer();
         view.updateTextPlayerData(model.getPlayerData(player));
         view.updateCardList(model.getLandCardData(player));
+        view.updateGoal(model.getGoalData(player));
     }
 
     public bool isLocalMode()
