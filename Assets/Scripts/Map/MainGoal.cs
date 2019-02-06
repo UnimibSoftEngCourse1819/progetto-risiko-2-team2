@@ -1,55 +1,58 @@
-﻿using System.Collections;
+﻿using Model.Game;
+using Model.Game.Map;
 using System.Collections.Generic;
-using UnityEngine;
 
-public class MainGoal : Goal
+namespace Model.Goals
 {
-    private int nTerritoryGoal;
-    private const int PERCENTAGE = 58;
-    private const string TEXT = "Conquer this number of territories: ";
-
-    public MainGoal()
+    public class MainGoal : Goal
     {
-        nTerritoryGoal = 0;
-    }
+        private int nTerritoryGoal;
+        private const int PERCENTAGE = 58;
+        private const string TEXT = "Conquer this number of territories: ";
 
-    private MainGoal(MainGoal goal)
-    {
-        nTerritoryGoal = goal.getNTerritoryGoal();
-    }
-
-    public override void fixGoal(List<RiskPlayer> players, RiskPlayer player, List<Continent> world)
-    {
-        int nLands = 0;
-
-        foreach (Continent continent in world)
+        public MainGoal()
         {
-            nLands += continent.getLands().Count;
+            nTerritoryGoal = 0;
         }
 
-        nTerritoryGoal = nLands * PERCENTAGE / 100;
-    }
+        private MainGoal(MainGoal goal)
+        {
+            nTerritoryGoal = goal.getNTerritoryGoal();
+        }
 
-    public override bool isAccomplished(List<RiskPlayer> players, RiskPlayer player, List<Continent> world)
-    {
-        if (player.getTerritoryOwned().Count == nTerritoryGoal)
-            return true;
+        public override void fixGoal(List<RiskPlayer> players, RiskPlayer player, List<Continent> world)
+        {
+            int nLands = 0;
 
-        return false;
-    }
+            foreach (Continent continent in world)
+            {
+                nLands += continent.getLands().Count;
+            }
 
-    public int getNTerritoryGoal()
-    {
-        return nTerritoryGoal;
-    }
+            nTerritoryGoal = nLands * PERCENTAGE / 100;
+        }
 
-    public override Goal getClone()
-    {
-        return new MainGoal(this);
-    }
+        public override bool isAccomplished(List<RiskPlayer> players, RiskPlayer player, List<Continent> world)
+        {
+            if (player.getTerritoryOwned().Count == nTerritoryGoal)
+                return true;
 
-    public override string getText()
-    {
-        return TEXT + nTerritoryGoal;
+            return false;
+        }
+
+        public int getNTerritoryGoal()
+        {
+            return nTerritoryGoal;
+        }
+
+        public override Goal getClone()
+        {
+            return new MainGoal(this);
+        }
+
+        public override string getText()
+        {
+            return TEXT + nTerritoryGoal;
+        }
     }
 }

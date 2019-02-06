@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 
-namespace Assets.Scripts.Server
+namespace Server
 {
     public enum ClientPackets
     {
@@ -135,7 +131,7 @@ namespace Assets.Scripts.Server
             buffer.Dispose();
             SendData(msg);
         }
-        public static void SendNextPhase(string msg) // dichiarato un attacco
+        public static void SendnextPhaseLoad(string msg) // dichiarato un attacco
         {
             ByteBuffer buffer = new ByteBuffer();
             buffer.WriteInteger((int)ClientPackets.cHelloServer);

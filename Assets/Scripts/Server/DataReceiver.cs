@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
-
-namespace Assets.Scripts.Server
+namespace Server
 {
     public enum serverPackets
     {
@@ -22,7 +16,6 @@ namespace Assets.Scripts.Server
         {
             ByteBuffer buffer = new ByteBuffer();
             buffer.writeBytes(data);
-            int playerID = buffer.ReadInteger();
             string msg = buffer.ReadString();
             buffer.Dispose();
 

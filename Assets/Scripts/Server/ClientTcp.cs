@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Net.Sockets;
+using UnityEngine;
 
-namespace Assets.Scripts.Server
+namespace Server
 {
      static class ClientTcp  // dovrebbe essere static ma mi serve che non lo sia 
     {
@@ -51,11 +48,10 @@ namespace Assets.Scripts.Server
                     ClientHandleData.HandleData(newbytes);
                 });
                 myStream.BeginRead(recBuffer, 0, 4096 * 2, ReceiveCallBack, null);
-
             }
             catch (Exception)
             {
-
+                Debug.Log("Error!");
             }
         }
        public static void SendData(byte[] data)

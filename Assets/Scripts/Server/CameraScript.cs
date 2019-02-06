@@ -1,13 +1,13 @@
-﻿using Assets.Scripts.Server;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class CameraScript : MonoBehaviour
+namespace Server
 {
-    private void OnApplicationQuit()
-    { // disconnetti quando esci
-        DataSender.SendGoodBye();
-        ClientTcp.Disconnect();
+    public class CameraScript : MonoBehaviour
+    {
+        private void OnApplicationQuit()
+        { // disconnetti quando esci
+            DataSender.SendGoodBye();
+            ClientTcp.Disconnect();
+        }
     }
 }

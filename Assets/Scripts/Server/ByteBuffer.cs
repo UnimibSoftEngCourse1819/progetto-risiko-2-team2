@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
-namespace Assets.Scripts.Server
+namespace Server
 {
-
     public class ByteBuffer : IDisposable
     {
         private readonly List<byte> buff; // buffer 

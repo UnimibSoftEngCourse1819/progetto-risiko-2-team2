@@ -1,14 +1,17 @@
-﻿using System.Collections;
+﻿using Model.Game;
+using Model.Game.Map;
 using System.Collections.Generic;
-using UnityEngine;
 
-public abstract class Goal
+namespace Model.Goals
 {
-    public abstract bool isAccomplished(List<RiskPlayer> players, RiskPlayer player, List<Continent> world);
+    public abstract class Goal
+    {
+        public abstract bool isAccomplished(List<RiskPlayer> players, RiskPlayer player, List<Continent> world);
 
-    public abstract void fixGoal(List<RiskPlayer> players, RiskPlayer player, List<Continent> world);
+        public abstract void fixGoal(List<RiskPlayer> players, RiskPlayer player, List<Continent> world);
 
-    public abstract Goal getClone();
+        public abstract Goal getClone();
 
-    public abstract string getText();
+        public abstract string getText();
+    }
 }

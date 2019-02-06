@@ -3,34 +3,37 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StateBattle : State
+namespace UI
 {
-    public RectTransform UIPosition;
-
-    public Canvas UICanvas;
-    public Text numberOfTankHolder;
-    private int numberOfTanks;
-
-    public Image playerColorSprite;
-    private string playerColor;
-
-    public void Awake()
+    public class StateBattle : State
     {
-        base.Awake();
+        public RectTransform UIPosition;
 
-        
-    }
+        public Canvas UICanvas;
+        public Text numberOfTankHolder;
+        private int numberOfTanks;
 
-    public void SetNumberOfTanks(int i)
-    {
-        if (i >= 0)
+        public Image playerColorSprite;
+        private string playerColor;
+
+        public new void Awake()
         {
-            numberOfTanks = i;
-        }
-    }
+            base.Awake();
 
-    public void ChangePlayerColor(string newColor)
-    {
-        playerColor = newColor;
+
+        }
+
+        public void SetNumberOfTanks(int i)
+        {
+            if (i >= 0)
+            {
+                numberOfTanks = i;
+            }
+        }
+
+        public void ChangePlayerColor(string newColor)
+        {
+            playerColor = newColor;
+        }
     }
 }
