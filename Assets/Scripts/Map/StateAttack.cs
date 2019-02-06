@@ -104,10 +104,13 @@ public class StateAttack : StateControl
         }
         else
         {
-            if(controller.getFirstLand() != null && data.areNeighbor(controller.getFirstLand(), land))// checking the lands are neghbor
-            field = "secondLand";
-            view.updateTwoSelected(controller.getFirstLand(), land);
+            if (controller.getFirstLand() != null && data.areNeighbor(controller.getFirstLand(), land))
+            { // checking the lands are neghbor
+                field = "secondLand";
+                view.updateTwoSelected(controller.getFirstLand(), land);
+            }
         }
+
         return field;
     }
 }

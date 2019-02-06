@@ -144,9 +144,4 @@ public class GameManager
             dealer.addCardsToDeck(cards);
         }         
     }
-
-    public void giveCard(Player player)
-    {
-        
-    }
 }
