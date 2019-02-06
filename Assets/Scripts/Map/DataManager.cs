@@ -311,7 +311,10 @@ public class DataManager
         return useCards(choosed);
     }
 
-    
+    public bool hasWon(string player)
+    {
+        return getPlayerByName(player).getGoal().isAccomplished(players, getPlayerByName(player), world);
+    }
 
     private string useCards(List<LandCard> selectedCards)
     {

@@ -192,6 +192,9 @@ public class ControllGameMap : MonoBehaviour
         view.updateTextPlayerData(model.getPlayerData(player));
         if(firstLand != null && !firstLand.Equals(""));
             view.updateLandText(model.getLandData(firstLand));
+
+        if (model.hasWon(player))
+            view.showMessage(player + " has won!");
     }
 
     public void onClickUseCard()
