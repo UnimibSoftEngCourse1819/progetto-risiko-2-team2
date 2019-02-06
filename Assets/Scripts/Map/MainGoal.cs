@@ -18,7 +18,7 @@ public class MainGoal : Goal
         nTerritoryGoal = goal.getNTerritoryGoal();
     }
 
-    public override void fixGoal(List<Player> players, Player player, List<Continent> world)
+    public override void fixGoal(List<RiskPlayer> players, RiskPlayer player, List<Continent> world)
     {
         int nLands = 0;
 
@@ -30,7 +30,7 @@ public class MainGoal : Goal
         nTerritoryGoal = nLands * PERCENTAGE / 100;
     }
 
-    public override bool isAccomplished(List<Player> players, Player player, List<Continent> world)
+    public override bool isAccomplished(List<RiskPlayer> players, RiskPlayer player, List<Continent> world)
     {
         if (player.getTerritoryOwned().Count == nTerritoryGoal)
             return true;

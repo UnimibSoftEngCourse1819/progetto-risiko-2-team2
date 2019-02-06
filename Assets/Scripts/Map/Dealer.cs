@@ -33,7 +33,7 @@ public class Dealer
         shuffleCards();
     }
 
-    public void assignGoal(List<Player> players, Player player, List<Continent> world)
+    public void assignGoal(List<RiskPlayer> players, RiskPlayer player, List<Continent> world)
     {
         int index = Random.Range(0, goals.Count - 1);
         Goal goal = null;
@@ -47,12 +47,12 @@ public class Dealer
         player.setGoal(goal);
     }
 
-    private int destroyEnemyAssigned(List<Player> players)
+    private int destroyEnemyAssigned(List<RiskPlayer> players)
     {
         int i = 0;
         Goal goal = null;
 
-        foreach(Player player in players)
+        foreach(RiskPlayer player in players)
         {
             goal = player.getGoal();
 
@@ -77,7 +77,7 @@ public class Dealer
         }
     }
 
-    public void drawCards(List<Player> players)
+    public void drawCards(List<RiskPlayer> players)
     {
         int index = 0;
 
@@ -107,7 +107,7 @@ public class Dealer
             landCards.Add(card);
     }
 
-    public void drawCard(Player player)
+    public void drawCard(RiskPlayer player)
     {
         player.addLandCard(landCards[0]);
         landCards.RemoveAt(0);

@@ -17,19 +17,8 @@ public class ConquerGoal : Goal
         continentsToConquer = goal.getContinentsToConquer();
     }
 
-    public override void fixGoal(List<Player> players, Player player, List<Continent> world)
+    public override void fixGoal(List<RiskPlayer> players, RiskPlayer player, List<Continent> world)
     {
-        /*int index = Random.Range(0, world.Count - 1);
-        Continent continent = world[index];
-
-        continentsToConquer.Add(continent);
-
-        while (continentsToConquer.Contains(world[index]))
-            index = Random.Range(0, world.Count - 1);
-
-        continent = world[index];
-        continentsToConquer.Add(continent);*/
-
         int index1 = Random.Range(0, world.Count - 1);
         int index2 = Random.Range(0, world.Count - 1);
 
@@ -42,7 +31,7 @@ public class ConquerGoal : Goal
         continentsToConquer.Add(world[index2]);
     }
 
-    public override bool isAccomplished(List<Player> players, Player player, List<Continent> world)
+    public override bool isAccomplished(List<RiskPlayer> players, RiskPlayer player, List<Continent> world)
     {
         int nLands = 0;
         int nLandsOwned;
@@ -98,21 +87,18 @@ public class ConquerGoal : Goal
         return (continentsToConquer.Contains(continent1) && continentsToConquer.Contains(continent2)) ;
     }
 
-    private bool areSameGoal(List<Player> players, string player, Continent continent1, Continent continent2)
+    private bool areSameGoal(List<RiskPlayer> players, string player, Continent continent1, Continent continent2)
     {
         ConquerGoal goal = null;
         bool result = false;
 
-        foreach(Player p in players)
+        foreach(RiskPlayer p in players)
         {
-            if(!p.getName().Equals(player))
+            if (!p.getName().Equals(player) && p.getGoal() != null && p.getGoal().GetType() == typeof(ConquerGoal))
             {
-                if (p.getGoal() != null && p.getGoal().GetType() == typeof(ConquerGoal))
-                {
-                    goal = (ConquerGoal)p.getGoal();
-                    if (goal.areEqualContinents(continent1, continent2) && !result)
-                        result = true;
-                }
+                goal = (ConquerGoal)p.getGoal();
+                if (goal.areEqualContinents(continent1, continent2) && !result)
+                    result = true;
             }
         }
 

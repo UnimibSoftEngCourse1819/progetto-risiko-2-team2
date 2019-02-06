@@ -13,13 +13,13 @@ public class DataManager
     private const int MINIMUM_TANK_ATTACK_PER_TIME = 1, MAX_TANK_ATTACK_PER_TIME = 3;
 
     private readonly GameManager gameManager;
-    private readonly List<Player> players;
+    private readonly List<RiskPlayer> players;
     private readonly List<Continent> world;
-    private Player currentPlayer;
+    private RiskPlayer currentPlayer;
     private string currentPhase;
     private readonly Dealer dealer;
 
-    public DataManager(List<Player> players, List<Continent> world, List<Land> lands)
+    public DataManager(List<RiskPlayer> players, List<Continent> world, List<Land> lands)
     {
         gameManager = new GameManager();
         this.players = players;
@@ -35,7 +35,7 @@ public class DataManager
 
         Debug.Log("Gnè!");
 
-        foreach (Player player in players)
+        foreach (RiskPlayer player in players)
             dealer.assignGoal(players, player, world);
 
         Debug.Log("Quello che vuoi");
@@ -47,10 +47,10 @@ public class DataManager
     }
 
 
-    private Player getPlayerByName(string name)
+    private RiskPlayer getPlayerByName(string name)
     {
-        Player searching = null;
-        foreach (Player player in players)
+        RiskPlayer searching = null;
+        foreach (RiskPlayer player in players)
         {
             if (player.getName().Equals(name))
                 searching = player;
@@ -77,7 +77,7 @@ public class DataManager
     public string getPlayerByLand(string land)
     {
         string result = "";
-        foreach (Player player in players)
+        foreach (RiskPlayer player in players)
         {
             if (player.hasLand(land))
                 result = player.getName();
@@ -244,7 +244,7 @@ public class DataManager
 
     public bool isAllPlayerRunOutOfTanks()
     {
-        foreach (Player player in players)
+        foreach (RiskPlayer player in players)
         {
             if (player.getNTanks() > 0)
                 return false;

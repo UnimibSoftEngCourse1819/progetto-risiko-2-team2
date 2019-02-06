@@ -17,7 +17,7 @@ public class DestroyEnemyGoal : Goal
         target = goal.getTarget();
     }
 
-    public override void fixGoal(List<Player> players, Player player, List<Continent> world)
+    public override void fixGoal(List<RiskPlayer> players, RiskPlayer player, List<Continent> world)
     {
         int index = Random.Range(0, players.Count - 1);
         
@@ -27,9 +27,9 @@ public class DestroyEnemyGoal : Goal
         target = players[index].getName();
     }
 
-    public override bool isAccomplished(List<Player> players, Player player, List<Continent> world)
+    public override bool isAccomplished(List<RiskPlayer> players, RiskPlayer player, List<Continent> world)
     {
-        foreach(Player p in players)
+        foreach(RiskPlayer p in players)
         {
             if(player.getColor().Equals(target))
             {
@@ -58,21 +58,18 @@ public class DestroyEnemyGoal : Goal
         return TEXT + target;
     }
 
-    private bool isSameTarget(List<Player> players, string player)
+    private bool isSameTarget(List<RiskPlayer> players, string player)
     {
         DestroyEnemyGoal goal = null;
         bool result = false;
 
-        foreach(Player p in players)
+        foreach(RiskPlayer p in players)
         {
-            if(!p.getName().Equals(player))
+            if(!p.getName().Equals(player) && p.getGoal() != null && p.getGoal().GetType() == typeof(DestroyEnemyGoal))
             {
-                if(p.getGoal() != null && p.getGoal().GetType() == typeof(DestroyEnemyGoal))
-                {
-                    goal = (DestroyEnemyGoal)p.getGoal();
-                    if (goal.getTarget().Equals(player))
-                        result = true;
-                }
+                goal = (DestroyEnemyGoal)p.getGoal();
+                if (goal.getTarget().Equals(player))
+                    result = true;
             }
         }
 

@@ -68,18 +68,18 @@ public class ControllGameMap : MonoBehaviour
         MapData data = loader.loadMap();
         view.drawMap(data.actualStates);
 
-        List<Player> players = new List<Player>();
+        List<RiskPlayer> players = new List<RiskPlayer>();
 
-        players.Add(new Player("Pippo", "red"));
+        players.Add(new RiskPlayer("Pippo", "red"));
 
-        players.Add(new Player("Paperino", "blue"));
+        players.Add(new RiskPlayer("Paperino", "blue"));
 
-        players.Add(new Player("Topolino", "green"));
+        players.Add(new RiskPlayer("Topolino", "green"));
 
         List<Continent> world = loader.getWorld(data);
         model = new DataManager(players, world, loader.getAllLands(world));
         
-        foreach(Player player in players)
+        foreach(RiskPlayer player in players)
         {
             foreach(Land land in player.getTerritoryOwned())
             {

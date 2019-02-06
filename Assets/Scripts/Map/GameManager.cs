@@ -23,7 +23,7 @@ public class GameManager
         checkResults(attackerDices, defenderDices, attacker, defender);
     }
 
-    public void passLand(Land landAttacker, Land landDefender, Player oldOwner, Player newOwner, int tanks)
+    public void passLand(Land landAttacker, Land landDefender, RiskPlayer oldOwner, RiskPlayer newOwner, int tanks)
     {
         oldOwner.removeLand(landDefender);
         newOwner.addLand(landDefender);
@@ -38,7 +38,7 @@ public class GameManager
         endLand.addTanksOnLand(nTank);
     }
 
-    public void addTanks(Player player, Land land, int nTank)
+    public void addTanks(RiskPlayer player, Land land, int nTank)
     {
         player.removeTanks(nTank);
         land.addTanksOnLand(nTank);
@@ -79,7 +79,7 @@ public class GameManager
         dices.Reverse();
     }
 
-    public void giveTanks(Player player, List<Continent> world)
+    public void giveTanks(RiskPlayer player, List<Continent> world)
     {
         int nTanks = player.getTotalLand() / 3;
 
@@ -92,7 +92,7 @@ public class GameManager
         player.addTanks(nTanks);
     }
 
-    public void distributeTanksToPlayers(List<Player> players)
+    public void distributeTanksToPlayers(List<RiskPlayer> players)
     {
         int nTanks;
         int nPlayers = players.Count;
@@ -106,7 +106,7 @@ public class GameManager
         else
             nTanks = 20;
 
-        foreach (Player player in players)
+        foreach (RiskPlayer player in players)
             player.setNTanks(nTanks);
     }
 
@@ -123,7 +123,7 @@ public class GameManager
 
 
     // Assegna al player i tanks in base al tris di carte precedentement selezionate dal player
-    public void useCards(Player player, List<LandCard> cards, string type, Dealer dealer, int additionalTanks)
+    public void useCards(RiskPlayer player, List<LandCard> cards, string type, Dealer dealer, int additionalTanks)
     {
         if (type.Equals("Equal"))
         {
