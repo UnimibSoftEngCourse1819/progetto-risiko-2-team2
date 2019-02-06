@@ -35,7 +35,7 @@ public class Dealer
 
     public void assignGoal(List<Player> players, Player player, List<Continent> world)
     {
-        int index = 2; //Random.Range(0, goals.Count - 1);
+        int index = Random.Range(0, goals.Count - 1);
         Goal goal = null;
 
         if (index == 2 && players.Count % 2 != 0 && destroyEnemyAssigned(players) == players.Count - 1)
