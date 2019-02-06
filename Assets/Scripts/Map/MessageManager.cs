@@ -213,4 +213,18 @@ public class MessageManager : MonoBehaviour
 
         return eventLog;
     }
+
+    public string messageWin(string player)
+    {
+      message = "";
+      message += "The player " + player+ " has won !!!" + System.Environment.NewLine;
+      message += player;
+    }
+
+    public string readWin(string message)
+    {
+        string[] data =  message.Split(new[] { System.Environment.NewLine },System.StringSplitOptions.None);
+        player1 = data[1];
+        return data[0];
+    }
 }
