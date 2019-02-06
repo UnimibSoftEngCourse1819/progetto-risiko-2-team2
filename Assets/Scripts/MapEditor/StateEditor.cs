@@ -12,6 +12,8 @@ using Button = UnityEngine.UI.Button;
 using PopupWindow = UnityEditor.PopupWindow;
 using Toggle = UnityEngine.UI.Toggle;
 
+
+
 public class StateEditor : MonoBehaviour
 {
     // NOTE FOR THE READER: Public variables are used to select external object in the editor bby drag and dropping them on the script component
@@ -46,7 +48,6 @@ public class StateEditor : MonoBehaviour
         foreach (RectTransform gb in continentsHolder.GetComponentInChildren<RectTransform>())
         {
             InputField contText = gb.GetChild(0).GetComponent<InputField>();
-            Debug.Log(contText);
 
             contText.text = i.ToString();
             continents.Add(i.ToString());
@@ -86,21 +87,21 @@ public class StateEditor : MonoBehaviour
     {
         bool changeConnection = true;
 
-        for (int i = 0; i < possibleConnections.transform.GetChildCount(); i++)
+        for (int i = 0; i < possibleConnections.transform.childCount; i++)
         {
             InputField connectionField = possibleConnections.transform.GetChild(i).GetComponent<InputField>();
             if (connectionField.text != "" && GetState(connectionField.text) == null)
                 changeConnection = false;
         }
+
         if (changeConnection)
         {
             selectedState.connections = new List<string>();
-            for (int i = 0; i < possibleConnections.transform.GetChildCount(); i++)
+            for (int i = 0; i < possibleConnections.transform.childCount; i++)
             {
                 InputField connectionField = possibleConnections.transform.GetChild(i).GetComponent<InputField>();
                 if (connectionField.text != "")
                     selectedState.connections.Add(connectionField.text);
-
             }
         }
         else
@@ -108,10 +109,9 @@ public class StateEditor : MonoBehaviour
             int i = 0;
             foreach (string conn in selectedState.connections)
             {
-                if (i < possibleConnections.transform.GetChildCount())
+                if (i < possibleConnections.transform.childCount && (conn != null || conn != ""))
                 {
-                    if (conn != null || conn != "")
-                        possibleConnections.transform.GetChild(i).GetComponent<InputField>().text = conn;
+                    possibleConnections.transform.GetChild(i).GetComponent<InputField>().text = conn;
                 }
                 i++;
             }
@@ -142,15 +142,17 @@ public class StateEditor : MonoBehaviour
             }
             continents[index] = continentName;
         }
-        else
-        {
-            int i = 0;
 
-            foreach(RectTransform gb in continentsHolder.GetComponentInChildren<RectTransform>())
-            {
-                gb.GetChild(0).GetComponent<InputField>().text = continents[i];
-                i++;
-            }
+        UpdateContinentsName();
+    }
+
+    private void UpdateContinentsName()
+    {
+        int i = 0;
+        foreach (RectTransform rt in continentsHolder.GetComponentInChildren<RectTransform>())
+        {
+            rt.GetChild(0).GetComponent<InputField>().text = continents[i];
+            i++;
         }
     }
 
@@ -223,11 +225,10 @@ public class StateEditor : MonoBehaviour
 
         newMovableState.SetState(stateTexture, stateName);
 
-        Vector2 pos = new Vector2(-6.5f, -4.5f);
-        Vector2 size = new Vector2(8f, 7.5f);
-        Rect r = new Rect(pos, size);
-        newMovableState.setBoundraries(r);
-        
+        Vector2 pos = new Vector2(-8.6f, -4.5f);
+        Vector2 size = new Vector2(10f, 7.5f);
+        newMovableState.setBoundraries(new Rect(pos, size));
+
 
         currentStates.Add(newMovableState);
         SelectState(newMovableState);
@@ -358,14 +359,13 @@ public class StateEditor : MonoBehaviour
     public void showConnection()
     {
         int i = 0;
-        for(i = 0; i < possibleConnections.transform.GetChildCount(); i++)
+        for(i = 0; i < possibleConnections.transform.childCount; i++)
             possibleConnections.transform.GetChild(i).GetComponent<InputField>().text = "";
 
         i = 0;
         foreach (string connection in selectedState.connections)
         {
-            Debug.Log(connection);
-            if(i < 4)
+            if(i < possibleConnections.transform.childCount)
             {
                 possibleConnections.transform.GetChild(i).GetComponent<InputField>().text = connection;
             }
@@ -410,7 +410,7 @@ public class StateEditor : MonoBehaviour
 
     public void LoadNewMap()
     {
-        MapData mapToLoad = mapLoader.LoadMap();
+        MapData mapToLoad = mapLoader.loadMap();
 
         if (mapToLoad != null)
         {
@@ -425,6 +425,14 @@ public class StateEditor : MonoBehaviour
                 {
                     ms.connections.Add(conn);
                 }
+                
+
+            }
+
+            for (int i = 0; i < mapToLoad.continents.Count; i++)
+            {
+                Debug.Log(mapToLoad.continents[i]);
+                ChangeContinentName(mapToLoad.continents[i], i);
             }
         }
     }
