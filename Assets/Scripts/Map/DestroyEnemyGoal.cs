@@ -21,7 +21,7 @@ public class DestroyEnemyGoal : Goal
     {
         int index = Random.Range(0, players.Count - 1);
         
-        while(player.getName().Equals(players[index]))
+        while(player.getName().Equals(players[index].getName()) || isSameTarget(players, players[index].getName()))
             index = Random.Range(0, players.Count - 1);
 
         target = players[index].getName();
@@ -50,11 +50,32 @@ public class DestroyEnemyGoal : Goal
 
     public override Goal getClone()
     {
-        return new DestroyEnemyGoal(this);
+        return new DestroyEnemyGoal();
     }
 
     public override string getText()
     {
         return TEXT + target;
+    }
+
+    private bool isSameTarget(List<Player> players, string player)
+    {
+        DestroyEnemyGoal goal = null;
+        bool result = false;
+
+        foreach(Player p in players)
+        {
+            if(!p.getName().Equals(player))
+            {
+                if(p.getGoal() != null && p.getGoal().GetType() == typeof(DestroyEnemyGoal))
+                {
+                    goal = (DestroyEnemyGoal)p.getGoal();
+                    if (goal.getTarget().Equals(player))
+                        result = true;
+                }
+            }
+        }
+
+        return result;
     }
 }

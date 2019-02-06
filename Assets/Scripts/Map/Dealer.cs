@@ -35,16 +35,32 @@ public class Dealer
 
     public void assignGoal(List<Player> players, Player player, List<Continent> world)
     {
-        int index = Random.Range(0, goals.Count - 1);
+        int index = 2; //Random.Range(0, goals.Count - 1);
+        Goal goal = null;
 
-        Debug.Log("E te pareva! " + index);
-
-        Goal goal = goals[index].getClone();
+        if (index == 2 && players.Count % 2 != 0 && destroyEnemyAssigned(players) == players.Count - 1)
+            goal = goals[0].getClone();
+        else
+            goal = goals[index].getClone(); 
 
         goal.fixGoal(players, player, world);
         player.setGoal(goal);
+    }
 
-        Debug.Log("The end");
+    private int destroyEnemyAssigned(List<Player> players)
+    {
+        int i = 0;
+        Goal goal = null;
+
+        foreach(Player player in players)
+        {
+            goal = player.getGoal();
+
+            if (goal != null && goal.GetType() == typeof(DestroyEnemyGoal))
+                i++;
+        }
+
+        return i;
     }
 
     public void shuffleCards()

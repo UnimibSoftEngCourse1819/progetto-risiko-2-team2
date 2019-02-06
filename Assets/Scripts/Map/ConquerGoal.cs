@@ -19,22 +19,27 @@ public class ConquerGoal : Goal
 
     public override void fixGoal(List<Player> players, Player player, List<Continent> world)
     {
-        Debug.Log("Continents: " + world.Count);
-        int index = Random.Range(0, world.Count - 1);
-
-        Debug.Log("Index " + index);
-
+        /*int index = Random.Range(0, world.Count - 1);
         Continent continent = world[index];
-        Debug.Log("Help me " + index);
+
         continentsToConquer.Add(continent);
 
         while (continentsToConquer.Contains(world[index]))
             index = Random.Range(0, world.Count - 1);
 
-        Debug.Log("Puke " + index);
-
         continent = world[index];
-        continentsToConquer.Add(continent);
+        continentsToConquer.Add(continent);*/
+
+        int index1 = Random.Range(0, world.Count - 1);
+        int index2 = Random.Range(0, world.Count - 1);
+
+        while (index1 == index2 || areSameGoal(players, player.getName(), world[index1], world[index2])) {
+            index1 = Random.Range(0, world.Count - 1);
+            index2 = Random.Range(0, world.Count - 1);
+        }
+
+        continentsToConquer.Add(world[index1]);
+        continentsToConquer.Add(world[index2]);
     }
 
     public override bool isAccomplished(List<Player> players, Player player, List<Continent> world)
@@ -67,19 +72,51 @@ public class ConquerGoal : Goal
 
     public override Goal getClone()
     {
-        return new ConquerGoal(this);
+        return new ConquerGoal();
     }
 
     public override string getText()
     {
         string txt = TEXT + " ";
+        bool first = true;
 
         foreach(Continent continent in continentsToConquer)
         {
-            txt += continent.getName() + " ";
+            txt += continent.getName();
+            if(first)
+            {
+                txt += " and ";
+                first = false;
+            }
         }
 
         return txt;
+    }
+
+    private bool areEqualContinents(Continent continent1, Continent continent2)
+    {
+        return (continentsToConquer.Contains(continent1) && continentsToConquer.Contains(continent2)) ;
+    }
+
+    private bool areSameGoal(List<Player> players, string player, Continent continent1, Continent continent2)
+    {
+        ConquerGoal goal = null;
+        bool result = false;
+
+        foreach(Player p in players)
+        {
+            if(!p.getName().Equals(player))
+            {
+                if (p.getGoal() != null && p.getGoal().GetType() == typeof(ConquerGoal))
+                {
+                    goal = (ConquerGoal)p.getGoal();
+                    if (goal.areEqualContinents(continent1, continent2) && !result)
+                        result = true;
+                }
+            }
+        }
+
+        return result;
     }
 }
 
