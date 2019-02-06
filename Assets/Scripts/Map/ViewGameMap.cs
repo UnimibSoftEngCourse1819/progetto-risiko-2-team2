@@ -77,7 +77,7 @@ public class ViewGameMap : MonoBehaviour
         card2.GetComponent<Image>().raycastTarget = false;
         card3.GetComponent<Image>().raycastTarget = false;
 
-        panelCard = GameObject.Find("PanelCards").GetComponent<Image>();
+        panelCard = GameObject.Find("PanelShowCards").GetComponent<Image>();
         panelCard.raycastTarget = false;
 
         clearOptions();
