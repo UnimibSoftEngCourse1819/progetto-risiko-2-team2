@@ -213,4 +213,15 @@ public class MessageManager : MonoBehaviour
 
         return eventLog;
     }
+
+    /*public string messageQuited(string playerQuited, string heirPlayer)
+    {
+      message = "";
+      message += "The player "+ heirPlayer + " gets all the territories of " + heirPlayer " beacause he quitted";
+    }
+
+    public string messageWin(string player, string objective)
+    {
+
+    }*/
 }

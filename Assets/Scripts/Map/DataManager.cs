@@ -142,6 +142,20 @@ public class DataManager
         return result;
     }
 
+    private LandCard getLandCardbyData(string card)
+    {
+        LandCard copy = null;
+        if(card.Equals("Jolly"))
+            copy = new LandCard();
+        else
+            {
+
+                string[] temporary = card.Replace(": ", ":").Split(':');
+                copy = new LandCard(findLandByName(temporary[1]), temporary[0]);
+            }
+        return copy;
+    }
+
     private bool checkedRispectiveOwners(Land attacker, Land defender)//controlla che lo stato attacante è di sua proprietà e quello difensivo non sia suo
     {
         return (currentPlayer.hasLand(defender.getName()) && !currentPlayer.hasLand(attacker.getName()));
@@ -182,6 +196,7 @@ public class DataManager
 
         foreach (LandCard card in cards)
         {
+            Debug.Log("checking -" + card + "-");
             if (card.isJolly() && moreJolly)
                 return true;
             else if (card.isJolly())
@@ -280,21 +295,23 @@ public class DataManager
             }
         }
         else
-            result = "Land not belonging to their respective owners or tank number is not correct";
+            result = "Lands not belonging to their respective owners or tank number is not correct";
 
         return result;
     }
 
     public string useCards(string card1, string card2, string card3)
     {
-        List<LandCard> choosed = new List<LandCard>();
+        List<LandCard> copies = new List<LandCard>();
+        
 
-        choosed.Add(currentPlayer.getCard(card1));
-        choosed.Add(currentPlayer.getCard(card2));
-        choosed.Add(currentPlayer.getCard(card3));
-
-        return useCards(choosed);
+        copies.Add(getLandCardbyData(card1));
+        copies.Add(getLandCardbyData(card2));
+        copies.Add(getLandCardbyData(card3));
+        return useCards(copies);
     }
+
+    
 
     private string useCards(List<LandCard> selectedCards)
     {
