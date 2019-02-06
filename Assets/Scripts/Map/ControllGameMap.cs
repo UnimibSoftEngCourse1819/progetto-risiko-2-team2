@@ -38,6 +38,7 @@ public class ControllGameMap : MonoBehaviour
     {
         view.updateTextPlayerData(model.getPlayerData(player));
         view.updateGoal(model.getGoalData(player));
+        view.updateCardList(model.getLandCardData(player));
     }
 
     private void initializeController()

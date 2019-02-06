@@ -123,6 +123,25 @@ public class DataManager
         return getPlayerByName(player).getGoal().getText(); 
     }
 
+    public string getLandCardData(string player)
+    {
+        string result = "";
+        List<LandCard> landCards = getPlayerByName(player).getLandCards();
+        int i = 1;
+        
+        foreach(LandCard card in landCards)
+        {
+            if (card.isJolly())
+                result = i + ". Jolly" + System.Environment.NewLine;
+            else
+                result += i + ". Land: " + card.getLand().getName() + System.Environment.NewLine + 
+                    " Symbol: " + card.getSymbol() + System.Environment.NewLine;
+            i++;
+        }
+
+        return result;
+    }
+
     private bool checkedRispectiveOwners(Land attacker, Land defender)//controlla che lo stato attacante è di sua proprietà e quello difensivo non sia suo
     {
         return (currentPlayer.hasLand(defender.getName()) && !currentPlayer.hasLand(attacker.getName()));

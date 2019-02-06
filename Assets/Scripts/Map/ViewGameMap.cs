@@ -19,7 +19,7 @@ public class ViewGameMap : MonoBehaviour
     private CanvasGroup attack, defense, move, deploy, deployGaming, popup, message, quit, cards;
     private Text eventLog, phase, selectedData, playerData, attackSelected, moveSelected, deployRemain, deploySelected, messagePopup, goal, cardList, defenseTanks;
     private Dropdown card1, card2, card3;
-    private Panel panelCard
+    private Image panelCard;
     private List<StateBattle> stateUI;
     public StateBattle statePrefab;
     public GameObject stateHolder;
@@ -73,7 +73,7 @@ public class ViewGameMap : MonoBehaviour
         card2 = GameObject.Find("DropdownCard2").GetComponent<Dropdown>();
         card3 = GameObject.Find("DropdownCard3").GetComponent<Dropdown>();
 
-        panelCard = GameObject.Find("PanelCard").GetComponent<Panel>();
+        panelCard = GameObject.Find("PanelCards").GetComponent<Image>();
         panelCard.raycastTarget = false;
 
         clearOptions();
@@ -165,6 +165,11 @@ public class ViewGameMap : MonoBehaviour
     public void updateGoal(string textGoal)
     {
         goal.text = textGoal;
+    }
+
+    public void updateCardList(string textCards)
+    {
+        cardList.text = textCards;
     }
 
     public void setColorState(string land, string color)
