@@ -66,8 +66,8 @@ public class StateDefend : StateControl
     {
         firstLand = controller.getFirstLand();
         secondLand = controller.getSecondLand();
-        nTanksAttacker = controller.getDefendTank();
-        nTanksDefender = controller.getTank1();
+        nTanksAttacker = controller.getTank1();
+        nTanksDefender = controller.getDefendTank();
     }
 
     public override StateControl nextPhaseForced()

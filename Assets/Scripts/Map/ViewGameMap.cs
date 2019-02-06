@@ -19,6 +19,7 @@ public class ViewGameMap : MonoBehaviour
     private CanvasGroup attack, defense, move, deploy, deployGaming, popup, message, quit, cards;
     private Text eventLog, phase, selectedData, playerData, attackSelected, moveSelected, deployRemain, deploySelected, messagePopup, goal, cardList, defenseTanks;
     private Dropdown card1, card2, card3;
+    private Panel panelCard
     private List<StateBattle> stateUI;
     public StateBattle statePrefab;
     public GameObject stateHolder;
@@ -42,7 +43,6 @@ public class ViewGameMap : MonoBehaviour
         cardList = GameObject.Find("TextCardList").GetComponent<Text>();
         defenseTanks = GameObject.Find("TextDefenseTank").GetComponent<Text>();
 
-        Debug.Log("Tacatà");
 
         eventLog.text = INITIAL_TEXT;
         phase.text = INITIAL_TEXT;
@@ -72,6 +72,9 @@ public class ViewGameMap : MonoBehaviour
         card1 = GameObject.Find("DropdownCard1").GetComponent<Dropdown>();
         card2 = GameObject.Find("DropdownCard2").GetComponent<Dropdown>();
         card3 = GameObject.Find("DropdownCard3").GetComponent<Dropdown>();
+
+        panelCard = GameObject.Find("PanelCard").GetComponent<Panel>();
+        panelCard.raycastTarget = false;
 
         clearOptions();
         hideAllCanvasOption();
@@ -264,7 +267,7 @@ public class ViewGameMap : MonoBehaviour
 
     public void showCards(List<string> options)
     {
-        cards.alpha = 0f;
+        cards.alpha = 1f;
         cards.interactable = true;
         cards.blocksRaycasts = true;
         clearOptions();
@@ -272,6 +275,9 @@ public class ViewGameMap : MonoBehaviour
         {
             addOption(option);
         }
+        card1.RefreshShownValue();
+        card2.RefreshShownValue();
+        card3.RefreshShownValue();
     }
 
     //METHODS THAT CLOSE A UI COMPONENTS

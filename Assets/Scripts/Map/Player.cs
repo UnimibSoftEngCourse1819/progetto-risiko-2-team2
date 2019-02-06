@@ -41,6 +41,7 @@ public class Player
         this.color = color;
         this.nTanks = nTanks;
         this.goal = goal;
+        this.landCards = new List<LandCard>();
     }
 
     public Player(string nickname, int nTanks) : this(nickname, new List<Land>(), null, nTanks, null)//need to add Goal
@@ -184,7 +185,7 @@ public class Player
             if(card.isJolly())
                 nameCards.Add("Jolly");
             else
-                nameCards.Add(card.getSymbol() + ": " + card.getLand().getName());
+                nameCards.Add("" + card.getSymbol() + ": " + card.getLand().getName());
         }
         return nameCards;
     }

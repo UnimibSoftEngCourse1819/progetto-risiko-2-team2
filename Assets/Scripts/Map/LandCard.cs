@@ -55,7 +55,7 @@ public class LandCard
     public bool isJolly()
     {
         bool result = false;
-        if (symbol.Equals("Jolly"))
+        if (symbol.Equals(Symbol.Jolly))
             result = true;
         return result;
     }

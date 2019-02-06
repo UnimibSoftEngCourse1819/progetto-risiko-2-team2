@@ -64,9 +64,9 @@ public class DataManager
         return data;
     }
 
-    public List<string> getListCard()
+    public List<string> getListCard(string name)
     {
-        return currentPlayer.getListCard();
+        return getPlayerByName(name).getListCard();
     }
 
     public string getPlayer()
@@ -139,6 +139,17 @@ public class DataManager
             -il numero dei tank difensori non sia superiore a quello permesso
             -controlla che il difensore non usi più tank di quelli che ha
         */
+
+        Debug.Log(nTankAttacker + ">=" + MINIMUM_TANK_ATTACK_PER_TIME);
+        Debug.Log(nTankAttacker + "<=" + MAX_TANK_ATTACK_PER_TIME);
+        Debug.Log(currentAttackerTanks + "-" + MINIMUM_TANK_ON_LAND + ">=" + nTankAttacker);
+        Debug.Log(nTankDefender + ">=" + MINIMUM_TANK_ATTACK_PER_TIME);
+        Debug.Log(nTankDefender + "<=" + MAX_TANK_ATTACK_PER_TIME);
+        Debug.Log(currentDefenderTanks + ">=" + nTankDefender);
+
+
+
+
         return ((nTankAttacker >= MINIMUM_TANK_ATTACK_PER_TIME && nTankAttacker <= MAX_TANK_ATTACK_PER_TIME &&
                 (currentAttackerTanks - MINIMUM_TANK_ON_LAND) >= nTankAttacker) &&
                 (nTankDefender >= MINIMUM_TANK_ATTACK_PER_TIME && nTankDefender <= MAX_TANK_ATTACK_PER_TIME &&
@@ -212,7 +223,7 @@ public class DataManager
     {
         bool result = false;
         if(getPlayerByLand(firstLand).Equals(currentPlayer.getName()) && !(getPlayerByLand(secondLand).Equals(currentPlayer.getName()))
-            && getTankOfLand(firstLand) > nTank)
+            && getTankOfLand(firstLand) > nTank && nTank <= MAX_TANK_ATTACK_PER_TIME && nTank >= MINIMUM_TANK_ATTACK_PER_TIME)
             result = true;
         return result;
     }
@@ -245,13 +256,8 @@ public class DataManager
 
             if (defenderLand.getTanksOnLand() == 0)
             {
-                foreach (Player player in players)
-                {
-                    if (player.hasLand(defender))
-                    {
-                        gameManager.passLand(defenderLand, player, currentPlayer, nTankAttacker);
-                    }
-                }
+                int tanksMoving = nTankAttacker - (currentAttackerTanks -  attackerLand.getTanksOnLand());
+                gameManager.passLand(attackerLand, defenderLand, currentPlayer, getPlayerByName(getPlayerByLand(attacker)), tanksMoving);
             }
         }
         else
@@ -302,6 +308,11 @@ public class DataManager
         }
 
         return result;
+    }
+
+    public void giveCard(string player)
+    {
+        dealer.drawCard(getPlayerByName(player));
     }
 
     public string moveTanks(string startLand, string endLand, int nTank)

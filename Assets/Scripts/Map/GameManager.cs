@@ -23,11 +23,11 @@ public class GameManager
         checkResults(attackerDices, defenderDices, attacker, defender);
     }
 
-    public void passLand(Land land, Player oldOwner, Player newOwner, int tanks)
+    public void passLand(Land landAttacker, Land landDefender, Player oldOwner, Player newOwner, int tanks)
     {
-        oldOwner.removeLand(land);
-        newOwner.addLand(land);
-        land.addTanksOnLand(tanks);
+        oldOwner.removeLand(landDefender);
+        newOwner.addLand(landDefender);
+        moveTanks(landAttacker, landDefender, tanks);
     }
 
     public void moveTanks(Land startLand, Land endLand, int nTank)
@@ -141,5 +141,10 @@ public class GameManager
             player.removeLandCard(cards);
             dealer.addCardsToDeck(cards);
         }         
+    }
+
+    public void giveCard(Player player)
+    {
+        
     }
 }

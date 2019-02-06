@@ -99,7 +99,6 @@ public class StateStartDeploy : StateControl
                 data.startGame();
                 if(data.getPlayer().Equals(controller.getPlayer()) || controller.isLocalMode())//cheking if the player the the one who start
                 {
-                    data.giveTanks();
                     Debug.Log("STATE CONFIRMED");
                     nextPhase = new StateDeploy(controller, data, manageMessage, view);
                     string message = manageMessage.messagePhase(data.getPlayer(), data.getPhase());

@@ -88,7 +88,10 @@ public class ControllGameMap : MonoBehaviour
 
         view.updateTextPlayerData(model.getPlayer());
         if(localMode)
-            setLocalMode();    
+            setLocalMode();
+        Debug.Log("*************************************" + player + "***************************");
+        for(int i = 0; i < 10 ; i++)
+            model.giveCard(player);    
     }
 
     public void resetMemoryBuffer()
@@ -191,9 +194,12 @@ public class ControllGameMap : MonoBehaviour
 
     public void onClickUseCard()
     {
-        model.useCards(card1.options[card1.value].text,
+        if(card1.value != card2.value &&  card2.value != card3.value && card1.value != card3.value)
+            model.useCards(card1.options[card1.value].text,
                         card2.options[card2.value].text,
                         card3.options[card3.value].text);
+        else
+            view.showMessage("You can't select the same cards");
     }
 
     public void onClickExit()
@@ -208,7 +214,11 @@ public class ControllGameMap : MonoBehaviour
 
     public void onClickShowCards()
     {
-        //showCards(List<string> options)
+        List<string> options = model.getListCard(player);
+        if(options.Count < 3)
+            view.showMessage("You have 2 or less cards !!!");
+        else
+            view.showCards(options);
     }
 
     public void onClickClosePopup()
