@@ -219,6 +219,7 @@ public class MessageManager : MonoBehaviour
       message = "";
       message += "The player " + player+ " has won !!!" + System.Environment.NewLine;
       message += player;
+      return message;
     }
 
     public string readWin(string message)
