@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using Assets.Scripts.Server;
 
 public class ControllGameMap : MonoBehaviour
 {
@@ -201,13 +202,19 @@ public class ControllGameMap : MonoBehaviour
         else
         {
             string error = "";
-            error += model.useCards(card1.options[card1.value].text,
-                        card2.options[card2.value].text,
-                        card3.options[card3.value].text);
-            if (error.Equals(""))
-                onClickCloseCard();
+            error += model.useCards(card1.value, card2.value, card3.value);
+            if (!error.Equals(""))
+               view.showMessage(error);
             else
-                view.showMessage(error);
+            {   
+                onClickCloseCard();
+                view.updateTextPlayerData(model.getPlayerData(player));
+                view.updateCardList(model.getLandCardData(player));
+                string message = messageManager.messageUsedCards(player, card1.value, card2.value, card3.value);
+                view.updateLogEvent(messageManager.readUsedCards(message));
+                view.updateTanksRemain(model.getPlayerTanksReinforcement(player));
+                DataSender.SendComboCarte(message);
+            }
         }
     }
 

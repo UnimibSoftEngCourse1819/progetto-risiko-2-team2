@@ -300,15 +300,15 @@ public class DataManager
         return result;
     }
 
-    public string useCards(string card1, string card2, string card3)
+    public string useCards(int card1, int card2, int card3)
     {
-        List<LandCard> copies = new List<LandCard>();
+        List<LandCard> choosed = new List<LandCard>();
         
 
-        copies.Add(getLandCardbyData(card1));
-        copies.Add(getLandCardbyData(card2));
-        copies.Add(getLandCardbyData(card3));
-        return useCards(copies);
+        choosed.Add(currentPlayer.getCard(card1));
+        choosed.Add(currentPlayer.getCard(card2));
+        choosed.Add(currentPlayer.getCard(card3));
+        return useCards(choosed);
     }
 
     

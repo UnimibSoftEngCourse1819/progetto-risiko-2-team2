@@ -10,7 +10,7 @@ public class MessageManager : MonoBehaviour
     private string landStart = "", landEnd = "";
     private int nTank1 = 0, nTank2 = 0; 
     private string resultBattle = "";
-    private string card1 = "", card2 = "", card3 = "";
+    private int card1 = -1, card2 = -1, card3 = -1;
   
 
     /*
@@ -53,17 +53,17 @@ public class MessageManager : MonoBehaviour
    	    return resultBattle;
     }
 
-    public string getCard1()
+    public int getCard1()
     {
         return card1;
     }
 
-    public string getCard2()
+    public int getCard2()
     {
         return card2;
     }
 
-    public string getCard3()
+    public int getCard3()
     {
         return card3;
     }
@@ -188,10 +188,10 @@ public class MessageManager : MonoBehaviour
         return data[0] + System.Environment.NewLine + data[1];
     }
 
-    public string messageUsedCards(string player, string card1, string card2, string card3)
+    public string messageUsedCards(string player, int card1, int card2, int card3)
     {
         message = "";
-        message += player + ": has used " + card1 + ", " + card2 + " and " + card3 + System.Environment.NewLine;
+        message += player + " has used cards." + System.Environment.NewLine;
         message += player + System.Environment.NewLine;
         message += card1 + System.Environment.NewLine;
         message += card2 + System.Environment.NewLine;
@@ -206,22 +206,11 @@ public class MessageManager : MonoBehaviour
         string[] data = message.Split(new[] { System.Environment.NewLine }, System.StringSplitOptions.None);
 
         player1 = data[1];
-        card1 = data[2];
-        card2 = data[3];
-        card3 = data[4];
+        card1 = int.Parse(data[2]);
+        card2 = int.Parse(data[3]);
+        card3 = int.Parse(data[4]);
         eventLog.Add(data[0]);
 
         return eventLog;
     }
-
-    /*public string messageQuited(string playerQuited, string heirPlayer)
-    {
-      message = "";
-      message += "The player "+ heirPlayer + " gets all the territories of " + heirPlayer " beacause he quitted";
-    }
-
-    public string messageWin(string player, string objective)
-    {
-
-    }*/
 }

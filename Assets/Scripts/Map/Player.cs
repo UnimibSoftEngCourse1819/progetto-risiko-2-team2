@@ -178,17 +178,9 @@ public class Player
             landCards.Remove(card);
     }
 
-    public LandCard getCard(string name)
-    {
-        LandCard cardFound = null;
-        foreach(LandCard card in landCards)
-        {
-            if(card.isJolly() && name.Equals("Jolly"))
-                cardFound = card;
-            if(!card.isJolly() && card.getLand().Equals(name))
-                cardFound = card;          
-        }       
-        return cardFound;
+    public LandCard getCard(int index)
+    {      
+        return landCards[index];
     }
 
     public List<string> getListCard()
