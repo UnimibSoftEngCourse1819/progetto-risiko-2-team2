@@ -16,6 +16,7 @@ namespace Server
         {
             ByteBuffer buffer = new ByteBuffer();
             buffer.writeBytes(data);
+            int playerID = buffer.ReadInteger();
             string msg = buffer.ReadString();
             buffer.Dispose();
 
