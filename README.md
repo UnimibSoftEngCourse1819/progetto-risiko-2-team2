@@ -1,6 +1,4 @@
-Website :
-
-Documentation of project (Overleaf):
+Documentation of project (Overleaf): https://www.overleaf.com/read/dyfdzcmgyqdx
 
                   ########################### Istructions for Unity ########################
 
