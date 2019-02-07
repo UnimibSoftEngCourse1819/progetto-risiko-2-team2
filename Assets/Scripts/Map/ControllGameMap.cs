@@ -97,9 +97,6 @@ namespace Controller
             view.updateTextPlayerData(model.getPlayer());
             if (localMode)
                 setLocalMode();
-            Debug.Log("*************************************" + player + "***************************");
-            for (int i = 0; i < 10; i++)
-                model.giveCard(player);
         }
 
         public void resetMemoryBuffer()

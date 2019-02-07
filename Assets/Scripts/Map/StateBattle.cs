@@ -20,7 +20,6 @@ namespace UI
         {
             base.Awake();
 
-
         }
 
         public void SetNumberOfTanks(int i)

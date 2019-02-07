@@ -149,15 +149,16 @@ namespace Editor
                 }
                 continents[index] = continentName;
             }
-            else
-            {
-                int i = 0;
+            UpdateContinentsName();
+        }
 
-                foreach (RectTransform gb in continentsHolder.GetComponentInChildren<RectTransform>())
-                {
-                    gb.GetChild(0).GetComponent<InputField>().text = continents[i];
-                    i++;
-                }
+        private void UpdateContinentsName()
+        {
+            int i = 0;
+            foreach (RectTransform rt in continentsHolder.GetComponentInChildren<RectTransform>())
+            {
+                rt.GetChild(0).GetComponent<InputField>().text = continents[i];
+                i++;
             }
         }
 
@@ -230,8 +231,8 @@ namespace Editor
 
             newMovableState.SetState(stateTexture, stateName);
 
-            Vector2 pos = new Vector2(-6.5f, -4.5f);
-            Vector2 size = new Vector2(8f, 7.5f);
+            Vector2 pos = new Vector2(-8.6f, -4.5f);
+            Vector2 size = new Vector2(10f, 7.5f);
             Rect r = new Rect(pos, size);
             newMovableState.setBoundraries(r);
 
@@ -372,7 +373,7 @@ namespace Editor
             foreach (string connection in selectedState.connections)
             {
                 Debug.Log(connection);
-                if (i < 4)
+                if (i < possibleConnections.transform.childCount)
                 {
                     possibleConnections.transform.GetChild(i).GetComponent<InputField>().text = connection;
                 }
@@ -432,6 +433,11 @@ namespace Editor
                     {
                         ms.connections.Add(conn);
                     }
+                }
+                for (int i = 0; i < mapToLoad.continents.Count; i++)
+                {
+                    Debug.Log(mapToLoad.continents[i]);
+                    ChangeContinentName(mapToLoad.continents[i], i);
                 }
             }
         }
